@@ -28,7 +28,8 @@
 
 /* the strip: five across, the rest a scroll away behind the arrows */
 .ctf__carousel{position:relative;margin-top:16px}
-.ctf__rail{list-style:none;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 64px) / 5);justify-content:center;gap:16px;margin:0;padding:0;
+.ctf__rail{list-style:none;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 64px) / 5);justify-content:safe center;   /* safe: centres a short strip, but never pushes an overflowing one out of reach */
+  gap:16px;margin:0;padding:0;
   overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .ctf__rail::-webkit-scrollbar{display:none}
 .ctf__item{scroll-snap-align:start}

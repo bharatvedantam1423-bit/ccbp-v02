@@ -73,8 +73,11 @@
     arrows.forEach(a => a.disabled = +a.dataset.dir < 0 ? rail.scrollLeft <= 1 : rail.scrollLeft >= max);
     arrows.forEach(a => a.hidden = max <= 1);
   };
+  /* page by a whole row of stills — the row plus the gutter that follows it, so a page
+     always lands on a card edge and never leaves one sliced at either end */
+  const page = () => rail.clientWidth + 16;
   arrows.forEach(a => a.addEventListener('click', () => {
-    rail.scrollBy({ left: +a.dataset.dir * rail.clientWidth, behavior: 'smooth' });
+    rail.scrollBy({ left: +a.dataset.dir * page(), behavior: 'smooth' });
   }));
   rail.addEventListener('scroll', ends, { passive: true });
   addEventListener('resize', ends);
