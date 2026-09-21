@@ -1,0 +1,80 @@
+/* =====================================================================
+   S3c — NATIONAL LEVEL RECOGNITION (supplied build)
+   Sits right under Awards & Recognitions. Everything is scoped to .nr:
+   the section brings its own tokens, but only inside itself, so the page
+   tokens in index.html stay the one source of truth. Fonts, box-sizing
+   and the link reset come from the page and are not repeated here.
+   ===================================================================== */
+.nr{
+  --display:var(--font-head);
+  --ink-deep:#0b1e40;
+  --muted:#475569;                  /* a touch darker than the page muted: this copy sits on tinted glass */
+  --page-bg:#f6f9fe;
+  --rg:clamp(16px,4vw,40px);        /* page gutter, same as .record */
+  --skew:-7deg;
+
+  position:relative;isolation:isolate;overflow:hidden;min-height:100vh;display:flex;align-items:center;padding:120px 0;
+  background:linear-gradient(160deg,#fbfcff 0%,#f3f7fe 55%,#eef4fd 100%)}   /* fallback if WebGL is off */
+.nr figure,.nr figcaption{margin:0}
+.nr-bg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:block}
+.nr-wrap{width:calc(100% - 2 * var(--rg));max-width:1274px;margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,480px) minmax(0,1fr);align-items:center;gap:clamp(40px,4vw,64px)}
+
+/* ---------- copy ---------- */
+.nr-title{font-family:var(--display);font-weight:600;font-size:clamp(38px,4.1vw,58px);line-height:1.12;letter-spacing:-.02em;color:var(--ink-deep)}
+.nr-title .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.nr-title .ln>span{display:inline-block}
+.nr-accent{background:linear-gradient(97deg,#1d4ed8 0%,#2563eb 45%,#3b82f6 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nr-lede{margin-top:28px;max-width:410px;font-size:18px;line-height:1.75;color:var(--muted)}
+
+.nr-btn{margin-top:40px;display:inline-flex;align-items:center;gap:14px;height:64px;padding:0 32px 0 30px;border-radius:12px;
+  background:var(--blue);color:#fff;font-size:18px;font-weight:600;letter-spacing:-.005em;
+  box-shadow:0 1px 0 rgba(0,0,0,.08),0 -1px 0 rgba(0,0,0,.2) inset,0 10px 24px -10px rgba(37,99,235,.6);
+  transition:background .28s var(--ease),box-shadow .28s var(--ease)}
+.nr-btn:hover{background:var(--blue-ink);box-shadow:0 1px 0 rgba(0,0,0,.08),0 -1px 0 rgba(0,0,0,.2) inset,0 16px 32px -12px rgba(37,99,235,.75)}
+.nr-btn:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}
+.nr-btn svg{flex:none;width:22px;height:22px}
+.nr-btn-ic{fill:currentColor}
+.nr-btn-ar{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .28s var(--ease)}
+.nr-btn:hover .nr-btn-ar{transform:translateX(4px)}
+
+/* ---------- media ---------- */
+.nr-media{position:relative;padding-bottom:0}
+.nr-photos{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.4vw,20px);padding:0 4% 0 3%;perspective:1200px}
+/* parallelogram panel: skewed frame, counter-skewed photo */
+.nr-ph{position:relative;aspect-ratio:394/392;border-radius:18px;overflow:hidden;transform:skewX(var(--skew));background:#dbe4f5;will-change:transform}
+.nr-ph img{position:absolute;top:0;left:50%;width:116%;height:100%;max-width:none;object-fit:cover;object-position:50% 0;
+  transform:translateX(-50%) skewX(calc(var(--skew) * -1)) scale(1.02);will-change:transform}
+
+.nr-card{position:relative;z-index:2;margin:-34px 0 0 2.5%;width:95%;display:flex;align-items:center;gap:clamp(20px,3vw,44px);
+  padding:clamp(24px,3vw,40px) clamp(24px,3.4vw,48px);background:#fff;border-radius:24px;
+  box-shadow:0 1px 2px rgba(15,23,42,.04),0 24px 60px -24px rgba(30,64,175,.22)}
+.nr-emblem{flex:none;width:clamp(68px,7vw,96px);height:auto}
+.nr-div{flex:none;align-self:stretch;width:1px;background:linear-gradient(#fff,#cbd5e1 20%,#cbd5e1 80%,#fff);transform-origin:center}
+.nr-card-t{display:flex;flex-direction:column;gap:6px;min-width:0}
+.nr-k{font-size:17px;color:#64748b}
+.nr-name{font-family:var(--display);font-weight:600;font-size:clamp(22px,2.2vw,30px);line-height:1.2;letter-spacing:-.01em;color:var(--ink-deep);margin-bottom:4px}
+.nr-role{font-size:clamp(15px,1.3vw,18px);line-height:1.6;color:var(--muted)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1024px){
+  .nr{padding:96px 0;min-height:0}
+  .nr-wrap{grid-template-columns:1fr;gap:56px}
+  .nr-copy{max-width:600px}
+}
+@media (max-width:600px){
+  .nr{padding:80px 0;--skew:0deg}
+  .nr-title{font-size:36px}
+  .nr-lede{margin-top:20px;font-size:16px}
+  .nr-btn{margin-top:32px;width:100%;justify-content:center;height:56px;font-size:16px}
+  .nr-photos{grid-template-columns:1fr;padding:0 4%;gap:16px}
+  /* mobile: plain 1:1 cards; photo scaled so the slanted-crop edges fall outside */
+  .nr-ph{aspect-ratio:1/1;border-radius:16px;transform:none}
+  .nr-ph img{width:130%;height:auto;transform:translateX(-50%)}
+  .nr-card{margin:20px 0 0;width:100%;align-items:flex-start;gap:16px;padding:20px;border-radius:18px}
+  .nr-emblem{width:52px}
+  .nr-k{font-size:14px}
+  .nr-role{font-size:14px;line-height:1.5}
+}
+
+@media (prefers-reduced-motion:reduce){.nr,.nr *{transition:none!important}}
