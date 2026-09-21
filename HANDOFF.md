@@ -30,6 +30,12 @@ A static single-page NxtWave homepage (`index.html`, no build step) built from F
    `assets/awards-wall.mp4` scrubbed by **scroll** (frames captured to blobs, decoded ahead,
    adjacent frames blended), notch on top, 3 photo cards. Opaque + z-index 3 (covers the
    programmes shadow).
+3b. **National Level Recognition** `#national-recognition` (`.nr`, `career/national-recognition.*`)
+   — supplied build, added under Awards. Three.js light-ribbon shader on `.nr-bg` (reuses
+   `vendor/three/three.module.min.js`; the CSS gradient on `.nr` is the no-WebGL fallback) with a
+   GSAP entrance, scroll parallax and pointer tilt. Its tokens are scoped to `.nr`, not `:root`.
+   Photos/emblem in `assets/national-recognition/`. The CTA points at `#programmes` — there is no
+   callback form on the page yet.
 4. **3,000+ companies hire NxtWave learners** `#hiring-network` — 5-row logo ticker (`assets/logos`).
 5. **Taught by people…** `#team` — heading pinned with a contained scroll-scrubbed film
    `assets/mentors-v2.mp4`, stops at `LAST_FRAME = 128`. No extra desk strip.

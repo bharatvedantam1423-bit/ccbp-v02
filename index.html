@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="career/style.css">
 <link rel="stylesheet" href="career/media-footer.css">
 <link rel="stylesheet" href="career/masterclass.css">
+<link rel="stylesheet" href="career/national-recognition.css">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -802,6 +803,49 @@ a{color:inherit;text-decoration:none}
       <li class="reveal-up" style="--i:2"><img src="assets/award-times-2.jpg" alt="Sashank Gujjula receiving an award from the Times Business Awards jury" loading="lazy" style="object-position:50% 62%">
         <p><b>Mr. Sashank Gujjula</b>, Co-founder, NxtWave, receiving the ‘Best Tech Skilling EdTech Company’ award by Times Business Awards</p></li>
     </ul>
+  </div>
+</section>
+
+<!-- ===================================================================
+     S3c — NATIONAL LEVEL RECOGNITION (supplied build): the awards above are the
+     company's; this is the learners'. Three.js light-ribbon backdrop behind a skewed
+     photo pair, with the honour named on a card that overlaps them.
+     =================================================================== -->
+<section class="nr" id="national-recognition" aria-labelledby="nr-title">
+  <canvas class="nr-bg" aria-hidden="true"></canvas>
+
+  <div class="nr-wrap">
+    <div class="nr-copy">
+      <h2 class="nr-title" id="nr-title">
+        <span class="ln"><span>National Level</span></span>
+        <span class="ln"><span>Recognition for</span></span>
+        <span class="ln"><span class="nr-accent">NxtWave Students</span></span>
+      </h2>
+      <p class="nr-lede">Our learners continue to make us proud, receiving recognition at the national level for their talent and contribution.</p>
+      <a class="nr-btn" href="#programmes">
+        <svg class="nr-btn-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
+        <span>Request a Callback</span>
+        <svg class="nr-btn-ar" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+    <figure class="nr-media">
+      <div class="nr-photos">
+        <div class="nr-ph" data-depth="1"><img src="assets/national-recognition/photo-1.jpg" width="446" height="426" alt="Shri Dharmendra Pradhan presenting a certificate to a NxtWave learner" loading="lazy"></div>
+        <div class="nr-ph" data-depth="2"><img src="assets/national-recognition/photo-2.jpg" width="446" height="392" alt="Shri Dharmendra Pradhan presenting a certificate to a NxtWave learner" loading="lazy"></div>
+      </div>
+
+      <figcaption class="nr-card">
+        <img class="nr-emblem" src="assets/national-recognition/emblem.png" width="104" height="166" alt="National Emblem of India" loading="lazy">
+        <i class="nr-div" aria-hidden="true"></i>
+        <div class="nr-card-t">
+          <span class="nr-k">Honored by</span>
+          <strong class="nr-name">Shri Dharmendra Pradhan ji</strong>
+          <span class="nr-role">Union Minister for Education | Skill Development | Entrepreneurship</span>
+          <span class="nr-role">Govt. of India - 2023</span>
+        </div>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -2203,6 +2247,7 @@ a{color:inherit;text-decoration:none}
 <script src="career/script.js"></script>
 <script src="career/media-footer.js"></script>
 <script src="career/masterclass.js"></script>
+<script type="module" src="career/national-recognition.js"></script>
 <script>
   /* ---- design notes ----------------------------------------------------------------
      One card, pinned bottom-right, showing why the section you are looking at is there.
@@ -2227,6 +2272,12 @@ a{color:inherit;text-decoration:none}
         principles: [
           ['Halo effect', `A name people already trust, like Forbes, lends credibility to everything placed next to it.`],
           ['Von Restorff effect', `When everything is highlighted, nothing is. Five named items land harder than twenty badges.`] ] },
+
+      { id: 'national-recognition', name: 'National Level Recognition for NxtWave Students',
+        desc: `The awards above belong to the company; this one belongs to the learners. Placed immediately after them so the proof moves from "this is a real company" to "this happens to people like you" without a scroll in between. One honour, named in full — the Union Education Minister, the year, the emblem — instead of a claim about many.`,
+        principles: [
+          ['Authority', `A named office of the Government of India carries weight no self-description can.`],
+          ['Self-relevance', `Recognition given to students, not founders, is the one a student can picture receiving.`] ] },
 
       { id: 'hiring-network', name: '3,000+ companies hire NxtWave learners',
         desc: `Companies that have hired from our programmes, shown as a moving logo ticker rather than a static image. Backs the number from the hero — the story said 3,000+ companies, this is where that becomes Google, Amazon, NVIDIA, Deloitte and Goldman Sachs. Product firms, startups and global services side by side, so every kind of learner finds a place they would want to work.`,
