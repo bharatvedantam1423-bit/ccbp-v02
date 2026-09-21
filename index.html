@@ -2426,84 +2426,103 @@ a{color:inherit;text-decoration:none}
     /* Design notes — the written rationale behind each section.
        Source: Figma CCBP-v02, page "Design Notes" (node 844:664), replaced wholesale.
        An entry only shows if a section with that id is on the page; the counter
-       counts the ones present. */
+    /* Design notes — the written rationale behind each section.
+       Source: Figma CCBP-v02, page "Design Notes" (node 844:664), copied verbatim.
+       All 15 sections are kept here, in the source's order and numbering. An entry
+       only renders if a section with that id is on the page and the counter counts
+       the ones present, so 'student-projects' and 'student-testimonials' sit dormant
+       until those sections are built, then light up on their own. */
     const NOTES = [
       { id: 'hero', name: 'Hero Section',
-        desc: `The hero is a scroll story, not a banner: a visitor who has never heard of NxtWave understands what we do by living through it, not by reading a claim. The emotional peak is the family, not the salary — “an offer letter changes more than one life” sits just before the ask, because for most of our learners this decision is never made alone. Belief first, action last: 16,000+ hired and 3,000+ companies land before the story starts, and the only button appears once the whole path has been seen.`,
+        desc: `The hero is a scroll story, not a banner. A visitor who has never heard of NxtWave understands what we do by living through it, not by reading a claim. The emotional peak is the family, not the salary. “An offer letter changes more than one life” sits just before the ask, because for most of our learners this decision is never made alone. Belief first, action last. 16,000+ hired and 3,000+ companies land before the story starts, and the only button appears once the whole path has been seen.`,
         principles: [
           ['Serial position', `People remember the first thing on a page best.`],
           ['Peak-end rule', `People remember the high point and the ending. The story peaks at the offer letter and ends on 16,000+, just before the programmes.`] ] },
 
-      { id: 'programmes', name: 'Three programmes. One is yours.',
-        desc: `Built to be scanned, not read. Each card puts the important information upfront, so a visitor can tell which programme is theirs in one look. Hover and parallax rather than three plain cards: the movement makes the section feel alive and invites a visitor to interact with the choice instead of skimming past it. Less on the card, less on the mind — only what matters for choosing is shown, so the eye has nothing to wade through before it reaches a decision.`,
+      { id: 'programmes', name: 'Three Programmes',
+        desc: `Built to be scanned, not read. Each card puts the important information upfront, so a visitor can tell which programme is theirs in one look. Hover and parallax, not three plain cards. The movement makes the section feel alive and invites a visitor to interact with the choice instead of skimming past it. Less on the card, less on the mind. Only what matters for choosing is shown, so the eye has nothing to wade through before it reaches a decision.`,
         principles: [
           ['Hick’s Law', `Three choices with an identical action pattern is one decision: which programme. Not which button.`],
           ['Recognition over recall', `Eligibility is stated on the card, so nobody has to work out whether they qualify.`] ] },
 
-      { id: 'recognised-by', name: 'Recognised by',
-        desc: `Trust right after the choice, not after the pitch. A visitor who has just seen three programmes asks one question before clicking: is this real. Government and industry bodies answer it right there.`,
+      { id: 'recognised-by', name: 'Recognised By',
+        desc: `Trust right after the choice, not after the pitch. A visitor who has just seen three programmes asks one question before clicking: is this real. Government and industry bodies answer it right there. Less on the card, less on the mind. Only what matters for choosing is shown, so the eye has nothing to wade through before it reaches a decision.`,
         principles: [
-          ['Authority bias', `People trust what recognised institutions stand behind. Four government and industry bodies say more than any line we could write about ourselves.`] ] },
+          ['Authority Bias', `People trust what recognised institutions stand behind. Four government and industry bodies say more than any line we could write about ourselves.`] ] },
 
-      { id: 'recognition', name: 'Awards & Recognitions',
-        desc: `Built to answer the biggest doubt about us. The most common objection we hear is that NxtWave is fake — and a company that is fake does not get honoured by the Government of India. Celebration, not a list: the grand treatment says we are proud of this, and pride reads as confidence in a way a row of small badges never does. Real photos of our founders on stage and on a national magazine cover make the recognition impossible to mistake for stock.`,
+      { id: 'recognition', name: 'Awards & Recognition',
+        desc: `Built to answer the biggest doubt about us. The most common objection we hear is that NxtWave is fake. A company that is fake does not get honoured by the Government of India. Celebration, not a list. The grand treatment says we are proud of this, and pride reads as confidence in a way a row of small badges never does. Real photos of our founders on stage and on a national magazine cover make the recognition impossible to mistake for stock.`,
         principles: [
-          ['Authority bias', `People trust what recognised institutions stand behind. Four government and industry bodies say more than any line we could write about ourselves.`],
-          ['Von Restorff effect', `What stands out gets remembered. The celebratory treatment makes this the section people recall.`] ] },
+          ['Authority Bias', `People trust what recognised institutions stand behind. Four government and industry bodies say more than any line we could write about ourselves.`],
+          ['Von Restorff Effect', `What stands out gets remembered. The celebratory treatment makes this the section people recall.`] ] },
 
       { id: 'national-recognition', name: 'National Level Recognition',
-        desc: `The same doubt, answered from the learner’s side. The Union Education Minister honouring NxtWave students is proof no fake company could manufacture. It moves the recognition from the company to the students, so the visitor sees people like them being honoured, not only founders. The national emblem and a named minister make the claim checkable at a glance.`,
+        desc: `Same doubt, answered from the learner’s side. The Union Education Minister honouring NxtWave students is proof no fake company could manufacture. It moves the recognition from the company to the students, so the visitor sees people like them being honoured, not only founders. The national emblem and a named minister make the claim checkable at a glance.`,
         principles: [
-          ['Halo effect', `A respected figure’s approval spreads to everything connected to it. The minister’s recognition lifts the whole institution.`],
-          ['Similarity bias', `People believe outcomes that happen to people like them. Students being honoured lands harder than founders being honoured.`] ] },
+          ['Halo Effect', `A respected figure’s approval spreads to everything connected to it. The minister’s recognition lifts the whole institution.`],
+          ['Similarity Bias', `People believe outcomes that happen to people like them. Students being honoured lands harder than founders being honoured.`] ] },
 
-      { id: 'hiring-network', name: '3,000+ companies hire NxtWave learners',
-        desc: `The title does the heavy lifting: 3,000+ companies is the claim, and the running logos are the proof sitting right beneath it. A claimed number needs visible evidence — moving logos show scale without asking anyone to read a list. Every competitor has this section; leaving it out would make its absence the thing people notice.`,
+      { id: 'hiring-network', name: '3,000+ Companies Hiring',
+        desc: `The title does the heavy lifting. 3,000+ companies is the claim, and the running logos are the proof sitting right beneath it. A claimed number needs visible evidence. Moving logos show scale without asking anyone to read a list. Every competitor has this section. Leaving it out would make its absence the thing people notice.`,
         principles: [
           ['Jakob’s Law', `People expect our site to work like the ones they already know. A hiring logo strip is what they look for.`],
-          ['Social proof', `People follow what many others have already chosen. Thousands of companies hiring says the decision is safe.`] ] },
+          ['Social Proof', `People follow what many others have already chosen. Thousands of companies hiring says the decision is safe.`] ] },
 
-      { id: 'team', name: 'Taught by people who have done the job',
-        desc: `A storyboard, not a staff list. The scroll animation follows a learner being helped at each stage — by IIT trainers, mentors, career coaches and working product developers. Real faces with real industry jobs show exactly who will be beside the learner, not a vague promise of “expert support”. The animation’s outcome is the point: by the end, the visitor has seen the whole support system around one person.`,
+      { id: 'team', name: 'Taught',
+        desc: `A storyboard, not a staff list. The scroll animation follows a learner being helped at each stage, by IIT trainers, mentors, career coaches and working product developers. Real faces with real industry jobs show exactly who will be beside the learner, not a vague promise of “expert support.” The animation’s outcome is the point. By the end, the visitor has seen the whole support system around one person.`,
         principles: [
-          ['Storytelling effect', `People understand and remember a sequence far better than a list. The scroll turns a team into a journey.`],
-          ['Law of common fate', `Things that move together are seen as one group. Everyone helping the learner reads as a single support system.`] ] },
+          ['Storytelling Effect', `People understand and remember a sequence far better than a list. The scroll turns a team into a journey.`],
+          ['Law of Common Fate', `Things that move together are seen as one group. Everyone helping the learner reads as a single support system.`] ] },
 
       { id: 'career-transformations', name: 'Career Transformations',
-        desc: `Proof of work at scale. A rolling list of placed learners with their CTC shows this is not a handful of hand-picked stories. Faces and numbers together: a photo makes it a real person, the CTC makes it a real outcome. Written testimonials sit alongside, so the section carries both volume and voice.`,
+        desc: `Proof of work at scale. A rolling list of placed learners with their CTC shows this is not a handful of hand-picked stories. Faces and numbers together. A photo makes it a real person, the CTC makes it a real outcome. Written testimonials sit alongside, so the section carries both volume and voice.`,
         principles: [
-          ['Bandwagon effect', `The more people someone sees doing something, the more natural it feels to join them. A continuous roll says thousands did this.`],
-          ['Law of similarity', `Repeated cards in the same format read as one large body of evidence rather than separate claims.`] ] },
+          ['Bandwagon Effect', `The more people someone sees doing something, the more natural it feels to join them. A continuous roll says thousands did this.`],
+          ['Law of Similarity', `Repeated cards in the same format read as one large body of evidence rather than separate claims.`] ] },
 
-      { id: 'masterclasses', name: 'Masterclasses from mentors in the community',
-        desc: `Instant proof of world-class mentors: real people holding senior roles at top companies, shown helping learners. Video plus names — the video shows them teaching, the list shows who they are and where they work. It answers “who else is in my corner” beyond the core trainers.`,
+      /* Section 9 — no such section on the page yet; kept so it appears when built. */
+      { id: 'student-projects', name: 'Student Projects',
+        desc: `Live proof, visual first. A carousel of real projects shows what learners built, instead of describing it. A picture is understood in a second. A paragraph about projects asks the visitor to imagine what a screenshot simply shows. It turns “you will build real things” from a promise into something the visitor can see.`,
         principles: [
-          ['Authority bias', `Senior people from companies everyone knows carry weight without explanation.`],
-          ['Multimedia effect', `People take in more from video and words together than from words alone.`] ] },
+          ['Picture Superiority Effect', `People remember images far better than words. The work speaks faster than any description of it.`],
+          ['Concreteness Effect', `Specific, visible things are believed more readily than abstract claims.`] ] },
 
-      { id: 'what-companies-look-for', name: 'We train you for what companies hire for',
-        desc: `What we offer, shown visually rather than as paragraphs. Clear cards, each holding one idea, so the visitor never has to read a block of text to understand the offering. Low cognitive load by design: the eye moves card to card and picks up the whole offer without effort.`,
+      { id: 'masterclasses', name: 'Masterclasses',
+        desc: `Instant proof of world-class mentors. Real people holding senior roles at top companies are shown helping learners. Video plus names. The video shows them teaching, the list shows who they are and where they work. It answers “who else is in my corner” beyond the core trainers.`,
+        principles: [
+          ['Authority Bias', `Senior people from companies everyone knows carry weight without explanation.`],
+          ['Multimedia Effect', `People take in more from video and words together than from words alone.`] ] },
+
+      /* Section 11 — no such section on the page yet; kept so it appears when built. */
+      { id: 'student-testimonials', name: 'Student Video Testimonials',
+        desc: `Video, because text on a website is easy to doubt. A real person telling their own story on camera is not. Built for conviction, not information. By this point the visitor knows the facts. This is where they start to believe them. Each video is one full career transformation, told by the person who lived it.`,
+        principles: [
+          ['Identifiable Victim Effect', `One real person’s story moves people more than any statistic.`],
+          ['Emotional Contagion', `People feel what they see others feel. A learner’s relief on camera becomes the visitor’s hope.`] ] },
+
+      { id: 'what-companies-look-for', name: 'Our USPs',
+        desc: `What we offer, shown visually rather than as paragraphs. Clear cards, each holding one idea, so the visitor never has to read a block of text to understand the offering. Low cognitive load by design. The eye moves card to card and picks up the whole offer without effort.`,
         principles: [
           ['Miller’s Law', `People can hold only a few things in mind at once. A small set of cards fits comfortably.`],
-          ['Law of common region', `Content inside a shared boundary is read as one unit. Each card is one clear idea.`] ] },
+          ['Law of Common Region', `Content inside a shared boundary is read as one unit. Each card is one clear idea.`] ] },
 
-      { id: 'hiring-teams', name: 'Why Top Companies Prefer NxtWave Students',
-        desc: `The same conviction as the learner stories, from the other side of the table: hiring managers explain why they keep coming back. They are the only voices on the page with nothing to gain from saying it. Learner stories say “I got the job.” This section says “we would hire again.”`,
+      { id: 'hiring-teams', name: 'Hiring People Perspective',
+        desc: `The same conviction as the student video testimonials, from the other side of the table. Hiring managers explain why they keep coming back. The only voices on the page with nothing to gain from saying it. Learner stories say “I got the job.” This section says “we would hire again.”`,
         principles: [
-          ['Source credibility', `A claim is believed more when the speaker has no stake in it.`],
-          ['Social proof', `When many companies choose the same source of talent, a visitor reads it as the safe choice.`] ] },
+          ['Source Credibility', `A claim is believed more when the speaker has no stake in it.`],
+          ['Social Proof', `When many companies choose the same source of talent, a visitor reads it as the safe choice.`] ] },
 
-      { id: 'investors', name: 'Backed by Leading Global Investors',
+      { id: 'investors', name: 'Investors & VCs',
         desc: `Logos are large and easy to spot, so the point lands in a glance. Serious investors do not back a fake company, which answers the same doubt as the awards and national recognition sections, from a financial angle.`,
         principles: [
-          ['Halo effect', `Respected backers lend their reputation to what they support.`],
-          ['Visual hierarchy', `Size signals importance. Prominent logos tell the eye this matters.`] ] },
+          ['Halo Effect', `Respected backers lend their reputation to what they support.`],
+          ['Visual Hierarchy', `Size signals importance. Prominent logos tell the eye this matters.`] ] },
 
-      { id: 'featured-in-media', name: 'Recognized by Leading Media',
-        desc: `Shows NxtWave’s presence across press, media and national newspapers with big, prominent logos. Logos are large and easy to spot, so the point lands in a glance.`,
+      { id: 'featured-in-media', name: 'Media',
+        desc: `Shows NxtWave’s presence across press, media and national newspapers with big prominent logos. Logos are large and easy to spot, so the point lands in a glance.`,
         principles: [
-          ['Mere-exposure effect', `People trust names they already recognise. Familiar media brands transfer that familiarity to us.`],
-          ['Authority bias', `Established publications carry credibility of their own.`] ] },
+          ['Mere-Exposure Effect', `People trust names they already recognise. Familiar media brands transfer that familiarity to us.`],
+          ['Authority Bias', `Established publications carry credibility of their own.`] ] },
     ];
 
     const card = document.getElementById('dn-card');
