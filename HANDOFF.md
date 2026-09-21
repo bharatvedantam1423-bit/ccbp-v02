@@ -33,18 +33,22 @@ A static single-page NxtWave homepage (`index.html`, no build step) built from F
 4. **3,000+ companies hire NxtWave learners** `#hiring-network` — 5-row logo ticker (`assets/logos`).
 5. **Taught by people…** `#team` — heading pinned with a contained scroll-scrubbed film
    `assets/mentors-v2.mp4`, stops at `LAST_FRAME = 128`. No extra desk strip.
-6. **Career Transformations** `#career-transformations` (`.ctx`) — Figma 794:4806: pinned
-   white screen with 6 portraits → turns navy, heading rises, 8 testimonial columns rise in.
-   Testimonial names/quotes are PLACEHOLDERS (marked in code).
-7. **Masterclasses** `#masterclasses` (`.mc`, `career/masterclass.*`) — slides up over the
-   pinned Career Transformations screen (`margin-top:-100vh`).
+6. **Career Transformations** `#career-transformations` (`.ctv`) — two looping tickers, no
+   pinning and no scroll-scrub: learner portraits drift up the left column, a three-column
+   wall of short written reviews drifts on the right (middle column runs the other way).
+   Each track holds its content twice and the CSS animation moves exactly one copy, so the
+   loop is seamless; both pause on hover and stop under `prefers-reduced-motion`.
+   **Content is the `PEOPLE` and `REVIEWS` arrays in the section's script — edit those.**
+   Names, roles, packages and quotes are PLACEHOLDERS.
+7. **Masterclasses** `#masterclasses` (`.mc`, `career/masterclass.*`) — follows Career
+   Transformations in normal flow (it used to ride over the old pinned screen with
+   `margin-top:-100vh`; that was removed with the pin).
 8. **We train you for what companies hire for** `#what-companies-look-for` — hover lift/zoom + click-zoom.
 9. **Why Top Companies Prefer NxtWave Students** `#hiring-teams` — cards sized ~5.4 across, max 280px.
 10. **Backed by Leading Global Investors** `#investors`.
 11. **Recognized by Leading Media** `#featured-in-media` — bento grid + View More. Then footer.
 
-Everything after Career Transformations sits in `.cs--after` (opaque, z-index 2) so the pinned
-screen can't show through on tall windows.
+Everything after Career Transformations sits in `.cs--after` (opaque, z-index 2).
 
 **Design notes** toggle (bottom-right, off by default): per-section rationale card; data in
 the `NOTES` array; the counter counts only sections present.

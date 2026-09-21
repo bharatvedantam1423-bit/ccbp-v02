@@ -62,7 +62,7 @@ a{color:inherit;text-decoration:none}
    Subheadings: Geist. The hero (.hx) is deliberately left out of this.
    ===================================================================== */
 .prog-title,.record-title,.mw-title,.companies-title,.inv-title,.mc .mc__title,
-.ctx-title > span,.cs .wl__title,.cs .ht__title,.cs .fm__title,.cs .cta__title{
+.ctv-title,.cs .wl__title,.cs .ht__title,.cs .fm__title,.cs .cta__title{
   font-family:var(--font-head);font-weight:600;
   line-height:.98;letter-spacing:-.01em;font-variation-settings:normal;
   background-image:var(--head-grad);
@@ -71,18 +71,18 @@ a{color:inherit;text-decoration:none}
   width:fit-content;max-width:100%;   /* the fill runs across the words, not the whole column */
 }
 /* same fill, inverted for the headings that sit on dark panels */
-.ctx-title > .ctx-t-d,.cs .cta__title{background-image:var(--head-grad-dark)}
+.cs .cta__title{background-image:var(--head-grad-dark)}
 
 .prog-sub,.mw-sub,.companies-sub,.inv-sub,
-.ctx-sub,.cs .wl__sub,.cs .ht__sub,.cs .cta__sub{
+.ctv-sub,.cs .wl__sub,.cs .ht__sub,.cs .cta__sub{
   font-family:var(--font-sub);font-weight:400;line-height:1.5;letter-spacing:normal;
 }
 /* the sections below the awards share one heading size */
-.prog-title,.record-title,.mw-title,
+.prog-title,.record-title,.mw-title,.ctv-title,
 .companies-title,.inv-title,.mc .mc__title,.cs .wl__title,.cs .ht__title,.cs .fm__title{font-size:var(--head-size);line-height:1.12}
 /* ...and one subheading size */
 .prog-sub,.mw-sub,.companies-sub,.inv-sub,
-.ctx-sub,.cs .wl__sub,.cs .ht__sub,.cs .cta__sub{font-size:var(--sub-size)}
+.ctv-sub,.cs .wl__sub,.cs .ht__sub,.cs .cta__sub{font-size:var(--sub-size)}
 /* card-level heading/body inside a section follow the same two families */
 .cs .wl__h{font-family:var(--font-head);font-weight:600;letter-spacing:-.01em}
 .cs .wl__p{font-family:var(--font-sub);font-weight:400;letter-spacing:normal}
@@ -524,73 +524,88 @@ a{color:inherit;text-decoration:none}
 }
 
 /* =====================================================================
-   S6 — CAREER TRANSFORMATIONS (Figma CCBP-v02 794:4806)
-   One pinned screen driven by scroll. The script sets:
-     --a  0→1  backdrop white→navy, heading rises and turns light
-     --q  0→1  portraits drift outward and fade
-     --r  0→1  per testimonial column: rises in from below
-   Positions are the design's (1920×1080 frame) as % of the stage.
+   S6 — CAREER TRANSFORMATIONS
+   Two tickers side by side, no pinning and no scroll-scrub: a column of
+   learner portraits drifting up on the left, a wall of short written
+   reviews drifting on the right. Both loop by duplicating their content
+   and translating a whole copy's height, so the seam never shows.
+   Content lives in PEOPLE and REVIEWS in the script — edit those.
    ===================================================================== */
-.ctx{position:relative;background:#fff;--a:0;--q:0}
-.ctx-track{position:relative;height:400vh}      /* ~200vh of transition, a hold, then the next section rides over */
-.ctx-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;isolation:isolate}
-.ctx-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#fff,#ececec)}
-.ctx-bg i{position:absolute;inset:0;background:#070726;opacity:var(--a)}
+.ctv{position:relative;z-index:2;background:#fff;padding:var(--sec-y) 0;overflow:hidden}
+.ctv-inner{max-width:1440px;margin:0 auto;padding:0 var(--pad,clamp(20px,5.56vw,80px));
+  display:grid;grid-template-columns:minmax(0,clamp(300px,30vw,420px)) minmax(0,1fr);
+  gap:clamp(24px,3.4vw,56px);align-items:start}
 
-/* portraits (white state) */
-.ctx-portraits{position:absolute;inset:0;z-index:1;pointer-events:none}
-.ctx-pc{position:absolute;left:calc(var(--x) * 1%);top:calc(var(--y) * 1%);width:calc(var(--w) * 1%);margin:0;
-  container-type:inline-size;opacity:calc(1 - var(--q));
-  transform:translate(calc(var(--dx) * var(--q) * 16vw),calc(var(--dy) * var(--q) * 14vh)) scale(calc(1 - var(--q) * .12));
-  will-change:transform,opacity}
-.ctx-pc > div{position:relative;aspect-ratio:389.38/229.54;border-radius:6.667cqw;overflow:hidden;
-  box-shadow:0 18px 40px -18px rgba(15,23,42,.35);animation:ctxFloat 7s ease-in-out infinite;animation-delay:var(--f)}
-.ctx-pc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.ctx-pc > div::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(49.7deg,rgba(0,0,0,.69) 33.3%,rgba(0,0,0,.314) 47.3%,rgba(0,0,0,0) 56.7%)}
-.ctx-pc figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:3cqw;
-  padding:5.33cqw;color:#fff;font:600 max(12px,5cqw)/1.2 var(--font)}
-.ctx-pc figcaption span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ctx-pc figcaption b{flex:none;font-weight:600;background:#188300;border-radius:999px;padding:1.33cqw 4cqw}
-@keyframes ctxFloat{0%,100%{translate:0 0}50%{translate:0 -10px}}
+/* ---- left: portrait ticker. the photo is the card; the caption sits on it ---- */
+.ctv-people{position:relative;height:clamp(520px,74vh,760px);overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent);
+          mask-image:linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent)}
+.ctv-people-track{display:flex;flex-direction:column;gap:16px;will-change:transform;
+  animation:ctvUp var(--dur,46s) linear infinite}
+.ctv-people:hover .ctv-people-track,.ctv-wall:hover .ctv-col{animation-play-state:paused}
 
-/* heading block: centred on the white screen, rises ~19vh and turns light */
-.ctx-head{position:absolute;left:50%;top:50%;z-index:3;width:min(92%,900px);text-align:center;
-  display:flex;flex-direction:column;align-items:center;gap:20px;
-  transform:translate(-50%,calc(-50% + var(--a) * var(--ctx-rise,-19vh)))}
-.ctx-title{position:relative;font-size:clamp(36px,4.17vw,80px);margin:0}
-.ctx-title > span{display:block;white-space:nowrap}
-.ctx-t-l{opacity:calc(1 - var(--a))}
-.ctx-t-d{position:absolute;left:0;right:0;top:0;opacity:var(--a)}
-.ctx-sub{margin:0;color:rgb(var(--ctx-ink,0,0,0))}
-.ctx-btn{display:inline-block;padding:12px 32px;border-radius:12px;background:#2563eb;color:#fff;text-decoration:none;
-  font:600 14px/20px var(--font);box-shadow:0 1px 0 rgba(0,0,0,.08),0 -1px 0 rgba(0,0,0,.2) inset;transition:background .2s,transform .2s var(--ease)}
-.ctx-btn:hover{background:#1d4ed8;transform:translateY(-1px)}
+.ctv-shot{position:relative;flex:none;margin:0;border-radius:14px;overflow:hidden;
+  aspect-ratio:16/10;background:#e2e8f0;box-shadow:0 12px 28px -18px rgba(2,6,23,.45)}
+.ctv-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ctv-shot figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding:14px;
+  color:#fff;font-family:var(--font-sub);
+  background:linear-gradient(180deg,transparent,rgba(2,6,23,.78))}
+.ctv-shot figcaption span{min-width:0;font-size:13px;line-height:1.35}
+.ctv-shot figcaption b{display:block;font-size:15px;font-weight:600}
+.ctv-pkg{flex:none;align-self:center;background:#188300;color:#fff;border-radius:999px;
+  padding:4px 10px;font-size:12px;font-weight:700;line-height:1}
 
-/* testimonial columns (dark state) */
-.ctx-grid{position:absolute;inset:0;z-index:2;pointer-events:none}
-.ctx-col{position:absolute;left:calc(var(--x) * 1%);top:calc(var(--y) * 1%);width:12.917%;
-  container-type:inline-size;display:flex;flex-direction:column;gap:7.26cqw;
-  transform:translateY(calc((1 - var(--r,0)) * 75vh));opacity:calc(var(--r,0) * 1.6);will-change:transform}
-.ctx-col.is-on{pointer-events:auto}
-.ctx-card{position:relative;height:calc(var(--h) / 248 * 100cqw);border-radius:9.68cqw;overflow:hidden;
-  border:1px solid rgba(255,255,255,.08);padding:9.68cqw;display:flex;flex-direction:column;justify-content:space-between;
-  color:#fff;background:rgba(255,255,255,.015)}
-.ctx-card > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-.ctx-card--img::before{content:"";position:absolute;inset:0;z-index:1;
-  background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.8)),linear-gradient(0deg,var(--tint),var(--tint))}
-.ctx-card > *:not(img){position:relative;z-index:2}
-.ctx-stars{display:flex;gap:1.6cqw}
-.ctx-stars svg{width:5.65cqw;height:5.65cqw;min-width:11px;min-height:11px;fill:none;stroke:#fbbf24;stroke-width:2;stroke-linecap:round}
-.ctx-card blockquote{margin:0;font:600 max(12px,6.45cqw)/1.4 var(--font)}
-.ctx-by{margin-top:4.8cqw;display:flex;flex-direction:column;gap:.8cqw;font-family:var(--font)}
-.ctx-by b{font-size:max(12px,5.65cqw);font-weight:700}
-.ctx-by span{font-size:max(12px,4.84cqw);color:rgba(255,255,255,.6)}
-.ctx-card--img .ctx-by span{color:#8f9cae}
+/* ---- right: heading, then the wall of written reviews ---- */
+.ctv-head{max-width:640px}
+.ctv-title{margin:0;font-size:var(--head-size);line-height:1.12}
+.ctv-btn{display:inline-block;margin-top:20px;padding:12px 26px;border-radius:10px;
+  background:var(--brand,#2563eb);color:#fff;text-decoration:none;
+  font-family:var(--font-sub);font-size:15px;font-weight:600;
+  transition:background .2s,transform .2s}
+.ctv-btn:hover{background:#1d4ed8;transform:translateY(-1px)}
 
-/* the next section (Masterclasses) slides up over the finished dark screen; everything after it is
-   opaque and layered above too, so the pinned screen can never show through below a short section */
-.mc{position:relative;z-index:2;margin-top:-100vh;box-shadow:0 -48px 96px -24px rgba(2,6,23,.55)}
+.ctv-wall{position:relative;margin-top:clamp(24px,3vw,40px);
+  height:clamp(460px,62vh,640px);overflow:hidden;
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 10%,#000 88%,transparent);
+          mask-image:linear-gradient(180deg,transparent,#000 10%,#000 88%,transparent)}
+.ctv-col{display:flex;flex-direction:column;gap:16px;will-change:transform;
+  animation:ctvUp var(--dur,54s) linear infinite}
+.ctv-col--down{animation-name:ctvDown}
+
+.ctv-note{flex:none;background:#f8fafc;border:1px solid #eef2f7;border-radius:12px;padding:16px}
+.ctv-note-by{display:flex;align-items:center;gap:10px}
+.ctv-note-by img{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;background:#e2e8f0}
+.ctv-note-by b{display:block;font-family:var(--font-sub);font-size:13px;font-weight:600;color:#0f172a;line-height:1.3}
+.ctv-note-by span{display:block;font-family:var(--font-sub);font-size:12px;color:#64748b;line-height:1.3}
+.ctv-note p{margin:10px 0 0;font-family:var(--font-sub);font-size:13px;line-height:1.55;color:#334155}
+
+@keyframes ctvUp  {from{transform:translate3d(0,0,0)}      to{transform:translate3d(0,calc(-50% - 8px),0)}}
+@keyframes ctvDown{from{transform:translate3d(0,calc(-50% - 8px),0)} to{transform:translate3d(0,0,0)}}
+
+@media (max-width:1024px){
+  .ctv-inner{grid-template-columns:minmax(0,1fr);gap:32px}
+  .ctv-people{height:auto}
+  .ctv-people-track{flex-direction:row;animation-name:ctvLeft;--dur:44s}
+  .ctv-people{-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+              mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .ctv-shot{width:min(74vw,320px)}
+  @keyframes ctvLeft{from{transform:translate3d(0,0,0)} to{transform:translate3d(calc(-50% - 8px),0,0)}}
+  .ctv-wall{grid-template-columns:repeat(2,minmax(0,1fr));height:clamp(420px,56vh,560px)}
+}
+@media (max-width:640px){
+  .ctv-wall{grid-template-columns:minmax(0,1fr);height:440px}
+}
+@media (prefers-reduced-motion:reduce){
+  .ctv-people-track,.ctv-col{animation:none}
+  .ctv-people,.ctv-wall{height:auto;overflow:visible;-webkit-mask-image:none;mask-image:none}
+  .ctv-wall{grid-auto-rows:min-content}
+}
+
+/* everything from Masterclasses down is opaque and layered above, so nothing
+   below can show through a short section */
+.mc{position:relative;z-index:2}
 .cs--after{position:relative;z-index:2;background:#fff}
 
 /* one vertical rhythm for every section from here down: room above each heading, none below,
@@ -598,22 +613,6 @@ a{color:inherit;text-decoration:none}
 .cs{--sec:var(--sec-y)}
 .mc{--sec:var(--sec-y);padding-bottom:0}
 
-@media (max-width:860px){
-  .ctx{--ctx-rise:-27vh}
-  .ctx-pc:nth-child(2),.ctx-pc:nth-child(5){display:none}
-  /* phones: four portraits in the corners (the design's positions are set inline, hence !important) */
-  .ctx-pc:nth-child(1){--x:4 !important;--y:9 !important;--w:44 !important}
-  .ctx-pc:nth-child(4){--x:52 !important;--y:14 !important;--w:44 !important}
-  .ctx-pc:nth-child(3){--x:-4 !important;--y:70 !important;--w:52 !important}
-  .ctx-pc:nth-child(6){--x:50 !important;--y:74 !important;--w:54 !important}
-  .ctx-title{font-size:clamp(30px,8.6vw,44px)}
-  .ctx-title > span{white-space:normal}
-  .ctx-col{width:44%}
-  .ctx-col:not(:nth-child(2)):not(:nth-child(3)){display:none}
-  .ctx-col:nth-child(2){--x:4 !important;--y:38 !important}
-  .ctx-col:nth-child(3){--x:52 !important;--y:46 !important}
-}
-@media (prefers-reduced-motion:reduce){ .ctx-pc > div{animation:none} }
 @media (prefers-reduced-motion:reduce){
   .mentors{--mw-track:auto}
   .mw-stage{position:relative;height:auto;min-height:100svh}
@@ -625,7 +624,6 @@ a{color:inherit;text-decoration:none}
   .card,.card.is-active,.banner,.banner img,.reveal,.reveal-inner{transition-duration:.01s!important}
   .card.is-sweeping .sheen::before{animation:none}
 }
-
 /* =====================================================================
    DESIGN NOTES — the rationale for whichever section is on screen.
    A presentation aid: off until the switch is flipped, so the page
@@ -850,27 +848,16 @@ a{color:inherit;text-decoration:none}
      White: the heading with six learner portraits around it. Scrolling: the backdrop darkens, the
      portraits drift off, the heading rises and turns light, and columns of testimonials rise in.
      The next section then slides up over the finished dark screen. -->
-<section class="ctx" id="career-transformations" aria-labelledby="ct-title">
-  <div class="ctx-track">
-    <div class="ctx-stage">
-      <div class="ctx-bg" aria-hidden="true"><i></i></div>
-
-      <div class="ctx-portraits" aria-hidden="true">
-        <figure class="ctx-pc" style="--x:9.54;--y:12.45;--w:20.28;--dx:-1;--dy:-1;--f:0s"><div><img src="assets/people/ct-p1.jpg" alt="" loading="lazy"><figcaption><span>Rohan Das<br>SDE II, Razorpay</span><b>16LPA</b></figcaption></div></figure>
-        <figure class="ctx-pc" style="--x:19.68;--y:70.61;--w:15.63;--dx:-.5;--dy:1;--f:-2.1s"><div><img src="assets/people/ct-p2.jpg" alt="" loading="lazy" style="object-position:60% 30%"><figcaption><span>Aditya Rao<br>SDE I, Amazon</span><b>24LPA</b></figcaption></div></figure>
-        <figure class="ctx-pc" style="--x:-.72;--y:45.07;--w:24.59;--dx:-1;--dy:0;--f:-4.2s"><div><img src="assets/people/ct-p3.jpg" alt="" loading="lazy"><figcaption><span>Nikhil Rao<br>Cloud Engineer, Accenture</span><b>12LPA</b></figcaption></div></figure>
-        <figure class="ctx-pc" style="--x:72.85;--y:15.40;--w:15.63;--dx:1;--dy:-1;--f:-1.3s"><div><img src="assets/people/ct-p4.jpg" alt="" loading="lazy"><figcaption><span>Meera Pillai<br>ML Engineer, Fractal</span><b>14LPA</b></figcaption></div></figure>
-        <figure class="ctx-pc" style="--x:86.41;--y:47.04;--w:12.89;--dx:1;--dy:0;--f:-3.4s"><div><img src="assets/people/ct-p5.jpg" alt="" loading="lazy"><figcaption><span>Karthik S<br>ML Scientist, GoKwik</span><b>22LPA</b></figcaption></div></figure>
-        <figure class="ctx-pc" style="--x:70.10;--y:62.87;--w:26.25;--dx:1;--dy:1;--f:-5s"><div><img src="assets/people/ct-p6.jpg" alt="" loading="lazy"><figcaption><span>Vivek Menon<br>Data Engineer, PhonePe</span><b>15LPA</b></figcaption></div></figure>
-      </div>
-
-      <div class="ctx-grid"><!-- testimonial columns rendered by the Career Transformations script --></div>
-
-      <div class="ctx-head">
-        <h2 class="ctx-title" id="ct-title"><span class="ctx-t-l">Career Transformations</span><span class="ctx-t-d" aria-hidden="true">Career Transformations</span></h2>
-        <p class="ctx-sub">Real people. Named companies. Their own words.</p>
-        <a class="ctx-btn" href="#" data-blank>View All</a>
-      </div>
+<section class="ctv" id="career-transformations" aria-labelledby="ct-title">
+  <div class="ctv-inner">
+    <div class="ctv-people"><div class="ctv-people-track"><!-- learner portraits, rendered from PEOPLE --></div></div>
+    <div class="ctv-main">
+      <header class="ctv-head">
+        <h2 class="ctv-title" id="ct-title">Career Transformations</h2>
+        <p class="ctv-sub">Real people. Named companies. Their own words.</p>
+        <a class="ctv-btn" href="#" data-blank>View All</a>
+      </header>
+      <div class="ctv-wall"><!-- written reviews, rendered from REVIEWS --></div>
     </div>
   </div>
 </section>
@@ -1669,91 +1656,77 @@ a{color:inherit;text-decoration:none}
   })();
 
   /* =================================================================
-     S6 — CAREER TRANSFORMATIONS: a pinned screen that turns from light to dark
-     (Figma CCBP-v02 794:4806). See the CSS block for what --a / --q / --r drive.
+     S6 — CAREER TRANSFORMATIONS
+     Two looping tickers. Each track holds its content twice and the CSS
+     animation translates exactly one copy, so it repeats seamlessly.
+
+     ---- EDIT THE CONTENT HERE ----
+     PEOPLE  : the portrait cards on the left.
+     REVIEWS : the short written reviews on the right.
+     Both are plain arrays; add or remove entries and the section adapts.
+     The portraits are PLACEHOLDER learners -- swap in real names, roles
+     and packages before this goes live.
      ================================================================= */
   (() => {
     const sec = document.getElementById('career-transformations');
     if (!sec) return;
-    const track = sec.querySelector('.ctx-track'), grid = sec.querySelector('.ctx-grid');
 
-    /* PLACEHOLDER learners and quotes (as the previous version of this section was): replace with
-       real, approved testimonials before launch. [name, role, quote, photo] */
-    const P = {
-      aditya:  ['Aditya Rao', 'SDE I, Amazon', 'Every project I built here came up in my Amazon interviews.', 'assets/people/v01.jpg'],
-      sneha:   ['Sneha Iyer', 'Frontend Engineer, Swiggy', 'My mentor reviewed my code every single week.', 'assets/people/v02.jpg'],
-      arjun:   ['Arjun Mehta', 'Full Stack Developer, Zoho', 'Real projects, real feedback, and a real job at the end.', 'assets/people/v03.jpg'],
-      priya:   ['Priya Reddy', 'Software Engineer, Deloitte', 'From zero code to my first offer in eight months.', 'assets/people/v04.jpg'],
-      rohan:   ['Rohan Das', 'SDE II, Razorpay', 'The mock interviews felt harder than the real ones.', 'assets/people/ct-p1.jpg'],
-      nikhil:  ['Nikhil Rao', 'Cloud Engineer, Accenture', 'I finally understood systems, not just syntax.', 'assets/people/ct-p3.jpg'],
-      meera:   ['Meera Pillai', 'ML Engineer, Fractal', 'Weekly reviews kept me honest.', 'assets/people/ct-p4.jpg'],
-      karthik: ['Karthik S', 'ML Scientist, GoKwik', 'It blended theory with hands-on work. I could finally tackle real problems in AI.', 'assets/people/ct-p5.jpg'],
-      vivek:   ['Vivek Menon', 'Data Engineer, PhonePe', 'The DSA track is why I cleared every coding round.', 'assets/people/ct-p6.jpg'],
-      kavya:   ['Kavya Nair', 'Data Analyst, Flipkart', 'I came from a non-tech job. My projects were what every interviewer asked about.'],
-      sai:     ['Sai Teja', 'Android Developer, Paytm', 'Placement support didn’t stop until I had an offer.'],
-      divya:   ['Divya Krishnan', 'QA Engineer, Freshworks', 'Mentors who had done the job told me what actually matters.'],
-    };
-    /* the design's eight columns: [left %, top %, rise delay, cards]; card = [image|solid, height at 248 wide, person, tint] */
-    const COLS = [
-      [-8.776, 55.97, .10, [['s', 230, 'divya'], ['i', 350, 'karthik', '67,56,202']]],
-      [ 6.172, 37.40, .06, [['i', 360, 'aditya', '157,23,77'], ['s', 220, 'kavya']]],
-      [21.12,  54.77, .03, [['s', 260, 'karthik'], ['i', 320, 'sneha', '67,56,202']]],
-      [36.07,  65.09, 0,   [['i', 320, 'rohan', '15,118,110'], ['s', 260, 'nikhil']]],
-      [51.02,  68.01, 0,   [['i', 320, 'priya', '109,40,217'], ['s', 260, 'vivek']]],
-      [65.96,  53.30, .03, [['s', 230, 'sai'], ['i', 350, 'meera', '180,83,9']]],
-      [80.91,  38.88, .06, [['i', 340, 'arjun', '3,105,161'], ['s', 240, 'divya']]],
-      [95.86,  62.64, .10, [['i', 340, 'vivek', '157,23,77'], ['s', 240, 'kavya']]],
+    const PEOPLE = [
+      { img: 'assets/people/ct-p1.jpg', name: 'Rohan Das',    role: 'SDE II, Razorpay',           pkg: '16LPA' },
+      { img: 'assets/people/ct-p2.jpg', name: 'Aditya Rao',   role: 'SDE I, Amazon',              pkg: '24LPA' },
+      { img: 'assets/people/ct-p3.jpg', name: 'Nikhil Rao',   role: 'Cloud Engineer, Accenture',  pkg: '12LPA' },
+      { img: 'assets/people/ct-p4.jpg', name: 'Meera Pillai', role: 'ML Engineer, Fractal',       pkg: '14LPA' },
+      { img: 'assets/people/ct-p5.jpg', name: 'Karthik S',    role: 'ML Scientist, GoKwik',       pkg: '22LPA' },
+      { img: 'assets/people/ct-p6.jpg', name: 'Vivek Menon',  role: 'Data Engineer, PhonePe',     pkg: '18LPA' },
     ];
-    const STAR = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M6.838 1.213a.58.58 0 0 0-.114.125L5.377 4.068a1.63 1.63 0 0 1-1.225.89l-3.013.44a.58.58 0 0 0-.3.2.58.58 0 0 0-.1.21.58.58 0 0 0 .163.525l2.18 2.122a1.63 1.63 0 0 1 .468 1.442l-.514 2.998a.58.58 0 0 0 .847.614l2.693-1.417a1.63 1.63 0 0 1 1.151 0l2.694 1.417a.58.58 0 0 0 .847-.613l-.515-2.999a1.63 1.63 0 0 1 .468-1.442l2.179-2.121a.58.58 0 0 0-.322-.992l-3.013-.44a1.63 1.63 0 0 1-1.225-.891L7.278 1.338a.58.58 0 0 0-.44-.125z"/></svg>';
-    const card = ([t, h, k, tint]) => {
-      const [name, role, quote, img] = P[k], isImg = t === 'i' && img;
-      return `<article class="ctx-card ctx-card--${isImg ? 'img' : 'solid'}" style="--h:${h}${isImg ? `;--tint:rgba(${tint},.314)` : ''}">` +
-        (isImg ? `<img src="${img}" alt="" loading="lazy" decoding="async">` : '') +
-        `<div class="ctx-stars" role="img" aria-label="Rated 5 out of 5">${STAR.repeat(5)}</div>` +
-        `<div><blockquote>“${quote}”</blockquote><p class="ctx-by"><b>${name}</b><span>${role}</span></p></div></article>`;
-    };
-    grid.innerHTML = COLS.map(([x, y, , cards], i) =>
-      `<div class="ctx-col" style="--x:${x};--y:${y}"${i === 0 || i === COLS.length - 1 ? ' aria-hidden="true"' : ''}>${cards.map(card).join('')}</div>`).join('');
-    const cols = [...grid.children];
 
-    const ease = v => v * v * (3 - 2 * v);
-    const seg = (p, from, len) => ease(Math.min(1, Math.max(0, (p - from) / len)));
-    let top = 0, anim = 1, trackH = 1, vh = innerHeight;
-    const measure = () => {
-      vh = innerHeight;
-      top = track.getBoundingClientRect().top + scrollY;
-      trackH = track.offsetHeight;
-      anim = Math.max(1, trackH - 2 * vh);     /* the last screen of the pin belongs to the next section sliding over */
-    };
-    measure();
-    addEventListener('resize', measure);
-    addEventListener('load', measure);
-    new ResizeObserver(measure).observe(document.body);
+    const REVIEWS = [
+      { av: 'assets/people/p01.jpg', name: 'Sebastian Speier', at: 'Shop',
+        text: 'The projects are the part that stuck. I walked into interviews with something I had actually built and could talk about line by line.' },
+      { av: 'assets/people/p02.jpg', name: 'Meng To', at: 'DesignCode',
+        text: 'Coming from a non-tech degree I expected to be lost. The fundamentals track meant I never had to fake understanding something.' },
+      { av: 'assets/people/p03.jpg', name: 'Marco Cornacchia', at: 'Figma',
+        text: 'My mentor reviewed every submission properly. Not a rubber stamp -- actual comments on why a decision was wrong.' },
+      { av: 'assets/people/p04.jpg', name: 'Taha Hossain', at: 'Daybreak',
+        text: 'I was working full time. Sessions were recorded and the doubt support was quick enough that I never fell a week behind.' },
+      { av: 'assets/people/p05.jpg', name: 'Haerin Song', at: 'Visa',
+        text: 'The interview prep was the difference. Mock rounds with people who actually hire, and blunt feedback afterwards.' },
+      { av: 'assets/people/p06.jpg', name: 'John Bai', at: 'Plaid',
+        text: 'Six months in I had a portfolio that looked like a junior engineer’s, not a student’s. That is what got the first callback.' },
+      { av: 'assets/people/p07.jpg', name: 'Josiah Gulden', at: 'Compound Labs',
+        text: 'What I did not expect was the peer group. Being around people grinding the same problems kept me honest on the slow weeks.' },
+      { av: 'assets/people/p08.jpg', name: 'Rachel How', at: 'Stripe',
+        text: 'The curriculum tracked what companies were actually asking. Nothing felt like filler by the time I reached the interviews.' },
+      { av: 'assets/people/p09.jpg', name: 'Oykun Yilmaz', at: 'Jotform',
+        text: 'I switched from support to engineering at 27. It took longer than the brochure says, but the path was never unclear.' },
+    ];
 
-    const last = {};
-    const set = (el, k, v) => { const key = k + (el === sec ? '' : cols.indexOf(el)); if (last[key] !== v) { last[key] = v; el.style.setProperty(k, v); } };
-    const render = p => {
-      const a = seg(p, .06, .40), q = seg(p, .06, .36);
-      set(sec, '--a', a.toFixed(3));
-      set(sec, '--q', q.toFixed(3));
-      /* subline ink: black on white → soft white on navy */
-      set(sec, '--ctx-ink', [0 + 222 * a, 0 + 228 * a, 0 + 240 * a].map(Math.round).join(','));
-      cols.forEach((c, i) => {
-        const r = seg(p, .08 + COLS[i][2], .48);   /* cards rise while the portraits are still leaving */
-        set(c, '--r', r.toFixed(3));
-        c.classList.toggle('is-on', r > .95);
-      });
-    };
-    if (RM) { render(1); return; }                       /* reduced motion: just the finished dark screen */
-    const tick = () => {
-      requestAnimationFrame(tick);
-      const y = scrollY;
-      if (y + vh < top - vh || y > top + trackH) return;   /* off-screen */
-      render(Math.min(1, Math.max(0, (y - top) / anim)));
-    };
-    render(0);
-    requestAnimationFrame(tick);
-    window.NW = Object.assign(window.NW || {}, { ctxRender: render });
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    const shot = p =>
+      `<figure class="ctv-shot"><img src="${p.img}" alt="" loading="lazy">` +
+      `<figcaption><span><b>${esc(p.name)}</b>${esc(p.role)}</span>` +
+      `<b class="ctv-pkg">${esc(p.pkg)}</b></figcaption></figure>`;
+
+    const note = r =>
+      `<article class="ctv-note"><div class="ctv-note-by">` +
+      `<img src="${r.av}" alt="" loading="lazy">` +
+      `<div><b>${esc(r.name)}</b><span>${esc(r.at)}</span></div></div>` +
+      `<p>${esc(r.text)}</p></article>`;
+
+    /* the portrait column: the list twice over, so translating one copy loops */
+    const track = sec.querySelector('.ctv-people-track');
+    track.innerHTML = PEOPLE.map(shot).join('') + PEOPLE.map(shot).join('');
+
+    /* the review wall: deal the reviews into columns, alternate direction and
+       vary the speed so the columns never line up into a visible block */
+    const wall = sec.querySelector('.ctv-wall');
+    const COLS = 3, DUR = [54, 66, 48];
+    wall.innerHTML = Array.from({ length: COLS }, (_, c) => {
+      const mine = REVIEWS.filter((_, i) => i % COLS === c);
+      const html = mine.map(note).join('');
+      return `<div class="ctv-col${c % 2 ? ' ctv-col--down' : ''}" style="--dur:${DUR[c]}s">${html}${html}</div>`;
+    }).join('');
   })();
 
   /* =================================================================
