@@ -1,0 +1,102 @@
+/* S3b — Masterclasses from Mentors (merged from masterclass-mentors/; scoped to .mc).
+   Tokens mirror the career build (localhost:5182): section-2+ headings, --m side margin, --sec rhythm, S4 logo ticker. */
+.mc{
+  --title-grad:linear-gradient(97.9deg,#000 17.74%,#0b1e40 31.64%,#2563eb 67.14%); /* build: Figma 747:244 section heading */
+  --font:"InterVariable","Inter",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --ink:#0b1e40;
+  --text:#1e293b;
+  --mute:#5f6168;
+  --line:#e2e8f0;
+  --blue:#2563eb;
+  --blue-ink:#1d4ed8;
+  --chip:#eef4ff;
+  --m:120px;           /* side margin (build: 120 / 48 / 20) */
+  --sec:80px;          /* section rhythm (build --sec) */
+  --gap:16px;
+  --r:16px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+:where(.mc) ul{list-style:none;margin:0;padding:0}
+:where(.mc) :is(h2,h3,p){margin:0}
+.mc{padding-bottom:var(--sec);background:#fff;color:var(--text);font-family:var(--font)}
+
+/* ---------- Head (Figma 778:1123) ---------- */
+.mc__head{max-width:1200px;margin:0 auto;padding:var(--sec) 0 0;display:flex;align-items:center;justify-content:space-between;gap:32px}
+@media (max-width:1439px){.mc__head{margin:0 var(--m)}}
+/* build .companies-title */
+.mc__title{font-family:Outfit,sans-serif;font-weight:600;font-size:48px;line-height:1.1;letter-spacing:-.01em;padding-bottom:.08em;
+  background:var(--title-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mc__aff{display:flex;align-items:center;gap:28px;flex:none}
+.mc__aff img{display:block;height:auto}
+.mc__aff li:nth-child(1) img{width:84px}
+.mc__aff li:nth-child(2) img{width:76px}
+.mc__aff li:nth-child(3) img{width:79px}
+.mc__aff li:nth-child(4) img{width:101px}
+.mc__video:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}
+
+/* ---------- Logo ticker (build S4, same sizing / spacing / drift) ---------- */
+.mc-ticker{display:flex;flex-direction:column;gap:clamp(28px,3vw,44px);overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%)}
+.mc-ticker-row{display:flex;width:max-content;animation:mcTickL var(--tick-dur,60s) linear infinite}
+.mc-ticker-row.to-right{animation-name:mcTickR}
+.mc-ticker-set{display:flex;align-items:center;gap:clamp(48px,6vw,96px);padding-right:clamp(48px,6vw,96px)}
+.mc-ticker-set li{flex:none;display:flex;align-items:center;height:clamp(16px,1.72vw,24px)}   /* build size −18% */
+.mc-ticker-set img{height:100%;width:auto;max-width:clamp(52px,5.9vw,86px);object-fit:contain;display:block}
+@keyframes mcTickL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes mcTickR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.mc > .mc-ticker{margin-top:var(--sec)}
+
+/* ---------- Video + mentor cards: 592x400 | 2x(288x192), 16px gaps ---------- */
+.mc__body{max-width:calc(1200px + var(--m) * 2);margin:0 auto;padding:56px var(--m) 0}
+.mc__grid{display:grid;grid-template-columns:592fr 288fr 288fr;gap:var(--gap)}
+
+.mc__video{position:relative;grid-row:span 2;border:0;padding:0;margin:0;cursor:pointer;
+  border-radius:var(--r);overflow:hidden;background:#111;isolation:isolate}
+.mc__video img,.mc__video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.mc__video img{object-fit:cover;object-position:50% 50%}  /* play badge is part of the thumbnail, centred */
+.mc__video.is-playing{cursor:default}
+
+/* Mentor card (Figma 778:1625): avatar + name, then role / education with line icons */
+.mentor{display:flex;flex-direction:column;gap:16px;aspect-ratio:288/192;padding:16px;background:#f8f9ff;border-radius:var(--r);overflow:hidden;color:#183b56}
+.mentor__top{display:flex;gap:10px;align-items:center}
+.mentor__avatar{flex:none;width:48px;height:48px;border-radius:50%;object-fit:cover;background:#e2e8f0}
+.mentor__name{font-family:Outfit,sans-serif;font-size:18px;line-height:1.3;font-weight:600;color:#183b56}
+.mentor__panel{display:flex;flex-direction:column;gap:8px}
+.mentor__row{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5}
+.mentor__row svg{flex:none;width:18px;height:18px;margin-top:2px;fill:none;stroke:#0f81e0;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* Logo rows fade up only after the five cards have finished growing in (set by script.js, one-way) */
+.mc > .mc-ticker .mc-ticker-row{opacity:0;translate:0 14px;transition:opacity .7s var(--ease),translate .8s var(--ease)}
+.mc > .mc-ticker.is-in .mc-ticker-row{opacity:1;translate:none}
+.mc > .mc-ticker .mc-ticker-row:nth-child(2){transition-delay:.1s}
+.mc > .mc-ticker .mc-ticker-row:nth-child(3){transition-delay:.2s}
+
+/* Head fades up once on load */
+.mc__title,.mc__aff li{animation:mc-in .9s var(--ease) both}
+.mc__aff li:nth-child(1){animation-delay:.08s}.mc__aff li:nth-child(2){animation-delay:.14s}
+.mc__aff li:nth-child(3){animation-delay:.2s}.mc__aff li:nth-child(4){animation-delay:.26s}
+@keyframes mc-in{from{opacity:0;translate:0 24px}}
+
+/* ---------- Responsive (build breakpoints) ---------- */
+@media (max-width:1199px){
+  .mc{--m:48px;--sec:64px}
+  .mc__title{font-size:36px}
+  .mc__head{flex-direction:column;align-items:flex-start}
+  .mc__grid{grid-template-columns:1fr 1fr}
+  .mc__video{grid-column:1 / -1;grid-row:auto;aspect-ratio:592/400}
+}
+@media (max-width:640px){
+  .mc{--m:20px;--sec:56px}
+  .mc__title{font-size:30px}
+  .mc__aff{gap:18px;flex-wrap:wrap}
+  .mc__aff li:nth-child(n) img{width:auto;height:20px}
+  .mc__body{padding-top:40px}
+  .mc__grid{grid-template-columns:1fr}
+  .mentor{aspect-ratio:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  .mc-ticker-row{animation:none}
+  .mc > .mc-ticker .mc-ticker-row{opacity:1;translate:none}
+  .mc__title,.mc__aff li{animation:none}
+}

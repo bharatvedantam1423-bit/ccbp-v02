@@ -1,0 +1,2351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NxtWave Programmes</title>
+<meta name="description" content="NxtWave programmes: Academy, Intensive and NIAT. Different starting points, same goal, a job in tech.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="vendor/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<!-- the opening-screen video's poster is the first thing anyone sees: fetch it before the scripts -->
+<link rel="preload" as="image" href="assets/hero-intro.jpg" fetchpriority="high">
+<link rel="stylesheet" href="vendor/fonts.css">
+<!-- career sections (merged from career-site): styles scoped to .cs -->
+<link rel="stylesheet" href="career/style.css">
+<link rel="stylesheet" href="career/media-footer.css">
+<link rel="stylesheet" href="career/masterclass.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* =====================================================================
+   TOKENS
+   ===================================================================== */
+:root{
+  --font:"InterVariable","Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* one type system for every section below the hero (Figma CCBP-v02 659:483) */
+  --font-head:Outfit, sans-serif;                  /* section headings */
+  --font-sub:Geist, var(--font);                   /* section subheadings */
+  /* the heading fill (Figma 802:5314): black into navy into blue, left to right */
+  --head-grad:linear-gradient(94.96deg,#000 17.7%,#0b1e40 31.6%,#2563eb 67.1%);
+  --head-grad-dark:linear-gradient(193deg,#b9c3d6 12%,#ffffff 52%,#aeb9cd 115%);
+  --title-grad:var(--head-grad);                   /* the supplied build's name for the same fill */
+  --sec-y:clamp(56px,6.5vw,96px);                  /* vertical breathing room above/below a section */
+  --head-size:clamp(32px,3.9vw,56px);              /* section headings below the fold */
+  --page-bg:#ffffff;
+  --card-bg:#ffffff;
+  --ink:#1e293b;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --blue:#2563eb;
+  --blue-ink:#1d4ed8;
+  --border:#cbd5e1;
+  --radius-card:24px;
+  --radius-banner:18px;
+  --card-w:388px;
+  --ease:cubic-bezier(.2,.9,.25,1);
+  --dur:.28s;
+}
+*,*::before,*::after{box-sizing:border-box}
+/* the logo ticker goes full-bleed with 100vw, which counts the scrollbar — clip on the root as
+   well as the body, or the page scrolls sideways by the scrollbar's width. `clip` (not `hidden`)
+   so the pinned hero and mentors stages keep working. */
+html,body{margin:0;overflow-x:clip}
+body{background:var(--page-bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:clip}
+p,h1,h2,h3{margin:0}
+a{color:inherit;text-decoration:none}
+
+/* =====================================================================
+   SECTION TYPE — every section below the hero shares one heading and one
+   subheading style. Headings: Outfit 600 with the Figma gradient fill.
+   Subheadings: Geist. The hero (.hx) is deliberately left out of this.
+   ===================================================================== */
+.prog-title,.record-title,.mw-title,.companies-title,.inv-title,.mc .mc__title,
+.ctx-title > span,.cs .wl__title,.cs .ht__title,.cs .fm__title,.cs .cta__title{
+  font-family:var(--font-head);font-weight:600;
+  line-height:.98;letter-spacing:-.01em;font-variation-settings:normal;
+  background-image:var(--head-grad);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  padding-bottom:.08em;text-wrap:balance;
+  width:fit-content;max-width:100%;   /* the fill runs across the words, not the whole column */
+}
+/* same fill, inverted for the headings that sit on dark panels */
+.ctx-title > .ctx-t-d,.cs .cta__title{background-image:var(--head-grad-dark)}
+
+.prog-sub,.mw-sub,.companies-sub,.inv-sub,
+.ctx-sub,.cs .wl__sub,.cs .ht__sub,.cs .cta__sub{
+  font-family:var(--font-sub);font-weight:400;line-height:1.5;letter-spacing:normal;
+}
+/* the sections below the awards share one heading size */
+.companies-title,.inv-title,.mc .mc__title,.cs .wl__title,.cs .ht__title,.cs .fm__title{font-size:var(--head-size);line-height:1.12}
+/* card-level heading/body inside a section follow the same two families */
+.cs .wl__h{font-family:var(--font-head);font-weight:600;letter-spacing:-.01em}
+.cs .wl__p{font-family:var(--font-sub);font-weight:400;letter-spacing:normal}
+
+/* =====================================================================
+   S1 — HERO (supplied scroll-scrubbed video hero; styles namespaced hx-)
+   ===================================================================== */
+.hx{--hx-bg:#050d24;--hx-ink:#fff;--hx-ink-2:rgba(255,255,255,.72);--hx-accent:#4a9bff;--hx-line:rgba(255,255,255,.28);--hx-glass:rgba(20,32,64,.55);--hx-shift:14vw;
+  --hx-pad:clamp(20px,5.56vw,80px);   /* side margin for nav, headline and beats (not the film): 80px at 1440, per Figma */
+  position:relative;height:1300vh;background:var(--hx-bg);color:var(--hx-ink);font-family:var(--font);letter-spacing:normal;font-variation-settings:normal}
+.hx *{margin:0;padding:0}
+.hx-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden}
+/* the story film only (#hx-vid) — not the opening screen's own video */
+.hx-stage #hx-vid,.hx-stage .hx-frames{position:absolute;top:0;height:100%;left:calc(var(--hx-shift) * var(--hx-sk,1));width:100%;object-fit:cover;pointer-events:none;
+  transform:scale(var(--hx-zoom,1));transform-origin:62% 55%;will-change:transform;backface-visibility:hidden}
+.hx-stage .hx-frames{display:block;opacity:0}
+.hx.has-frames .hx-frames{opacity:1}
+.hx.has-frames #hx-vid{visibility:hidden}
+/* feathers the video's left edge into the page colour (an overlay, not a mask: masks re-composite every frame) */
+.hx-feather{position:absolute;top:0;bottom:0;left:calc(var(--hx-shift) * var(--hx-sk,1));width:100%;pointer-events:none;
+  transform:scale(var(--hx-zoom,1));transform-origin:62% 55%;will-change:transform;   /* moves exactly with the video */
+  background:linear-gradient(90deg,var(--hx-bg) 0,rgba(5,13,36,.6) 8%,rgba(5,13,36,0) 18%)}
+/* cinematic hand-off: the frame darkens and lifts into light as Section 2 rises over it */
+.hx-dim{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:var(--hx-end,0);
+  background:radial-gradient(120% 90% at 55% 40%,rgba(5,13,36,.35),rgba(5,13,36,.92) 72%),linear-gradient(0deg,rgba(147,197,253,.22),transparent 35%)}
+.hx-stage::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:var(--hx-scrim,1);
+  background:linear-gradient(90deg,rgba(3,8,24,.92) 0%,rgba(3,8,24,.7) 28%,rgba(3,8,24,.25) 50%,rgba(3,8,24,0) 65%),
+             linear-gradient(0deg,rgba(3,8,24,.85) 0%,rgba(3,8,24,.4) 18%,rgba(3,8,24,0) 35%)}
+
+/* nav lives inside the pinned stage: visible through the hero, gone after it */
+.hx-nav{position:absolute;inset:0 0 auto 0;z-index:10;display:flex;align-items:center;justify-content:space-between;
+  height:60px;margin-top:clamp(16px,4.4vh,40px)!important;padding:0 var(--hx-pad)!important}
+.hx-logo{display:block;line-height:0}
+.hx-logo img{display:block;width:clamp(72px,6.67vw,96px);height:auto}
+.hx-nav ul{display:flex;gap:12px;align-items:center;list-style:none}
+.hx-nav a{color:var(--hx-ink);text-decoration:none;font:600 16px/24px var(--font);white-space:nowrap;transition:opacity .2s}
+.hx-nav a:hover{opacity:.75}
+/* nav buttons (Figma 761:441): a near-clear glass pill with a hairline border */
+.hx-nav .hx-pill{display:inline-block;padding:10px 18px!important;border-radius:6px;
+  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.15);
+  font:600 12px/normal Geist,var(--font);text-transform:uppercase;letter-spacing:normal;
+  transition:background .2s,border-color .2s}
+.hx-nav .hx-pill:hover{opacity:1;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3)}
+.hx-login{display:inline-flex;align-items:center;gap:4px;margin-left:12px!important}
+.hx-login svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.125;stroke-linecap:round;stroke-linejoin:round}
+
+.hx-beat{position:absolute;z-index:2;left:var(--hx-pad);top:50%;max-width:min(600px,44vw);opacity:0;transform:translateY(calc(-50% + var(--y,24px)));pointer-events:none}
+.hx-beat.on{pointer-events:auto}
+.hx-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.14em;color:var(--hx-accent)}
+.hx-eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.hx-beat h2{margin-top:18px!important;font-family:Outfit,sans-serif;font-weight:400;font-size:clamp(30px,3.2vw,48px);line-height:1.1;letter-spacing:-.01em;font-variation-settings:normal}
+.hx-beat h2 span{color:var(--hx-accent)}
+.hx-beat p{margin-top:18px!important;font-size:15px;line-height:1.6;color:var(--hx-ink-2);max-width:400px}
+.hx-cta{display:inline-block;margin-top:28px!important;padding:13px 22px!important;border-radius:8px;background:var(--hx-accent);color:#fff;text-decoration:none;font-size:14px;font-weight:500;transition:background .25s}
+.hx-cta:hover{background:#2f86ff}
+
+/* ---- opening screen (Figma CCBP-v02 761:311) ---------------------------------------------
+   A photo, a left-to-right shade and a frosted lower half, over a blurred blue glow that is
+   what shows while the photo is still arriving. It sits above the film and dissolves with the
+   headline (--hx-copy), so the first screen never depends on the video having loaded. */
+.hx-intro{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;opacity:var(--hx-copy,1);
+  background:url("assets/hero-intro-glow.jpg") center/cover,linear-gradient(269deg,#000 41.3%,#12336e 145.5%)}
+.hx-intro.is-off{visibility:hidden}          /* gone once scrolled past: no frosted layer to composite */
+/* the still sits behind the video too: if the browser drops a paused video's frame, the still
+   shows instead of an empty screen (a video that has played no longer falls back to its poster) */
+.hx-intro-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 30%;display:block;
+  background:url("assets/hero-intro.jpg") 52% 30%/cover no-repeat}
+.hx-intro-shade{position:absolute;inset:0;background:linear-gradient(72.75deg,#040e1c 14.5%,rgba(12,28,52,0) 59.4%)}
+/* progressive blur over the lower half: sharp at the top, fully frosted (Figma's 50px) at the
+   bottom. Seven stacked layers, each blurring twice as hard as the one above and faded in over
+   its own overlapping band, so the blur grows smoothly instead of switching on at one line.
+   The wrapper must stay free of opacity/filter/mask: any of those would cut the layers off from
+   the photo they are blurring. */
+.hx-intro-blur{position:absolute;left:0;right:0;bottom:0;height:55%;
+  background:linear-gradient(0deg,rgba(0,0,0,.04),rgba(0,0,0,0))}
+.hx-intro-blur i{position:absolute;inset:0;-webkit-backdrop-filter:blur(var(--b));backdrop-filter:blur(var(--b));
+  -webkit-mask-image:var(--m);mask-image:var(--m)}
+.hx-intro-blur i:nth-child(1){--b:.5px;--m:linear-gradient(180deg,transparent 0%,#000 15%,#000 30%,transparent 40%)}
+.hx-intro-blur i:nth-child(2){--b:1px; --m:linear-gradient(180deg,transparent 15%,#000 30%,#000 45%,transparent 55%)}
+.hx-intro-blur i:nth-child(3){--b:2px; --m:linear-gradient(180deg,transparent 30%,#000 45%,#000 58%,transparent 68%)}
+.hx-intro-blur i:nth-child(4){--b:4px; --m:linear-gradient(180deg,transparent 45%,#000 58%,#000 70%,transparent 80%)}
+.hx-intro-blur i:nth-child(5){--b:8px; --m:linear-gradient(180deg,transparent 58%,#000 70%,#000 82%,transparent 90%)}
+.hx-intro-blur i:nth-child(6){--b:20px;--m:linear-gradient(180deg,transparent 70%,#000 82%,#000 100%)}
+.hx-intro-blur i:nth-child(7){--b:50px;--m:linear-gradient(180deg,transparent 82%,#000 100%)}
+
+.hx-copy{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:var(--hx-copy,1);transform:translateY(calc((1 - var(--hx-copy,1)) * -40px))}
+.hx-copy > *{pointer-events:auto}
+.hx-intro-copy{position:absolute;left:var(--hx-pad);right:var(--hx-pad);bottom:clamp(40px,9.4vh,85px);
+  display:flex;flex-direction:column;align-items:flex-start;gap:clamp(24px,4.4vh,40px)}
+/* 68px on desktop; eases down on smaller or shorter windows */
+.hx-headline{font-family:Outfit,sans-serif;font-weight:500;font-size:clamp(40px,min(4.72vw,9.5vh),68px);line-height:1.2;
+  letter-spacing:normal;font-variation-settings:normal;color:#fff}
+.hx-headline span{color:#82bdff}
+.hx-intro-row{display:flex;align-items:center;flex-wrap:wrap;gap:24px 66px}
+.hx-stats{display:flex;align-items:center;gap:32px}
+.hx-stat{display:flex;flex-direction:column;gap:2px;white-space:nowrap}
+.hx-stat b{font-family:Outfit,sans-serif;font-weight:600;font-size:clamp(30px,min(2.78vw,5vh),40px);line-height:1.4;color:#fff}
+.hx-stat span{font:500 14px/normal var(--font);color:#ececed}
+.hx-divider{width:1px;height:40px;background:rgba(255,255,255,.56)}
+/* scroll cue: just the animated icon — no pill, no label — centred, level with the stats row */
+.hx-scroll{position:absolute;left:50%;bottom:calc(clamp(40px,9.4vh,85px) + 2px);translate:-50% 0;
+  display:block;padding:0!important;border:0;background:none;cursor:pointer;color:#fff;
+  opacity:.9;transition:opacity .2s,translate .3s var(--ease)}
+.hx-scroll:hover{opacity:1;translate:-50% 3px}
+.hx-scroll:focus-visible{outline:2px solid rgba(255,255,255,.7);outline-offset:6px;border-radius:8px}
+/* the Lottie mouse-and-chevrons (51×130) at 72px tall */
+.hx-scroll-ic{display:grid;place-items:center;width:28px;height:72px}
+.hx-scroll-ic:not(.is-lottie) svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;animation:hxDrop 1.8s ease-in-out infinite}
+@keyframes hxDrop{0%,100%{translate:0 -1px}50%{translate:0 3px}}
+.hx-scroll-ic.is-lottie{display:block}
+.hx-scroll-ic.is-lottie svg{display:block}
+
+@media (max-width:860px){
+  .hx{--hx-shift:0px}
+  .hx-feather{display:none}
+  .hx-nav{height:52px;margin-top:16px!important}
+  .hx-nav li:not(:last-child){display:none}   /* phones: logo + Login, as before */
+  .hx-intro-photo{object-position:56% 20%}
+  .hx-intro-copy{bottom:144px}   /* stats sit above the button row */
+  .hx-scroll{bottom:56px}         /* centred below the stats, clear of the Design notes switch */
+  .hx-headline{font-size:clamp(24px,7vw,52px);line-height:1.25}   /* each sentence holds one line, as in the design */
+  .hx-stats{gap:20px}
+  .hx-beat{left:16px;right:16px;top:auto;bottom:48px;transform:translateY(var(--y,24px))}
+}
+@media (prefers-reduced-motion:reduce){ .hx-copy{transform:none} .hx-scroll-ic:not(.is-lottie) svg{animation:none} }
+
+/* hero: cursor-lit dot grid (desktop only) — sits over the video/scrim, under the copy */
+.hx.intro-up .hx-grid{-webkit-mask-image:none;mask-image:none}   /* opening screen: the grid spans the whole frame */
+.hx-grid{position:absolute;inset:0;z-index:2;width:100%;height:100%;pointer-events:none;display:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 0,#000 38%,rgba(0,0,0,.3) 72%,rgba(0,0,0,.15) 100%);
+          mask-image:linear-gradient(90deg,#000 0,#000 38%,rgba(0,0,0,.3) 72%,rgba(0,0,0,.15) 100%)}
+.hx.has-fx .hx-grid{display:block}
+/* hero: "Scroll down" cursor */
+.hx.has-fx .hx-stage.cur-on,.hx.has-fx .hx-stage.cur-on *{cursor:none}
+.hx.has-fx .hx-stage.cur-on a,.hx.has-fx .hx-stage.cur-on button{cursor:pointer}
+.hx-cursor{position:fixed;left:0;top:0;z-index:60;pointer-events:none;display:flex;align-items:center;gap:8px;
+  padding:6px 14px 6px 6px;border-radius:999px;background:rgba(8,16,40,.55);border:1px solid rgba(255,255,255,.18);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;font:500 12px/1 var(--font,Inter,sans-serif);letter-spacing:.02em;white-space:nowrap;
+  opacity:0;transform:translate3d(-100px,-100px,0) scale(.6);transition:opacity .25s ease;will-change:transform,opacity}
+.hx-cursor.on{opacity:1}
+.hx-cursor svg{width:26px;height:26px;flex:none;transform:rotate(-90deg)}
+.hx-cursor .trk{fill:none;stroke:rgba(255,255,255,.18);stroke-width:2}
+.hx-cursor .bar{fill:none;stroke:#4a9bff;stroke-width:2;stroke-linecap:round;stroke-dasharray:62.83;stroke-dashoffset:62.83}
+.hx-cursor .arw{fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transform-origin:13px 13px;transform:rotate(90deg);animation:hxNudge 1.6s ease-in-out infinite}
+@keyframes hxNudge{0%,100%{translate:0 0}50%{translate:-2px 0}}
+
+
+/* =====================================================================
+   S2 — PROGRAMMES (rises over the pinned hero frame)
+   ===================================================================== */
+.programmes{position:relative;z-index:2;margin-top:-100vh;   /* rises over the full pinned hero frame */
+  background:#fff;
+  box-shadow:0 -48px 96px -24px rgba(2,6,23,.55);
+  min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(48px,6vw,72px);
+  padding:clamp(76px,9vh,104px) 24px clamp(64px,8vh,96px)}
+.prog-inner{position:relative;z-index:2;width:100%;   /* above "Recognised by", so an expanded card covers it */max-width:1204px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:inherit}
+/* backdrop: fanned light lines, positioned from the card row by script */
+.prog-rays{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:none}
+.programmes.has-rays .prog-rays{display:block}
+.programmes::before{content:"";position:absolute;top:0;right:0;width:59.3%;height:40px;background:#050d24;clip-path:polygon(0 0,100% 0,100% 100%,2.8% 100%)}
+
+.prog-head{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;max-width:1000px;margin:0 auto}
+.prog-title{font-size:clamp(34px,4.2vw,60px)}
+.prog-sub{font-size:clamp(16px,1.4vw,20px);color:#334155}
+
+@media (max-width:860px){ .programmes::before{height:24px;width:70%} .programmes{gap:48px} }
+
+/* =====================================================================
+   PROGRAMME CARDS
+   ===================================================================== */
+/* always one row: cards shrink to fit, then scroll sideways on small screens */
+.grid{
+  --gap:24px;
+  display:flex;flex-wrap:nowrap;align-items:flex-start;gap:var(--gap);justify-content:center;width:100%;
+}
+
+/* slot keeps rest-state footprint; card overflows it on hover */
+.slot{
+  position:relative;flex:0 0 auto;
+  width:clamp(300px, calc((100vw - 48px - 2 * var(--gap)) / 3), var(--card-w));
+  height:var(--rest-h, 400px);
+  perspective:1100px;
+  container-type:inline-size;
+}
+.slot:hover,.slot:focus-within{z-index:5}
+
+.card{
+  --banner-rest:min(170px, 44cqw);   /* the image keeps this height at rest and on hover */
+  --rx:0deg;--ry:0deg;--mx:50%;--my:50%;--s:1;
+  position:absolute;inset:0 0 auto 0;transform-origin:50% 0;
+  background:var(--card-bg);border-radius:var(--radius-card);padding:6px;
+  transform-style:preserve-3d;
+  transform:rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--s));
+  transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease);
+  box-shadow:
+    0 0 0 1px var(--ring, rgba(15,23,42,.04)),
+    0 1px 2px rgba(15,23,42,.04),
+    0 12px 32px -12px rgba(15,23,42,.12);
+  will-change:transform;outline:none;
+}
+.card.is-active{
+  --s:1.04;
+  transition:transform .08s linear,box-shadow var(--dur) var(--ease);
+  box-shadow:
+    0 0 0 1px var(--ring, rgba(15,23,42,.04)),
+    0 2px 4px rgba(15,23,42,.04),
+    0 30px 60px -20px rgba(15,23,42,.22),
+    0 18px 36px -18px rgba(37,99,235,.18);
+}
+.card.is-leaving{transition:transform .35s var(--ease),box-shadow var(--dur) var(--ease)}
+
+/* banner: one fixed size in every state */
+.banner{
+  position:relative;border-radius:var(--radius-banner);overflow:hidden;
+  height:var(--banner-rest);background:#dde7fb;
+  transform:translateZ(10px);
+}
+.banner img{
+  display:block;width:100%;height:100%;object-fit:cover;object-position:32% 40%;
+  transform-origin:12% 40%;  /* zoom anchors near the logo so it never clips */
+  transition:transform .35s var(--ease),object-position var(--dur) var(--ease);
+  transform:scale(1.001);
+}
+/* image drifts against the cursor, zooms and counter-rotates for a live, parallax feel */
+.card.is-active .banner img{
+  transition:transform .12s linear,object-position var(--dur) var(--ease);
+  transform:scale(1.1) translate(var(--ix,0px),var(--iy,0px)) rotate(var(--ir,0deg));
+}
+
+/* white content sheet: overlaps the banner's foot with a straight, square edge (no corner radius) */
+.sheet{
+  position:relative;z-index:1;margin-top:-18px;background:var(--card-bg);
+  border-radius:0;padding:18px 14px 14px;
+  transform:translateZ(24px);
+}
+
+/* collapsible rows */
+.reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--dur) var(--ease)}
+.card.is-open .reveal{grid-template-rows:1fr}
+.reveal > div{overflow:hidden;min-height:0}
+.reveal-inner{opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform var(--dur) var(--ease)}
+.card.is-open .reveal-inner{opacity:1;transform:none;transition-delay:.04s}
+/* the batch/seats row rises in from below, just after the description */
+.reveal-meta .reveal-inner{transform:translateY(14px)}
+.card.is-open .reveal-meta .reveal-inner{transition-delay:.1s}
+
+.meta{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin:14px 0 0!important;padding:14px 6px 2px;border-top:1px solid var(--line)}
+.label{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);line-height:18px}
+.date{font-size:15px;font-weight:600;line-height:22px;margin-top:2px;color:var(--ink)}
+.seats{display:flex;gap:8px;align-items:flex-start;flex:0 1 150px;min-width:0;font-size:13px;font-weight:500;line-height:19px;color:var(--ink)}
+.seats svg{flex:none;margin-top:1px}
+
+.title{font-size:clamp(17px,1.35vw,19px);font-weight:600;line-height:1.5;letter-spacing:-.01em;color:var(--ink);padding:4px 6px 0}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;padding:10px 6px 4px}
+.tag{font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;line-height:16px;padding:2px 8px;border-radius:6px}
+.tag.indigo{background:#e0e7ff;color:#4338ca}
+.tag.cyan{background:#cffafe;color:#0e7490}
+.tag.amber{background:#fef3c7;color:#b45309}
+.tag.green{background:#dcfce7;color:#15803d}
+
+.desc{font-size:14px;line-height:22px;color:var(--muted);padding:10px 6px 0}
+.ctas{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px 0 4px}
+
+.btn{height:46px;padding:0 16px;border-radius:12px;font:500 14px/20px var(--font);cursor:pointer;display:grid;place-items:center;white-space:nowrap;text-decoration:none;
+  transition:background-color .2s,box-shadow .2s,transform .2s var(--ease)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.btn-ghost{background:#fff;color:var(--blue-ink);border:1px solid var(--border);box-shadow:0 1px 1px rgba(0,0,0,.06)}
+.btn-ghost:hover{background:#f8fafc}
+.btn-primary{background:var(--blue);color:#fff;border:0;box-shadow:0 1px 0 rgba(0,0,0,.08),0 -1px 0 rgba(0,0,0,.2) inset}
+.btn-primary:hover{background:var(--blue-ink)}
+
+/* shine layers */
+.glare,.sheen{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:10;transform:translateZ(40px)}
+.glare{opacity:0;transition:opacity var(--dur) var(--ease);
+  background:radial-gradient(420px circle at var(--mx) var(--my),rgba(255,255,255,.55),rgba(255,255,255,.12) 35%,transparent 60%);
+  mix-blend-mode:soft-light}
+.card.is-active .glare{opacity:1}
+.sheen{overflow:hidden}
+.sheen::before{content:"";position:absolute;top:-50%;left:-60%;width:45%;height:200%;
+  background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,0) 20%,rgba(255,255,255,.55) 50%,rgba(255,255,255,0) 80%,transparent 100%);
+  transform:rotate(18deg) translateX(0);opacity:0}
+.card.is-sweeping .sheen::before{animation:sweep .7s var(--ease) forwards}
+@keyframes sweep{
+  0%{opacity:0;transform:rotate(18deg) translateX(0)}
+  12%{opacity:1}
+  100%{opacity:0;transform:rotate(18deg) translateX(420%)}
+}
+
+/* touch / no-hover: show expanded state */
+@media (hover:none){
+  .slot{height:auto}
+  .card{position:relative;inset:auto;translate:none}
+  .card .reveal{grid-template-rows:1fr}
+  .card .reveal-inner{opacity:1;transform:none}
+}
+
+@media (max-width:1060px){
+  .grid{
+    justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:40px 24px 140px;margin:-40px -24px -140px;width:calc(100% + 48px);scrollbar-width:none;
+  }
+  .grid::-webkit-scrollbar{display:none}
+  .slot{scroll-snap-align:center}
+}
+
+/* =====================================================================
+   S3 — AWARDS & RECOGNITIONS (Figma CCBP-v02 802:5108)
+   A wall of awards on film that plays with the scroll, then three photo cards
+   with captions.
+   ===================================================================== */
+/* opaque and above Programmes, whose upward shadow otherwise spills ~24px onto this heading as a grey band */
+.record{position:relative;z-index:3;background:#fff;padding:clamp(16px,2vw,32px) clamp(12px,2.3vw,33px) 0}
+.aw-inner{max-width:1375px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:20px}
+.record-title{font-size:clamp(34px,3.89vw,56px);line-height:1.2}
+.aw-wall{position:relative;width:min(100%,1337px);aspect-ratio:1337/520;border-radius:clamp(20px,2.65vw,38px);overflow:hidden;
+  background:linear-gradient(179.3deg,#000 7.1%,#0b1e40 71.2%,#2563eb 117.3%);isolation:isolate}
+.aw-wall > img:not(.aw-notch),.aw-wall video,.aw-wall canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+/* the film sits low in the panel so its headline clears the notch (the canvas uses the same anchor) */
+.aw-wall > img:not(.aw-notch),.aw-wall video{object-position:50% 15%}
+.aw-wall video{opacity:0;transition:opacity .3s}
+.aw-wall.has-video video{opacity:1}
+.aw-wall canvas{opacity:0;transition:opacity .3s}
+.aw-wall.frames canvas{opacity:1}
+.aw-wall.frames video{visibility:hidden}
+/* the white tab cut into the top edge (Figma 802:5325: the recognition notch, flipped) */
+.aw-notch{position:absolute;left:50%;top:-1px;z-index:2;width:62.9%;height:clamp(16px,2.5vw,36px);translate:-50% 0;transform:scaleY(-1);display:block}
+.aw-cards{list-style:none;margin:20px 0 0;padding:0;width:min(100%,1200px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.7vw,32px)}
+.aw-cards li{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.aw-cards img{width:100%;aspect-ratio:378/174.6;object-fit:cover;border-radius:16px;display:block;background:#eef2f9}
+.aw-cards p{margin:0;font:500 clamp(14px,1.11vw,16px)/1.5 "Inter Display","InterVariable","Inter",sans-serif;color:#818181;max-width:380px}
+.aw-cards b{font-weight:600;color:#0f0f0f}
+@media (max-width:760px){ .aw-cards{grid-template-columns:1fr;max-width:420px} }
+
+/* =====================================================================
+   S2b — RECOGNISED BY (from the supplied build): under the programme cards
+   ===================================================================== */
+/* extra top margin: a hovered card grows ~170px (description + batch row + 4% lift), so the row sits
+   clear of it rather than under it */
+.recog{position:relative;z-index:1;width:100%;max-width:1204px;display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center;
+  margin-top:clamp(80px,9vw,140px)}
+@media (hover:none){ .recog{margin-top:0} }   /* touch: cards are already shown open, nothing expands */
+.recog-title{margin:0;font:600 clamp(13px,1.1vw,16px)/1.2 var(--font);letter-spacing:.06em;text-transform:uppercase;color:#173559}
+.recog picture,.recog img{display:block;width:min(100%,960px);height:auto}
+@media (max-width:640px){ .recog picture,.recog img{width:min(100%,360px)} }
+
+/* =====================================================================
+   S3b — 3,000+ COMPANIES (from the supplied build): five lines of logos
+   drifting in alternate directions, edges fading into the page
+   ===================================================================== */
+.companies{background:#fefffe;padding:var(--sec-y) clamp(16px,4vw,57px) clamp(24px,3vw,48px)}   /* mentors below brings its own top room */
+.companies-inner{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:clamp(36px,3.7vw,53px)}
+.companies-head{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.companies-sub{margin:0;font-size:clamp(15px,1.2vw,17px);color:#000101}
+.ticker{width:100vw;margin-inline:calc(50% - 50vw);display:flex;flex-direction:column;gap:clamp(28px,3vw,44px);overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%)}
+.ticker-row{display:flex;width:max-content;animation:tickL var(--tick-dur,60s) linear infinite}
+.ticker-row.to-right{animation-name:tickR}
+.ticker-set{display:flex;align-items:center;gap:clamp(48px,6vw,96px);padding-right:clamp(48px,6vw,96px);list-style:none;margin:0}
+.ticker-set li{flex:none;display:flex;align-items:center;height:clamp(20px,2.1vw,29px)}
+.ticker-set img{height:100%;width:auto;max-width:clamp(63px,7.2vw,105px);object-fit:contain;display:block}
+@keyframes tickL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tickR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){ .ticker-row{animation:none} }
+
+/* =====================================================================
+   S7b — BACKED BY LEADING GLOBAL INVESTORS (from the supplied build)
+   ===================================================================== */
+.cs .inv{background:#fff;padding:var(--sec-y) 24px 0;display:flex;flex-direction:column;align-items:center;gap:clamp(40px,5vw,72px)}
+.inv-head{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;max-width:898px}
+.inv-sub{margin:0;font-size:clamp(15px,1.2vw,17px);color:#000101}
+.inv-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:40px 64px;list-style:none;margin:0;padding:0}
+.inv-row li{display:flex;align-items:center;gap:24px}
+.inv-row .lf{width:48.48px;height:149px;display:block}
+.inv-logo{display:flex;align-items:center;justify-content:center;transition:transform .45s var(--ease)}
+.inv-row li:hover .inv-logo{transform:scale(1.06)}
+.inv-logo img{display:block;height:auto}
+.inv-better{width:156px;height:64px;background:#000;border-radius:12.5px}
+.inv-better img{width:107px;border-radius:8.5px}
+.inv-gp img{width:259px;border-radius:12.5px}
+.inv-orios img{width:224px}
+@media (max-width:640px){ .inv-row{gap:24px} .inv-row li{zoom:.72} }
+
+/* Why Top Companies Prefer NxtWave Students: portrait cards sized ~5.4 across, capped at 280px wide
+   and kept inside the window height, so the section stays compact on big screens as well as small */
+.cs .ht{--cw:clamp(170px,min(calc((100vw - 2 * var(--m) - 4 * var(--gap)) / 5.4),calc((100svh - 380px) * .5625)),280px)}
+@media (max-width:640px){ .cs .ht{--cw:min(58vw,calc((100svh - 300px) * .5625))} }
+.cs .ht__head{margin-bottom:clamp(32px,4vw,56px)}
+.cs .ht__name{font-size:clamp(15px,1.15vw,18px)}
+.cs .ht__role{font-size:clamp(13px,.95vw,14px)}
+.inv-row li.reveal-up{transition-delay:calc(var(--i,0) * 90ms)}
+
+/* scroll reveal for both new sections */
+.reveal-up{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform 1s var(--ease)}
+.is-in .reveal-up,.reveal-up.is-in{opacity:1;transform:none}
+.aw-cards li.reveal-up{transition-delay:calc(var(--i,0) * 90ms)}
+@media (prefers-reduced-motion:reduce){ .reveal-up{opacity:1;transform:none;transition:none} }
+
+/* =====================================================================
+   S3 — MENTORS: scroll-scrubbed video ("Taught by people who have done the job")
+   ===================================================================== */
+.mentors{position:relative;background:#fff}
+.mw-track{position:relative;height:var(--mw-track,340vh)}
+/* heading + film pin together: the heading stays in view for the whole scrub, the film takes
+   the room left beneath it */
+.mw-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column;align-items:center;
+  padding-bottom:clamp(24px,6vh,64px)}   /* breathing room under the table */
+.mw-head{flex:none;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;
+  padding:clamp(40px,8vh,96px) 16px clamp(12px,2.6vh,28px);max-width:820px;margin:0 auto}
+.mw-title{font-size:clamp(34px,4.8vw,69px)}
+.mw-sub{font-size:clamp(15px,1.2vw,17px);color:#000101;max-width:640px}
+/* heading rises in as the section arrives */
+.mw-head > *{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .9s var(--ease)}
+.mw-head > * + *{transition-delay:.12s}
+.mentors.is-in .mw-head > *{opacity:1;transform:none}
+
+/* the film: whole frame, uncropped, sitting on the desk edge at the foot of the stage */
+.mw-screen{position:relative;flex:1 1 0;min-height:0;width:100%}
+.mw-screen video,.mw-screen canvas{position:absolute;inset:0;width:100%;height:100%;display:block;
+  /* fallback video: same thin feather as the canvas draws (sides + top) */
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%),linear-gradient(180deg,transparent 0,#000 6%);
+  -webkit-mask-composite:source-in;
+          mask-image:linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%),linear-gradient(180deg,transparent 0,#000 6%);
+          mask-composite:intersect}
+.mw-screen video{object-fit:contain;object-position:50% 100%}
+/* the film's backdrop is rgb(253,253,251); lift it to pure white so it melts into the white section */
+.mw-screen video,.mw-screen canvas{filter:brightness(1.016)}
+.mw-screen canvas{opacity:0;transition:opacity .2s;-webkit-mask-image:none;mask-image:none}
+.mw-screen.frames canvas{opacity:1}
+.mw-screen.frames video{visibility:hidden}
+
+@media (max-width:860px){
+  .mentors{--mw-track:240vh}
+  .mw-head{gap:12px}
+  /* on a phone the film is far wider than it is tall: heading + film sit together in the middle
+     of the screen rather than the film dropping to the bottom with a gap above it */
+  .mw-stage{justify-content:center}
+  .mw-screen{flex:none;height:calc(100vw * 728 / 1262)}
+}
+
+/* =====================================================================
+   S6 — CAREER TRANSFORMATIONS (Figma CCBP-v02 794:4806)
+   One pinned screen driven by scroll. The script sets:
+     --a  0→1  backdrop white→navy, heading rises and turns light
+     --q  0→1  portraits drift outward and fade
+     --r  0→1  per testimonial column: rises in from below
+   Positions are the design's (1920×1080 frame) as % of the stage.
+   ===================================================================== */
+.ctx{position:relative;background:#fff;--a:0;--q:0}
+.ctx-track{position:relative;height:400vh}      /* ~200vh of transition, a hold, then the next section rides over */
+.ctx-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;isolation:isolate}
+.ctx-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,#fff,#ececec)}
+.ctx-bg i{position:absolute;inset:0;background:#070726;opacity:var(--a)}
+
+/* portraits (white state) */
+.ctx-portraits{position:absolute;inset:0;z-index:1;pointer-events:none}
+.ctx-pc{position:absolute;left:calc(var(--x) * 1%);top:calc(var(--y) * 1%);width:calc(var(--w) * 1%);margin:0;
+  container-type:inline-size;opacity:calc(1 - var(--q));
+  transform:translate(calc(var(--dx) * var(--q) * 16vw),calc(var(--dy) * var(--q) * 14vh)) scale(calc(1 - var(--q) * .12));
+  will-change:transform,opacity}
+.ctx-pc > div{position:relative;aspect-ratio:389.38/229.54;border-radius:6.667cqw;overflow:hidden;
+  box-shadow:0 18px 40px -18px rgba(15,23,42,.35);animation:ctxFloat 7s ease-in-out infinite;animation-delay:var(--f)}
+.ctx-pc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ctx-pc > div::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(49.7deg,rgba(0,0,0,.69) 33.3%,rgba(0,0,0,.314) 47.3%,rgba(0,0,0,0) 56.7%)}
+.ctx-pc figcaption{position:absolute;left:0;right:0;bottom:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:3cqw;
+  padding:5.33cqw;color:#fff;font:600 max(10px,5cqw)/1.2 var(--font)}
+.ctx-pc figcaption span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctx-pc figcaption b{flex:none;font-weight:600;background:#188300;border-radius:999px;padding:1.33cqw 4cqw}
+@keyframes ctxFloat{0%,100%{translate:0 0}50%{translate:0 -10px}}
+
+/* heading block: centred on the white screen, rises ~19vh and turns light */
+.ctx-head{position:absolute;left:50%;top:50%;z-index:3;width:min(92%,900px);text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:20px;
+  transform:translate(-50%,calc(-50% + var(--a) * var(--ctx-rise,-19vh)))}
+.ctx-title{position:relative;font-size:clamp(36px,4.17vw,80px);margin:0}
+.ctx-title > span{display:block;white-space:nowrap}
+.ctx-t-l{opacity:calc(1 - var(--a))}
+.ctx-t-d{position:absolute;left:0;right:0;top:0;opacity:var(--a)}
+.ctx-sub{margin:0;font-size:clamp(16px,1.39vw,26.67px);color:rgb(var(--ctx-ink,0,0,0))}
+.ctx-btn{display:inline-block;padding:12px 32px;border-radius:12px;background:#2563eb;color:#fff;text-decoration:none;
+  font:600 14px/20px var(--font);box-shadow:0 1px 0 rgba(0,0,0,.08),0 -1px 0 rgba(0,0,0,.2) inset;transition:background .2s,transform .2s var(--ease)}
+.ctx-btn:hover{background:#1d4ed8;transform:translateY(-1px)}
+
+/* testimonial columns (dark state) */
+.ctx-grid{position:absolute;inset:0;z-index:2;pointer-events:none}
+.ctx-col{position:absolute;left:calc(var(--x) * 1%);top:calc(var(--y) * 1%);width:12.917%;
+  container-type:inline-size;display:flex;flex-direction:column;gap:7.26cqw;
+  transform:translateY(calc((1 - var(--r,0)) * 75vh));opacity:calc(var(--r,0) * 1.6);will-change:transform}
+.ctx-col.is-on{pointer-events:auto}
+.ctx-card{position:relative;height:calc(var(--h) / 248 * 100cqw);border-radius:9.68cqw;overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);padding:9.68cqw;display:flex;flex-direction:column;justify-content:space-between;
+  color:#fff;background:rgba(255,255,255,.015)}
+.ctx-card > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.ctx-card--img::before{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.8)),linear-gradient(0deg,var(--tint),var(--tint))}
+.ctx-card > *:not(img){position:relative;z-index:2}
+.ctx-stars{display:flex;gap:1.6cqw}
+.ctx-stars svg{width:5.65cqw;height:5.65cqw;min-width:11px;min-height:11px;fill:none;stroke:#fbbf24;stroke-width:2;stroke-linecap:round}
+.ctx-card blockquote{margin:0;font:600 max(11px,6.45cqw)/1.4 var(--font)}
+.ctx-by{margin-top:4.8cqw;display:flex;flex-direction:column;gap:.8cqw;font-family:var(--font)}
+.ctx-by b{font-size:max(10px,5.65cqw);font-weight:700}
+.ctx-by span{font-size:max(9px,4.84cqw);color:rgba(255,255,255,.6)}
+.ctx-card--img .ctx-by span{color:#8f9cae}
+
+/* the next section (Masterclasses) slides up over the finished dark screen; everything after it is
+   opaque and layered above too, so the pinned screen can never show through below a short section */
+.mc{position:relative;z-index:2;margin-top:-100vh;box-shadow:0 -48px 96px -24px rgba(2,6,23,.55)}
+.cs--after{position:relative;z-index:2;background:#fff}
+
+/* one vertical rhythm for every section from here down: room above each heading, none below,
+   so two sections never stack their padding into a double gap */
+.cs{--sec:var(--sec-y)}
+.mc{--sec:var(--sec-y);padding-bottom:0}
+
+@media (max-width:860px){
+  .ctx{--ctx-rise:-27vh}
+  .ctx-pc:nth-child(2),.ctx-pc:nth-child(5){display:none}
+  /* phones: four portraits in the corners (the design's positions are set inline, hence !important) */
+  .ctx-pc:nth-child(1){--x:4 !important;--y:9 !important;--w:44 !important}
+  .ctx-pc:nth-child(4){--x:52 !important;--y:14 !important;--w:44 !important}
+  .ctx-pc:nth-child(3){--x:-4 !important;--y:70 !important;--w:52 !important}
+  .ctx-pc:nth-child(6){--x:50 !important;--y:74 !important;--w:54 !important}
+  .ctx-title{font-size:clamp(30px,8.6vw,44px)}
+  .ctx-title > span{white-space:normal}
+  .ctx-col{width:44%}
+  .ctx-col:not(:nth-child(2)):not(:nth-child(3)){display:none}
+  .ctx-col:nth-child(2){--x:4 !important;--y:38 !important}
+  .ctx-col:nth-child(3){--x:52 !important;--y:46 !important}
+}
+@media (prefers-reduced-motion:reduce){ .ctx-pc > div{animation:none} }
+@media (prefers-reduced-motion:reduce){
+  .mentors{--mw-track:auto}
+  .mw-stage{position:relative;height:auto;min-height:100svh}
+  .mw-screen{flex:none;height:min(80vh,calc(100vw * 728 / 1262))}
+  .mw-head > *{opacity:1;transform:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .card,.card.is-active,.banner,.banner img,.reveal,.reveal-inner{transition-duration:.01s!important}
+  .card.is-sweeping .sheen::before{animation:none}
+}
+
+/* =====================================================================
+   DESIGN NOTES — the rationale for whichever section is on screen.
+   A presentation aid: off until the switch is flipped, so the page
+   itself is untouched by default.
+   ===================================================================== */
+.dn{position:fixed;right:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px);z-index:60;
+  display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none}
+.dn > *{pointer-events:auto}
+
+.dn-switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+  border:1px solid var(--line);border-radius:999px;padding:7px 14px 7px 8px;
+  background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  font:500 13px/1 var(--font-sub);color:var(--ink);
+  box-shadow:0 6px 20px -8px rgba(15,23,42,.4)}
+.dn-switch:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.dn-track{position:relative;flex:none;width:34px;height:20px;border-radius:999px;background:#cbd5e1;
+  transition:background var(--dur) var(--ease)}
+.dn-thumb{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 3px rgba(15,23,42,.4);transition:translate var(--dur) var(--ease)}
+.dn-switch[aria-checked="true"] .dn-track{background:var(--blue)}
+.dn-switch[aria-checked="true"] .dn-thumb{translate:14px 0}
+
+.dn-card{width:min(390px,calc(100vw - 32px));max-height:min(62vh,540px);overflow:auto;
+  background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 18px 20px;
+  box-shadow:0 24px 60px -20px rgba(15,23,42,.45);color:var(--ink)}
+.dn-card[hidden]{display:none}
+.dn-num{font:600 11px/1 var(--font-sub);letter-spacing:.08em;color:var(--muted)}
+.dn-name{font-family:var(--font-head);font-weight:600;font-size:19px;line-height:1.25;
+  letter-spacing:-.01em;margin-top:9px;color:#0d254e}
+.dn-desc{font-family:var(--font-sub);font-size:13px;line-height:1.62;color:#475569;margin-top:10px}
+.dn-list{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);display:grid;gap:11px}
+.dn-list[hidden]{display:none}
+.dn-list h4{font:600 10px/1 var(--font-sub);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.dn-p{font-family:var(--font-sub);font-size:12.5px;line-height:1.55;color:#475569}
+.dn-p b{display:block;font-weight:600;color:#0d254e}
+
+@media (max-width:640px){ .dn-card{max-height:46vh} .dn-switch{font-size:12px} }
+@media (prefers-reduced-motion:reduce){ .dn-track,.dn-thumb{transition-duration:.01s} }
+</style>
+</head>
+<body>
+
+<main id="main">
+
+<!-- ===================================================================
+     S1 — HERO (scroll-scrubbed video)
+     =================================================================== -->
+<section class="hx" id="hero" aria-labelledby="hx-title">
+  <div class="hx-stage">
+    <nav class="hx-nav" aria-label="Primary">
+      <a class="hx-logo" href="#hero"><img src="assets/nxtwave-logo-white.svg" alt="NxtWave" width="96" height="46"></a>
+      <ul>
+        <li><a class="hx-pill" href="#programmes">Programmes</a></li>
+        <li><a class="hx-pill" href="#career-transformations">Success Stories</a></li>
+        <li><a class="hx-pill" href="#" data-blank>For Companies</a></li>
+        <li><a class="hx-pill" href="#" data-blank>About NxtWave</a></li>
+        <li><a class="hx-login" href="#" data-blank>Login <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9H15M10.5 13.5L15 9L10.5 4.5"/></svg></a></li>
+      </ul>
+    </nav>
+
+    <video id="hx-vid" data-src="assets/hero-v2-720.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+    <canvas class="hx-frames" aria-hidden="true"></canvas>
+    <div class="hx-feather" aria-hidden="true"></div>
+    <div class="hx-dim" aria-hidden="true"></div>
+    <!-- opening screen (Figma CCBP-v02 761:311): shown from the first paint, before the film has
+         loaded, and dissolves into the film as the scroll begins -->
+    <div class="hx-intro" aria-hidden="true">
+      <!-- a silent loop of the same scene; the still is its poster, so the frame is never empty -->
+      <video class="hx-intro-photo" src="assets/hero-intro.webm" poster="assets/hero-intro.jpg"
+        autoplay muted loop playsinline preload="auto"></video>
+      <div class="hx-intro-shade"></div>
+      <div class="hx-intro-blur"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <!-- cursor-lit dot grid: above the opening photo (and the film after it), under the copy -->
+    <canvas class="hx-grid" aria-hidden="true"></canvas>
+
+    <div class="hx-copy">
+      <div class="hx-intro-copy">
+        <h1 class="hx-headline" id="hx-title">AI changed tech hiring.<br><span>We changed how you learn.</span></h1>
+        <div class="hx-intro-row">
+          <div class="hx-stats">
+            <p class="hx-stat"><b>16,000+</b><span>Learner Hired</span></p>
+            <i class="hx-divider" aria-hidden="true"></i>
+            <p class="hx-stat"><b>3000+</b><span>Companies Hiring</span></p>
+          </div>
+        </div>
+      </div>
+      <button class="hx-scroll" type="button" aria-label="Scroll down">
+        <!-- just the animated Lottie cue; the arrow is its fallback until it loads -->
+        <span class="hx-scroll-ic" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 5v10M6 11l4 4 4-4"/></svg></span>
+      </button>
+    </div>
+
+    <!-- beats: data-in / data-out are hero scroll progress (0–1) = video time / 20.15s, matched to its scenes -->
+    <!-- 2.2–5.2s: the crowd on their phones → he pulls on the NxtWave hoodie -->
+    <div class="hx-beat" data-in="0.11" data-out="0.255">
+      <span class="hx-eyebrow">01 — START</span>
+      <h2>Everyone's scrolling.<br><span>You start building.</span></h2>
+      <p>While others watch tutorials, you join a programme built around what tech companies actually hire for.</p>
+    </div>
+    <!-- 5.8–9.0s: at the laptop, mentor at his shoulder -->
+    <div class="hx-beat" data-in="0.29" data-out="0.445">
+      <span class="hx-eyebrow">02 — LEARN</span>
+      <h2>Fundamentals + AI,<br><span>with a mentor beside you.</span></h2>
+      <p>Industry mentors review your code, unblock you and push you further every single week.</p>
+    </div>
+    <!-- 9.2–12.2s: suited up, sharpening at the laptop -->
+    <div class="hx-beat" data-in="0.46" data-out="0.6">
+      <span class="hx-eyebrow">03 — PREPARE</span>
+      <h2>Projects that prove it.<br><span>Interviews you're ready for.</span></h2>
+      <p>A portfolio of real builds, mock interviews with working engineers, and feedback until you're sharp.</p>
+    </div>
+    <!-- 12.6–16.2s: the interview, the handshake, "Congratulations" on his phone -->
+    <div class="hx-beat" data-in="0.625" data-out="0.8">
+      <span class="hx-eyebrow">04 — GET HIRED</span>
+      <h2>Then the message<br><span>you've worked for.</span></h2>
+      <p>Interviews with 3,000+ hiring companies. One of them says yes.</p>
+    </div>
+    <!-- 16.6–18.6s: celebrating with his parents -->
+    <div class="hx-beat" data-in="0.825" data-out="0.915">
+      <span class="hx-eyebrow">05 — THE MOMENT</span>
+      <h2>An offer letter changes<br><span>more than one life.</span></h2>
+      <p>For you, and for the people who believed in you first.</p>
+    </div>
+    <!-- 18.9–20.1s: the crowd of placed learners — holds through the hand-off -->
+    <div class="hx-beat" data-in="0.93" data-out="1.2">
+      <span class="hx-eyebrow">06 — JOIN THEM</span>
+      <h2>Join the <span>16,000+</span><br>who already made it.</h2>
+      <p>NxtWave learners now build at 3,000+ companies. Your name could be next.</p>
+      <a class="hx-cta" href="#programmes">Explore programmes</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     S2 — PROGRAMMES
+     =================================================================== -->
+<section class="programmes" id="programmes" aria-labelledby="prog-title">
+  <!-- backdrop: light lines fanning out from behind the cards, with light running along them -->
+  <canvas class="prog-rays" aria-hidden="true"></canvas>
+  <div class="prog-inner">
+    <header class="prog-head">
+      <h2 class="prog-title" id="prog-title">Three programmes. One is yours.</h2>
+      <p class="prog-sub">Different starting points, same goal, a job in tech.</p>
+    </header>
+    <div class="grid" id="cards"></div>
+  </div>
+  <!-- Recognised by (from the supplied build): sits under the programme cards -->
+  <section class="recog" id="recognised-by" aria-labelledby="recog-title">
+    <h2 class="recog-title" id="recog-title">Recognised by</h2>
+    <picture>
+      <source media="(max-width:640px)" srcset="assets/recognised-by-mobile.png">
+      <img src="assets/recognised-by.png" width="3621" height="157" alt="Recognised by NASSCOM, Ministry of Commerce and Industry (Government of India), Startup India and NSDC" loading="lazy">
+    </picture>
+  </section>
+</section>
+
+<!-- ===================================================================
+     S3 — AWARDS & RECOGNITIONS
+     =================================================================== -->
+<section class="record" id="recognition" aria-labelledby="record-title">
+  <div class="aw-inner">
+    <h2 class="record-title reveal-up" id="record-title">Awards &amp; Recognitions</h2>
+    <!-- the film plays forward and back with the scroll -->
+    <div class="aw-wall reveal-up" role="img"
+      aria-label="NxtWave's award wall: World Economic Forum 2024 Technology Pioneer, Times Business Awards 2022, AsiaOne 2021–22, Prime Insights 2023 and Marksmen Daily 2021">
+      <img src="assets/awards-wall.jpg" alt="" loading="lazy">
+      <video data-src="assets/awards-wall.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+      <canvas aria-hidden="true"></canvas>
+      <img class="aw-notch" src="assets/record-notch.svg" alt="" aria-hidden="true">
+    </div>
+    <ul class="aw-cards">
+      <li class="reveal-up" style="--i:0"><img src="assets/award-forbes30.jpg" alt="Anupam Pedarla and Sashank Gujjula on the Forbes India 30 Under 30 cover" loading="lazy" style="object-position:59% 54%">
+        <p>Founders <b>Mr. Anupam Pedarla</b> &amp; <b>Mr. Sashank Gujjula</b> made it to the prestigious 2024 Forbes India 30 Under 30 list!</p></li>
+      <li class="reveal-up" style="--i:1"><img src="assets/award-times-1.jpg" alt="Sashank Gujjula receiving the Times Business Award on stage" loading="lazy">
+        <p><b>Mr. Sashank Gujjula</b>, Co-founder, NxtWave, receiving the ‘Best Tech Skilling EdTech Company’ award by Times Business Awards</p></li>
+      <li class="reveal-up" style="--i:2"><img src="assets/award-times-2.jpg" alt="Sashank Gujjula receiving an award from the Times Business Awards jury" loading="lazy" style="object-position:50% 62%">
+        <p><b>Mr. Sashank Gujjula</b>, Co-founder, NxtWave, receiving the ‘Best Tech Skilling EdTech Company’ award by Times Business Awards</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================================================================
+     S3b — 3,000+ COMPANIES HIRE NXTWAVE LEARNERS (from the supplied build): five lines of logos
+     =================================================================== -->
+<section class="companies" id="hiring-network" aria-labelledby="companies-title">
+  <div class="companies-inner">
+    <header class="companies-head reveal-up">
+      <h2 class="companies-title" id="companies-title">3,000+ companies hire NxtWave learners</h2>
+      <p class="companies-sub">Across product companies, startups, and global services firms.</p>
+    </header>
+    <div class="ticker reveal-up" id="logo-ticker" role="region" aria-label="Companies that hire NxtWave learners"></div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     S5 — MENTORS (scroll-scrubbed video)
+     =================================================================== -->
+<section class="mentors" id="team" aria-labelledby="mw-title">
+  <div class="mw-track">
+    <div class="mw-stage">
+      <!-- the heading pins with the film, so it stays in view for the whole scrub -->
+      <header class="mw-head">
+        <h2 class="mw-title" id="mw-title">Taught by people<br>who have done the job.</h2>
+        <p class="mw-sub">Trainers from IITs and top product companies. Mentors who review your work. Coaches who get you through interviews.</p>
+      </header>
+      <div class="mw-screen">
+        <video id="mw-vid" data-src="assets/mentors-v2.mp4" muted playsinline preload="auto"
+          aria-label="A learner at his laptop as his mentors gather round: trainers Rahul and Shashank, product developers Pavan and Revanth, career coaches Trivikram and Sriram Teja, and masterclass speakers Rakesh Misra and Pranavi"></video>
+        <canvas aria-hidden="true"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     S6–S9 — CAREER TRANSFORMATIONS · WHAT COMPANIES LOOK FOR · HIRING TEAMS · MEDIA
+     (merged from career-site; styles scoped to .cs)
+     =================================================================== -->
+<div class="cs">
+<!-- Career Transformations (Figma CCBP-v02 794:4806): one pinned screen that turns from light to dark.
+     White: the heading with six learner portraits around it. Scrolling: the backdrop darkens, the
+     portraits drift off, the heading rises and turns light, and columns of testimonials rise in.
+     The next section then slides up over the finished dark screen. -->
+<section class="ctx" id="career-transformations" aria-labelledby="ct-title">
+  <div class="ctx-track">
+    <div class="ctx-stage">
+      <div class="ctx-bg" aria-hidden="true"><i></i></div>
+
+      <div class="ctx-portraits" aria-hidden="true">
+        <figure class="ctx-pc" style="--x:9.54;--y:12.45;--w:20.28;--dx:-1;--dy:-1;--f:0s"><div><img src="assets/people/ct-p1.jpg" alt="" loading="lazy"><figcaption><span>Rohan Das<br>SDE II, Razorpay</span><b>16LPA</b></figcaption></div></figure>
+        <figure class="ctx-pc" style="--x:19.68;--y:70.61;--w:15.63;--dx:-.5;--dy:1;--f:-2.1s"><div><img src="assets/people/ct-p2.jpg" alt="" loading="lazy" style="object-position:60% 30%"><figcaption><span>Aditya Rao<br>SDE I, Amazon</span><b>24LPA</b></figcaption></div></figure>
+        <figure class="ctx-pc" style="--x:-.72;--y:45.07;--w:24.59;--dx:-1;--dy:0;--f:-4.2s"><div><img src="assets/people/ct-p3.jpg" alt="" loading="lazy"><figcaption><span>Nikhil Rao<br>Cloud Engineer, Accenture</span><b>12LPA</b></figcaption></div></figure>
+        <figure class="ctx-pc" style="--x:72.85;--y:15.40;--w:15.63;--dx:1;--dy:-1;--f:-1.3s"><div><img src="assets/people/ct-p4.jpg" alt="" loading="lazy"><figcaption><span>Meera Pillai<br>ML Engineer, Fractal</span><b>14LPA</b></figcaption></div></figure>
+        <figure class="ctx-pc" style="--x:86.41;--y:47.04;--w:12.89;--dx:1;--dy:0;--f:-3.4s"><div><img src="assets/people/ct-p5.jpg" alt="" loading="lazy"><figcaption><span>Karthik S<br>ML Scientist, GoKwik</span><b>22LPA</b></figcaption></div></figure>
+        <figure class="ctx-pc" style="--x:70.10;--y:62.87;--w:26.25;--dx:1;--dy:1;--f:-5s"><div><img src="assets/people/ct-p6.jpg" alt="" loading="lazy"><figcaption><span>Vivek Menon<br>Data Engineer, PhonePe</span><b>15LPA</b></figcaption></div></figure>
+      </div>
+
+      <div class="ctx-grid"><!-- testimonial columns rendered by the Career Transformations script --></div>
+
+      <div class="ctx-head">
+        <h2 class="ctx-title" id="ct-title"><span class="ctx-t-l">Career Transformations</span><span class="ctx-t-d" aria-hidden="true">Career Transformations</span></h2>
+        <p class="ctx-sub">Real people. Named companies. Their own words.</p>
+        <a class="ctx-btn" href="#" data-blank>View All</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ===================================================================
+     S6b — MASTERCLASSES FROM MENTORS IN THE COMMUNITY (from the supplied build;
+     styles career/masterclass.css, script career/masterclass.js). Sits right after
+     Career Transformations, so it is the section that slides up over its pinned dark screen.
+     =================================================================== -->
+<section class="mc" id="masterclasses" aria-labelledby="mc-title">
+  <header class="mc__head">
+    <h2 class="mc__title" id="mc-title">Masterclasses from<br>Mentors in the Community</h2>
+    <ul class="mc__aff" aria-label="Mentors from">
+      <li><img src="assets/masterclass/logos/stanford-mono.png" alt="Stanford University" width="190" height="61"></li>
+      <li><img src="assets/masterclass/logos/google-mono.png" alt="Google" width="174" height="60"></li>
+      <li><img src="assets/masterclass/logos/amazon-mono.png" alt="Amazon" width="179" height="55"></li>
+      <li><img src="assets/masterclass/logos/microsoft-mono.png" alt="Microsoft" width="229" height="46"></li>
+    </ul>
+  </header>
+  <div class="mc__body">
+    <div class="mc__grid">
+      <button class="mc__video" type="button" data-yt="wLOkQDXN8RQ" aria-label="Play: Sneak Peek Of Masterclass by Rakesh Misra">
+        <img src="assets/masterclass/rakesh.jpg" alt="" width="1080" height="626" loading="lazy">
+      </button>
+      <!-- mentor cards injected by career/masterclass.js -->
+    </div>
+  </div>
+  <div class="mc-ticker" data-ticker="companies" role="region" aria-label="Companies in our mentor community"></div>
+</section>
+
+<div class="cs cs--after">
+<section class="wl" id="what-companies-look-for" aria-labelledby="wl-title">
+  <header class="wl__head">
+    <h2 class="wl__title" id="wl-title">We train you for what<br>companies hire for</h2>
+    <p class="wl__sub">3,000+ companies have hired from our programmes. This is what we teach that gets people through.</p>
+  </header>
+  <div class="wl__grid">
+    <div class="wl__row wl__row--top">
+      <article class="wl__card wl__card--ai">
+        <div class="wl__copy">
+          <h3 class="wl__h">AI is built into how<br class="wl__br"> you solve problems</h3>
+          <p class="wl__p">You use the tools working engineers use, on everything you build here.</p>
+        </div>
+        <div class="wl__panel" role="img" aria-label="AI learning assistant offering to explain a concept, help brainstorm or review an approach"><img src="assets/wl-ai-1.png" alt="" loading="lazy"><img src="assets/wl-ai-2.png" alt="" loading="lazy"><img src="assets/wl-ai-3.png" alt="" loading="lazy"><img src="assets/wl-ai-4.png" alt="" loading="lazy"><img src="assets/wl-ai-5.png" alt="" loading="lazy"></div>
+      </article>
+      <figure class="wl__card wl__card--photo"><img src="assets/wl-mentor-v2.jpg" alt="Two students smiling while working together at a laptop" loading="lazy"></figure>
+    </div>
+    <div class="wl__row wl__row--bottom">
+      <div class="wl__stack">
+        <article class="wl__card wl__card--blue">
+          <div class="wl__copy">
+            <h3 class="wl__h">We update the curriculum when hiring changes.</h3>
+            <p class="wl__p">What companies screen for keeps moving. So does what you learn.</p>
+          </div>
+          <ol class="wl__tl" aria-label="How a curriculum update ships"><li>New hiring trend detected</li><li>Curriculum Update</li><li>Updating relevant content</li><li class="is-now">Deployed to learners</li></ol>
+        </article>
+        <article class="wl__card wl__card--lime">
+          <div class="wl__copy">
+            <h3 class="wl__h">The fundamentals still decide interviews.</h3>
+            <p class="wl__p">DSA, systems, problem solving. AI raised the bar on these. It did not remove them.</p>
+          </div>
+          <img class="wl__flow" src="assets/wl-flow.jpg" alt="Problem-solving flow: problem, break down, explore tradeoffs, arrive at a solution" loading="lazy">
+        </article>
+      </div>
+      <article class="wl__card wl__card--violet">
+        <div class="wl__copy">
+          <h3 class="wl__h">Interview prep for the rounds companies actually run.</h3>
+          <p class="wl__p">Not generic soft skills training.</p>
+        </div>
+        <img class="wl__shot" src="assets/wl-call.jpg" alt="Mock interview video call between a candidate and an interviewer" loading="lazy">
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="ht" id="hiring-teams" aria-labelledby="ht-title">
+  <header class="ht__head">
+    <div>
+      <h2 class="ht__title" id="ht-title">Why Top Companies Prefer NxtWave Students</h2>
+      <p class="ht__sub">The people who actually make the hiring decision, on why they keep coming back.</p>
+    </div>
+  </header>
+  <div class="ht__rail">
+    <ul class="ht__track" id="ht-track"></ul>
+    <div class="ht__nav">
+      <button class="ht__arrow" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="ht__arrow" data-dir="1" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- Backed by Leading Global Investors (from the supplied build) -->
+<section class="inv" id="investors" aria-labelledby="inv-title">
+  <header class="inv-head reveal-up">
+    <h2 class="inv-title" id="inv-title">Backed by Leading Global Investors</h2>
+    <p class="inv-sub">Supported by investors who share our vision for the future of tech education.</p>
+  </header>
+  <ul class="inv-row" aria-label="Investors">
+    <li class="reveal-up" style="--i:0"><img class="lf" src="assets/inv/laurel-l.png" alt="" aria-hidden="true"><div class="inv-logo inv-better"><img src="assets/inv/better.png" alt="Better Capital" loading="lazy"></div><img class="lf" src="assets/inv/laurel-r.png" alt="" aria-hidden="true"></li>
+    <li class="reveal-up" style="--i:1"><img class="lf" src="assets/inv/laurel-l.png" alt="" aria-hidden="true"><div class="inv-logo inv-gp"><img src="assets/inv/greater-pacific.png" alt="Greater Pacific Capital" loading="lazy"></div><img class="lf" src="assets/inv/laurel-r.png" alt="" aria-hidden="true"></li>
+    <li class="reveal-up" style="--i:2"><img class="lf" src="assets/inv/laurel-l.png" alt="" aria-hidden="true"><div class="inv-logo inv-orios"><img src="assets/inv/orios.png" alt="Orios Venture Partners" loading="lazy"></div><img class="lf" src="assets/inv/laurel-r.png" alt="" aria-hidden="true"></li>
+  </ul>
+</section>
+
+<section class="fm" id="featured-in-media" aria-labelledby="fm-title">
+  <h2 class="fm__title" id="fm-title">Recognized by Leading Media</h2>
+  <ul class="fm__grid" id="fm-grid"></ul>
+  <button class="fm__more" type="button" id="fm-more">View More</button>
+</section>
+</div>
+
+</main>
+
+<div class="cs">
+<footer class="ft" id="footer">
+  <div class="ft__inner">
+    <nav class="ft__crumb" aria-label="Breadcrumb"><ul><li><a href="https://www.ccbp.in/">Home</a></li><li><a href="https://www.ccbp.in/hire">Hire with us</a></li></ul></nav>
+
+    <div class="ft__list">
+      <div class="ft__col">
+        <button class="ft__h" type="button">Quick Links</button>
+        <ul>
+          <li><a href="https://www.ccbp.in/">Home</a></li>
+          <li><a href="https://www.ccbp.in/academy">Academy</a></li>
+          <li><a href="https://www.ccbp.in/intensive">Intensive</a></li>
+          <li><a href="https://www.ccbp.in/hire">Hire with us</a></li>
+          <li><a href="https://www.ccbp.in/contact-us">Contact Us</a></li>
+          <li><a href="https://www.ccbp.in/blog">Blog</a></li>
+          <li><a href="https://www.ccbp.in/our-tech">Our Tech</a></li>
+          <li><a href="https://www.ccbp.in/careers">NxtWave Careers</a></li>
+        </ul>
+      </div>
+      <div class="ft__col">
+        <button class="ft__h" type="button">About</button>
+        <ul>
+          <li><a href="https://www.ccbp.in/about-us">About Us</a></li>
+          <li><a href="https://www.ccbp.in/reviews">Reviews</a></li>
+          <li><a href="https://www.ccbp.in/tech-community">Community</a></li>
+          <li><a href="https://www.ccbp.in/4-0-champions">4.0 Champions</a></li>
+          <li><a href="https://www.youtube.com/watch?v=fpPwEFB86d4" target="_blank" rel="noopener">NxtWave'23 Review</a></li>
+        </ul>
+      </div>
+      <div class="ft__col">
+        <button class="ft__h" type="button">Reach Us</button>
+        <ul>
+          <li><a href="https://forms.ccbp.in/public/form/whatsapp-us-have-a-query" target="_blank" rel="noopener">+919390111761 <sup>WhatsApp only</sup></a></li>
+          <li><a href="mailto:support@nxtwave.tech">support@nxtwave.tech</a></li>
+          <li><a href="https://www.ccbp.in/llm-info">Hey AI, learn about us <span>New</span></a></li>
+        </ul>
+      </div>
+      <div class="ft__col">
+        <button class="ft__h" type="button">Payment Methods</button>
+        <ul class="ft__pay">
+          <li><img src="assets/footer/visa-icon.svg" alt="Visa"></li>
+          <li><img src="assets/footer/master-card-icon.svg" alt="Mastercard"></li>
+          <li><img src="assets/footer/payment-method-icon.svg" alt="Maestro"></li>
+          <li><img src="assets/footer/Razor-pay-icon.svg" alt="Razorpay"></li>
+          <li><img src="assets/footer/upi-icon.svg" alt="UPI"></li>
+          <li><img src="assets/footer/rupay-icon.svg" alt="RuPay"></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ft__tracks" id="ft-tracks"><p class="ft__tracks-h">Course Tracks</p></div>
+
+    <div class="ft__terms">
+      <img class="ft__logo" src="assets/footer/Nxtwave_White_logo.svg" width="80" height="24" alt="NxtWave">
+      <div class="ft__legal">
+        <a href="https://www.ccbp.in/privacy-policy">Privacy Policy</a>
+        <a href="https://www.ccbp.in/cookie-policy">Cookie Policy</a>
+        <a href="https://www.ccbp.in/terms-and-conditions">Terms and Conditions</a>
+        <a href="https://www.ccbp.in/grievance-redressal">Grievance Redressal</a>
+        <a href="https://www.ccbp.in/corporate-information">Corporate Information</a>
+        <a href="https://www.ccbp.in/vision-and-values">Vision and Values</a>
+        <a href="https://www.ccbp.in/csr-policy">Corporate Social Responsibility Policy</a>
+      </div>
+    </div>
+
+    <div class="ft__copy">
+      <div class="ft__info">
+        <div><p class="ft__info-h">Address</p><p>8th Floor, Sohini Tech Park, Nanakramguda Rd, Financial District, Gachibowli, Nanakramguda, Telangana 500032</p></div>
+        <div><p class="ft__info-h">Support</p><p><a href="mailto:support@nxtwave.tech">support@nxtwave.tech</a> · <a href="https://forms.ccbp.in/public/form/whatsapp-us-have-a-query">+91 93901 11761</a> (WhatsApp only)</p></div>
+      </div>
+      <div class="ft__social">
+        <div class="ft__icons">
+          <a href="https://www.facebook.com/NxtWave-106729994530632/" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/footer/facebook-icon.svg" alt=""></a>
+          <a href="https://www.instagram.com/ccbp_nxtwave/" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/footer/instgram-icon.svg" alt=""></a>
+          <a href="https://twitter.com/nxtwave_tech" target="_blank" rel="noopener" aria-label="X (Twitter)"><img src="assets/footer/twitterimage.svg" alt=""></a>
+          <a href="https://www.linkedin.com/company/nxtwavetech" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/footer/linkedin-icon.svg" alt=""></a>
+          <a href="https://www.youtube.com/c/NxtWaveTech" target="_blank" rel="noopener" aria-label="YouTube"><img src="assets/footer/youtube-icon.svg" alt=""></a>
+        </div>
+        <p class="ft__rights">© <span id="ft-year">2026</span> NxtWave Disruptive Technologies Pvt. Ltd. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<dialog class="ht__modal" id="ht-modal">
+  <button class="ht__close" aria-label="Close">×</button>
+  <div class="ht__frame"></div>
+</dialog>
+</div>
+
+<!-- design notes: the rationale for the section in view, off until the switch is flipped -->
+<div class="dn">
+  <div class="dn-card" id="dn-card" role="region" aria-label="Design notes for the section in view" hidden>
+    <p class="dn-num"><span id="dn-num">01</span> / <span id="dn-total">08</span></p>
+    <h3 class="dn-name" id="dn-name"></h3>
+    <p class="dn-desc" id="dn-desc"></p>
+    <div class="dn-list" id="dn-list" hidden></div>
+  </div>
+  <button class="dn-switch" id="dn-switch" type="button" role="switch" aria-checked="false" aria-controls="dn-card">
+    <span class="dn-track" aria-hidden="true"><span class="dn-thumb"></span></span>
+    Design notes
+  </button>
+</div>
+
+<template id="card-tpl">
+  <div class="slot">
+    <article class="card" tabindex="0">
+      <div class="banner"><img alt="" /></div>
+      <div class="sheet">
+        <h3 class="title" data-f="title"></h3>
+        <div class="tags"></div>
+        <!-- hover: the description opens above the buttons -->
+        <div class="reveal">
+          <div>
+            <div class="reveal-inner">
+              <p class="desc" data-f="description"></p>
+            </div>
+          </div>
+        </div>
+        <!-- always visible -->
+        <div class="ctas">
+          <a class="btn btn-ghost" data-f="secondaryLabel"></a>
+          <button class="btn btn-primary" type="button" data-f="primaryLabel"></button>
+        </div>
+        <!-- hover: batch date + limited seats slide up in at the foot of the card -->
+        <div class="reveal reveal-meta">
+          <div>
+            <div class="reveal-inner">
+              <div class="meta">
+                <div>
+                  <div class="label" data-f="startLabel"></div>
+                  <div class="date" data-f="startDate"></div>
+                </div>
+                <div class="seats">
+                  <svg width="13" height="17" viewBox="0 0 12.87 17.09" fill="none" aria-hidden="true"><use href="#fire"/></svg>
+                  <span data-f="seats"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="glare"></div>
+      <div class="sheen"></div>
+    </article>
+  </div>
+</template>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="fire" viewBox="0 0 12.87 17.09">
+    <path d="M2.58 15.55C1.8 14.66 1.01 13.73.51 12.62.01 11.45-.13 10.09.12 8.81c.25-1.28.82-2.5 1.64-3.53-.07.89.25 1.82.86 2.5-.36-1.71.21-3.57 1.35-4.92C5.11 1.5 6.68.61 8.32 0c-.82.86-.93 2.21-.61 3.35.32 1.14 1 2.14 1.61 3.18.61 1.03 1.18 2.1 1.21 3.28.32-.61.68-1.21.89-1.89.21-.68.32-1.39.14-2.07.64.78 1 1.57 1.18 2.57.18 1 .14 2.03.04 3.03-.14 1.11-.43 2.25-1.03 3.17-.71 1.11-1.85 1.89-3.1 2.32-2.21.39-4.39.07-6.06-1.39Z" fill="#F3705A"/>
+    <path d="M5.29 16.87c2.93 1.14 5.81-2.32 4.21-4.99l-.04-.07c.14 1.46-.21 2.53-.89 3.14.36-.86.11-1.85-.32-2.71-.43-.82-1.04-1.57-1.5-2.35-.46-.82-.82-1.75-.61-2.68-.86.64-1.46 1.61-1.71 2.64-.25 1.03-.11 2.18.36 3.14-.54-.39-.93-1.03-.96-1.71-.57.68-.93 1.57-.89 2.46 0 1.39 1.11 2.64 2.35 3.14Z" fill="#FFD15C"/>
+  </symbol>
+</svg>
+
+<script src="vendor/lottie_light.min.js"></script>
+<script src="assets/scroll-down-anim.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script>
+(() => {
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* smooth scrolling keeps the scrubbed hero fluid */
+  if (!RM && window.Lenis){
+    const lenis = new Lenis({ lerp: 0, duration: 1, easing: t => 1 - Math.pow(1 - t, 4), anchors: true });
+    const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+    window.NW = Object.assign(window.NW || {}, { lenis });
+  }
+
+  /* =================================================================
+     S1 — HERO: the video scrubs with scroll; copy fades, beats take over,
+     then Section 2 rises over the pinned frame (cinematic hand-off)
+     ================================================================= */
+  (() => {
+    const hero = document.getElementById('hero');
+    const vid  = document.getElementById('hx-vid');
+    if (!hero || !vid) return;
+    const FADE_END = 0.09, FADE = 0.03;   /* headline clears before the crowd walks in (~2s) */
+    /* the film holds its first frame for the first 3% of the scroll, while the opening screen
+       above it starts to dissolve, then runs */
+    const HOLD = 0.03;
+    const intro = hero.querySelector('.hx-intro');
+    const introVid = intro && intro.querySelector('video');
+
+    /* the opening video just loops (no scrubbing); reduced motion keeps its poster still */
+    if (introVid && RM) { introVid.removeAttribute('autoplay'); introVid.pause(); }
+
+    /* "Scroll down" cue: the Lottie mouse-and-chevrons animation replaces the static arrow */
+    const cueBox = hero.querySelector('.hx-scroll-ic');
+    let cue = null;
+    if (cueBox && window.lottie && window.NW_SCROLL_ANIM) {
+      cueBox.textContent = '';
+      cueBox.classList.add('is-lottie');
+      cue = lottie.loadAnimation({ container: cueBox, renderer: 'svg', loop: true, autoplay: !RM,
+        animationData: window.NW_SCROLL_ANIM, rendererSettings: { preserveAspectRatio: 'xMidYMid meet' } });
+      if (RM) cue.goToAndStop(20, true);            /* a frame where the chevrons are showing */
+    }
+    /* both only play while the opening screen is actually on screen */
+    let introShown = true;
+    const setIntroShown = on => {
+      if (on === introShown) return;
+      introShown = on;
+      if (RM) return;
+      if (introVid) {
+        if (on) {
+          /* a paused, hidden video can have its frame discarded: re-seek so it repaints at once */
+          try { introVid.currentTime = introVid.currentTime; } catch (e) {}
+          introVid.play().catch(() => {});
+        } else introVid.pause();
+      }
+      if (cue) on ? cue.play() : cue.pause();
+    };
+    const beats = [...hero.querySelectorAll('.hx-beat')].map(el => ({ el, in: +el.dataset.in, out: +el.dataset.out, a: -1 }));
+    const phone = matchMedia('(pointer: coarse), (max-width: 860px)').matches;
+
+    /* one download, as a Blob: fully seekable on any host (no byte-range dependency).
+       Phones get the lighter 720p / GOP-4 encode. */
+    const src = (phone && vid.dataset.srcMobile) || vid.dataset.src;
+    const load = fetch(src).then(r => { if (!r.ok) throw 0; return r.blob(); })
+      .then(b => URL.createObjectURL(b))
+      .catch(() => src);
+    load.then(u => { vid.src = u; });
+
+    /* The source has sparse keyframes (random seeks up to ~170 ms), so after it loads every
+       frame is captured once, off-screen, into small webp blobs and the scrub draws the exact
+       frame to a canvas. Until that finishes the scrub seeks the video directly. */
+    const cv = hero.querySelector('.hx-frames');
+    const cctx = cv && cv.getContext('2d');
+    let frames = null, fW = 1280, fH = 720, drawBox = null, drawn = -1, want = -1, decoding = false;
+    const bmpCache = new Map();
+    const sizeFrames = () => {
+      if (!cv) return;
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      const w = cv.clientWidth, h = cv.clientHeight;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      const k = Math.max(cv.width / fW, cv.height / fH);                     /* object-fit: cover */
+      drawBox = { w: fW * k, h: fH * k }; drawBox.x = (cv.width - drawBox.w) / 2; drawBox.y = (cv.height - drawBox.h) / 2;
+      drawn = -1;
+    };
+    const paint = bmp => { cctx.drawImage(bmp, drawBox.x, drawBox.y, drawBox.w, drawBox.h); };
+    const showFrame = i => {
+      want = i;
+      if (i === drawn) return;
+      if (bmpCache.has(i)) { paint(bmpCache.get(i)); drawn = i; return; }
+      if (decoding) return;
+      decoding = true;
+      createImageBitmap(frames[i]).then(bmp => {
+        bmpCache.set(i, bmp);
+        if (bmpCache.size > 10) { const k = bmpCache.keys().next().value; bmpCache.get(k).close(); bmpCache.delete(k); }
+        decoding = false;
+        if (want === i) { paint(bmp); drawn = i; } else showFrame(want);
+      }).catch(() => { decoding = false; });
+    };
+    /* Capture only counts if the browser actually painted the frames: a hidden tab / window
+       skips painting, the frame callbacks never fire, and the pass comes back nearly empty.
+       So: wait until the page is visible, restart if it's hidden mid-pass, and only switch to
+       captured frames when (almost) every one of them was really captured. */
+    const MIN_COVERAGE = 0.95;
+    let capturing = false;
+    const whenVisible = () => document.visibilityState === 'visible' ? Promise.resolve()
+      : new Promise(r => document.addEventListener('visibilitychange', function v(){ if (document.visibilityState === 'visible'){ document.removeEventListener('visibilitychange', v); r(); } }));
+    const capture = async () => {
+      if (frames || capturing || !cv || RM || location.protocol === 'file:' || !('requestVideoFrameCallback' in HTMLVideoElement.prototype)) return;
+      capturing = true;
+      try {
+        const url = await load;
+        await whenVisible();
+        const cap = document.createElement('video');
+        cap.muted = true; cap.playsInline = true; cap.src = url;
+        Object.assign(cap.style, { position: 'fixed', left: 0, top: 0, width: '2px', height: '2px', opacity: .01, pointerEvents: 'none' });
+        document.body.appendChild(cap);
+        await new Promise(r => cap.addEventListener('loadeddata', r, { once: true }));
+        const n = Math.round(cap.duration * FPS), got = new Array(n), jobs = [];
+        fW = Math.min(1280, cap.videoWidth); fH = Math.round(fW * cap.videoHeight / cap.videoWidth);
+        let hidden = false;
+        const onHide = () => { if (document.visibilityState !== 'visible') { hidden = true; cap.pause(); cap.dispatchEvent(new Event('ended')); } };
+        document.addEventListener('visibilitychange', onHide);
+        await new Promise(done => {
+          const cb = (_, m) => {
+            if (hidden) return;
+            const i = Math.min(n - 1, Math.round(m.mediaTime * FPS));
+            if (!got[i]) {
+              const c = document.createElement('canvas'); c.width = fW; c.height = fH;
+              c.getContext('2d').drawImage(cap, 0, 0, fW, fH);
+              got[i] = true;
+              jobs.push(new Promise(r => c.toBlob(b => { got[i] = b; r(); }, 'image/webp', .82)));
+            }
+            if (!cap.ended) cap.requestVideoFrameCallback(cb);
+          };
+          cap.requestVideoFrameCallback(cb);
+          cap.addEventListener('ended', done, { once: true });
+          cap.play().catch(done);                          /* 1× — every frame gets painted */
+        });
+        document.removeEventListener('visibilitychange', onHide);
+        await Promise.all(jobs);
+        cap.remove();
+        const captured = got.filter(x => x instanceof Blob).length;
+        (window.NW = window.NW || {}).heroFrames = { captured, total: n, hidden };
+        if (hidden || captured / n < MIN_COVERAGE) return;   /* keep seeking the video; retried when visible again */
+        /* the odd skipped frame borrows its nearest captured neighbour (invisible at 30 fps) */
+        let lastB = null;
+        for (let i = 0; i < n; i++) { if (got[i] instanceof Blob) lastB = got[i]; else got[i] = lastB; }
+        for (let i = n - 1; i >= 0; i--) { if (got[i] instanceof Blob) lastB = got[i]; else got[i] = lastB; }
+        frames = got; sizeFrames();
+        hero.classList.add('has-frames');
+      } finally {
+        capturing = false;
+      }
+    };
+    load.then(() => setTimeout(capture, 300));
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && !frames) setTimeout(capture, 300); });
+    /* iOS: a muted video that never played won't paint seeked frames — prime it once */
+    addEventListener('touchstart', () => { vid.play().then(() => vid.pause()).catch(() => {}); }, { once: true, passive: true });
+
+    /* layout is read once (and on resize), never per frame — per-frame reads after style writes force a reflow */
+    let top = 0, span = 1, vh = innerHeight;
+    const measure = () => {
+      vh = innerHeight;
+      top = hero.getBoundingClientRect().top + scrollY;
+      span = Math.max(1, hero.offsetHeight - vh);
+      /* the part of the hero Section 2 overlaps */
+      endFrom = 1 - Math.max(0, -parseFloat(getComputedStyle(document.getElementById('programmes')).marginTop) || 0) / span;
+      if (frames) sizeFrames();
+    };
+    let endFrom = .9;
+    measure();
+    addEventListener('resize', measure);
+    addEventListener('load', measure);
+
+    const FPS = 30, FRAME = 1 / FPS;
+    let seeking = false, pending = -1, last = {};
+    vid.addEventListener('seeked', () => {
+      seeking = false;
+      if (pending >= 0){ const t = pending; pending = -1; seek(t); }       /* coalesced: only the newest target */
+    });
+    function seek(t){
+      if (seeking){ pending = t; return; }
+      if (Math.abs(vid.currentTime - t) < FRAME * .5) return;               /* already on this frame */
+      seeking = true; vid.currentTime = t;
+    }
+    const set = (k, v) => { if (last[k] !== v){ last[k] = v; hero.style.setProperty(k, v); } };
+    const ease = v => v * v * (3 - 2 * v);
+
+    function frame(){
+      const y = scrollY;
+      if (y < top + span + vh && y + vh > top){                            /* only while the hero is on screen */
+        const raw = Math.min(1, Math.max(0, (y - top) / span));
+        /* the film (and its beats) finish as Section 2 starts rising; the last frame then holds, pinned, beneath it */
+        const pAll = Math.min(1, raw / endFrom);
+        const p = Math.max(0, (pAll - HOLD) / (1 - HOLD));      /* film + beats progress */
+        const copy = Math.max(0, 1 - pAll / FADE_END);
+        set('--hx-copy', copy.toFixed(3));
+        if (intro) intro.classList.toggle('is-off', copy <= 0);
+        hero.classList.toggle('intro-up', copy > .05);
+        setIntroShown(copy > 0);
+        /* opening frame: the student stands at the far right, so the video starts unshifted
+           and slides into its offset as the headline clears */
+        set('--hx-sk', ease(Math.min(1, pAll / FADE_END)).toFixed(3));
+        let scrim = copy;
+        for (const b of beats){
+          const a = Math.max(0, Math.min(1, (p - b.in) / FADE, (b.out - p) / FADE));
+          if (Math.abs(a - b.a) > .001){
+            b.a = a;
+            b.el.style.opacity = a.toFixed(3);
+            b.el.style.setProperty('--y', ((1 - a) * 24).toFixed(1) + 'px');
+            b.el.classList.toggle('on', a > .5);
+          }
+          scrim = Math.max(scrim, a);
+        }
+        set('--hx-scrim', scrim.toFixed(3));
+        const e = ease(Math.min(1, Math.max(0, (raw - endFrom) / (1 - endFrom))));
+        set('--hx-end', e.toFixed(3));
+        set('--hx-zoom', (1 + e * .08).toFixed(4));
+        if (frames){
+          showFrame(Math.round(p * (frames.length - 1)));
+        } else if (vid.duration){
+          /* Lenis already smooths the scroll, so map straight to time (no second easing = no lag) */
+          const t = Math.round(p * (vid.duration - .05) * FPS) / FPS;
+          seek(t);
+        }
+      }
+    }
+    const tick = () => { frame(); requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+    window.NW = Object.assign(window.NW || {}, { heroMeasure: measure, heroFrame: frame });
+
+    /* "Scroll down" on the opening screen: glide to the first beat of the story, not past the film */
+    const scrollBtn = hero.querySelector('.hx-scroll');
+    if (scrollBtn) scrollBtn.addEventListener('click', () => {
+      const first = beats.length ? beats[0].in : .11;
+      const y = top + span * endFrom * (HOLD + (first + FADE) * (1 - HOLD));
+      if (window.NW && NW.lenis) NW.lenis.scrollTo(y, { duration: 1.6 }); else scrollTo({ top: y, behavior: RM ? 'auto' : 'smooth' });
+    });
+  })();
+
+  /* =================================================================
+     S1 — HERO add-ons (desktop, fine pointer, motion allowed):
+     a cursor-lit dot grid + a "Scroll down" cursor with a progress ring
+     ================================================================= */
+  (() => {
+    const hero = document.getElementById('hero');
+    if (!hero || RM || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const stage = hero.querySelector('.hx-stage');
+    const cv = hero.querySelector('.hx-grid');
+    const ctx = cv.getContext('2d');
+    hero.classList.add('has-fx');
+
+    /* cursor pill */
+    const cur = document.createElement('div');
+    cur.className = 'hx-cursor'; cur.setAttribute('aria-hidden', 'true');
+    cur.innerHTML = '<svg viewBox="0 0 26 26"><circle class="trk" cx="13" cy="13" r="10"/><circle class="bar" cx="13" cy="13" r="10"/>' +
+      '<path class="arw" d="M13 8.5v9M9.5 14l3.5 3.5 3.5-3.5"/></svg><span>Scroll down</span>';
+    document.body.appendChild(cur);
+    const bar = cur.querySelector('.bar'), RING = 62.83;
+
+    /* grid geometry, rebuilt on resize: base layer is pre-rendered once */
+    const GAP = 28, R = 190, DOT = 1.1;
+    let W = 0, H = 0, dpr = 1, base = null, top = 0, span = 1, heroH = 1;
+    const build = () => {
+      dpr = Math.min(2, devicePixelRatio || 1);
+      W = stage.clientWidth; H = stage.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      base = document.createElement('canvas'); base.width = cv.width; base.height = cv.height;
+      /* pre-rendered at the opening screen's strength; drawn at ~half that over the film */
+      const b = base.getContext('2d'); b.scale(dpr, dpr); b.fillStyle = 'rgba(170,200,255,.26)';
+      for (let y = GAP / 2; y < H; y += GAP) for (let x = GAP / 2; x < W; x += GAP) { b.beginPath(); b.arc(x, y, DOT, 0, 6.2832); b.fill(); }
+      top = hero.getBoundingClientRect().top + scrollY;
+      heroH = hero.offsetHeight;
+      span = Math.max(1, heroH - innerHeight);
+      dirty = true;
+    };
+
+    let mx = -9999, my = -9999, sx = -9999, sy = -9999, cx = -200, cy = -200;   /* pointer, spotlight, cursor */
+    let inHero = false, overLink = false, lit = 0, dirty = true, visible = true;
+
+    const hitTest = () => {
+      const el = document.elementFromPoint(mx, my);
+      inHero = !!(el && el.closest('#hero'));   /* lights the grid, opening screen included */
+      overLink = !!(el && el.closest('a, button, .hx-nav'));
+      /* the opening screen has its own "Scroll down" button, so the cursor pill (and the hidden
+         system cursor that goes with it) waits until that screen has gone */
+      const pill = inHero && !hero.classList.contains('intro-up');
+      stage.classList.toggle('cur-on', pill);
+      cur.classList.toggle('on', pill && !overLink);
+    };
+    addEventListener('pointermove', e => {
+      mx = e.clientX; my = e.clientY;
+      if (sx < -999) { sx = cx = mx; sy = cy = my; }
+      hitTest();
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => { inHero = false; cur.classList.remove('on'); stage.classList.remove('cur-on'); });
+    let scrollQueued = false;
+    addEventListener('scroll', () => {                  /* pointer still, page moving: re-check what's under it */
+      if (scrollQueued || mx < -999) return; scrollQueued = true;
+      requestAnimationFrame(() => { scrollQueued = false; hitTest(); });
+    }, { passive: true });
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(hero);
+    addEventListener('resize', build);
+    build();
+
+    /* boost: 1 while the opening screen is up, easing to 0 as it dissolves into the film. The
+       grid is at its most evident on that first screen and settles back to a quiet texture over
+       the story frames. */
+    let boost = 1;
+    function drawGrid(){
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalAlpha = .42 + .58 * boost;
+      ctx.drawImage(base, 0, 0, W, H);
+      ctx.globalAlpha = 1;
+      if (lit < .01) return;
+      /* text beats on screen → keep the grid quieter so copy stays legible (not on the opening screen) */
+      const scrim = parseFloat(hero.style.getPropertyValue('--hx-scrim')) || 0;
+      const k = lit * (1 - .3 * scrim * (1 - boost));
+      const Rb = R * (1 + .35 * boost);
+      /* light pooled under the pointer */
+      const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, Rb * 1.3);
+      g.addColorStop(0, `rgba(74,155,255,${((.07 + .13 * boost) * k).toFixed(3)})`); g.addColorStop(1, 'rgba(74,155,255,0)');
+      ctx.fillStyle = g; ctx.fillRect(sx - Rb * 1.3, sy - Rb * 1.3, Rb * 2.6, Rb * 2.6);
+      const x0 = Math.max(0, Math.floor((sx - Rb) / GAP)), x1 = Math.ceil((sx + Rb) / GAP);
+      const y0 = Math.max(0, Math.floor((sy - Rb) / GAP)), y1 = Math.ceil((sy + Rb) / GAP);
+      const r = Math.round(110 + 50 * boost), gg = Math.round(175 + 30 * boost);
+      for (let j = y0; j <= y1; j++) for (let i = x0; i <= x1; i++) {
+        const x = i * GAP + GAP / 2, y = j * GAP + GAP / 2;
+        const dx = sx - x, dy = sy - y, d = Math.hypot(dx, dy);
+        if (d > Rb) continue;
+        const f = 1 - d / Rb, e = f * f;                 /* soft falloff */
+        const pull = e * 5 / (d || 1);                   /* dots lean slightly toward the pointer */
+        ctx.fillStyle = `rgba(${r},${gg},255,${Math.min(1, e * (.95 + .05 * boost) * k).toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(x + dx * pull, y + dy * pull, DOT + e * (1.4 + 1.3 * boost), 0, 6.2832); ctx.fill();
+      }
+    }
+
+    function tick(){
+      requestAnimationFrame(tick);
+      if (!visible) return;
+      /* ease spotlight + cursor toward the pointer */
+      /* sticky stage's viewport top, from cached layout (no per-frame layout reads) */
+      const y = scrollY;
+      const stTop = y < top ? top - y : Math.min(0, top + heroH - H - y);
+      const tx = mx, ty = my - stTop;
+      const nl = lit + ((inHero ? 1 : 0) - lit) * .08;
+      const nb = Math.min(1, Math.max(0, parseFloat(hero.style.getPropertyValue('--hx-copy')) || 0));
+      if (Math.abs(nb - boost) > .005) { boost = nb; dirty = true; }
+      const moved = Math.abs(tx - sx) + Math.abs(ty - sy) > .3 || Math.abs(nl - lit) > .002;
+      sx += (tx - sx) * .14; sy += (ty - sy) * .14; lit = nl;
+      if (moved || dirty) { drawGrid(); dirty = false; }
+
+      cx += (mx - cx) * .22; cy += (my - cy) * .22;
+      const p = Math.min(1, Math.max(0, (scrollY - top) / span));
+      bar.style.strokeDashoffset = (RING * (1 - p)).toFixed(2);
+      cur.style.transform = `translate3d(${(cx + 14).toFixed(1)}px,${(cy + 14).toFixed(1)}px,0)`;
+    }
+    requestAnimationFrame(tick);
+  })();
+
+
+  /* =================================================================
+     S3 — MENTORS: the video scrubs with scroll.
+     The source file has sparse keyframes (random seeks ≈ 20–180 ms), so once it
+     is near, every frame is captured into memory (small webp blobs) and the
+     scrub draws the exact frame to a canvas. Until then it seeks the video directly.
+     ================================================================= */
+  (() => {
+    const sec = document.getElementById('team');
+    const vid = document.getElementById('mw-vid');
+    if (!sec || !vid) return;
+    const screen = sec.querySelector('.mw-screen');
+    const cv = screen.querySelector('canvas');
+    const ctx = cv.getContext('2d');
+    const track = sec.querySelector('.mw-track');
+    const PLAY_END = 0.86;          /* last 14% of the pin holds the final frame */
+    const FPS = 30;
+    const LAST_FRAME = 128;         /* scene ends here (≈4.27s): all four mentor groups in, glow full, learner grinning */
+
+    /* heading reveal */
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) sec.classList.add('is-in'); }, { threshold: .15 })
+      .observe(sec.querySelector('.mw-head'));   /* the head is its own block above the track now */
+
+    const load = fetch(vid.dataset.src).then(r => { if (!r.ok) throw 0; return r.blob(); })
+      .then(b => URL.createObjectURL(b))
+      .catch(() => vid.dataset.src);
+    load.then(u => { vid.src = u; });
+    addEventListener('touchstart', () => { vid.play().then(() => vid.pause()).catch(() => {}); }, { once: true, passive: true });
+
+    if (RM) {                                   /* reduced motion: just show the finished scene */
+      vid.addEventListener('loadedmetadata', () => { vid.currentTime = (LAST_FRAME + .5) / FPS; }, { once: true });
+      return;
+    }
+
+    /* ---- canvas: contain-fit, anchored to the bottom (desk sits on the fold) ---- */
+    let cvW = 1262, cvH = 728, box = { x: 0, y: 0, w: 0, h: 0 }, lastDrawn = -1;
+    const sizeCanvas = () => {
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      const w = cv.clientWidth, h = cv.clientHeight;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      /* the whole frame, uncropped, in the room under the sticky heading: the mentor cards run
+         right up to the frame's top and sides, so nothing may be cut off */
+      const s = Math.min(w / cvW, h / cvH);
+      box = { w: cvW * s * dpr, h: cvH * s * dpr };
+      box.x = (cv.width - box.w) / 2; box.y = cv.height - box.h;
+      lastDrawn = -1;
+    };
+
+    /* ---- frame capture (runs once, off-screen, when the section is near) ---- */
+    let frames = null;                          /* Blob[] */
+    let started = false;
+    const capture = async () => {
+      if (started || location.protocol === 'file:') return; started = true;
+      const url = await load;
+      const cap = document.createElement('video');
+      cap.muted = true; cap.playsInline = true; cap.src = url;
+      Object.assign(cap.style, { position: 'fixed', left: 0, top: 0, width: '2px', height: '2px', opacity: .01, pointerEvents: 'none' });
+      document.body.appendChild(cap);
+      await new Promise(r => cap.addEventListener('loadeddata', r, { once: true }));
+      const n = Math.min(LAST_FRAME + 1, Math.round(cap.duration * FPS)), got = new Array(n);
+      const W = cap.videoWidth, H = cap.videoHeight;
+      const grab = t => {
+        const i = Math.min(n - 1, Math.round(t * FPS));
+        if (got[i]) return Promise.resolve();
+        const c = document.createElement('canvas'); c.width = W; c.height = H;
+        c.getContext('2d').drawImage(cap, 0, 0, W, H);
+        return new Promise(r => c.toBlob(b => { got[i] = b; r(); }, 'image/webp', .9));
+      };
+      const jobs = [];
+      if ('requestVideoFrameCallback' in cap) {
+        await new Promise(done => {
+          const cb = (_, m) => {
+            if (m.mediaTime * FPS > n - .5) { cap.pause(); done(); return; }   /* past the last frame we keep */
+            jobs.push(grab(m.mediaTime)); if (!cap.ended) cap.requestVideoFrameCallback(cb);
+          };
+          cap.requestVideoFrameCallback(cb);
+          cap.addEventListener('ended', done, { once: true });
+          cap.play().catch(done);
+        });
+      }
+      await Promise.all(jobs);
+      /* anything the playback pass missed (or no rVFC): step-seek for it */
+      for (let i = 0; i < n; i++) if (!got[i]) {
+        await new Promise(r => { cap.addEventListener('seeked', r, { once: true }); cap.currentTime = (i + .5) / FPS; });
+        await grab((i + .5) / FPS);
+      }
+      frames = got; cap.remove();
+      cvW = W; cvH = H; sizeCanvas();
+      screen.classList.add('frames');
+    };
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) capture(); }, { rootMargin: '150% 0px' }).observe(sec);
+
+    /* decode-on-demand with a tiny cache; only the newest request wins */
+    const cache = new Map(); let want = -1, decoding = false;
+    const draw = bmp => {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(bmp, box.x, box.y, box.w, box.h);
+      /* the film is narrower than the page now: feather its edges into the white so the desk and
+         arcs don't end in a hard box. Kept thin (the cards sit ~3.5% from the sides, ~10% from the top). */
+      ctx.globalCompositeOperation = 'destination-out';
+      const fs = box.w * .025;
+      for (const [x0, x1] of [[box.x, box.x + fs], [box.x + box.w, box.x + box.w - fs]]) {
+        const g = ctx.createLinearGradient(x0, 0, x1, 0);
+        g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g; ctx.fillRect(Math.min(x0, x1), box.y, fs, box.h);
+      }
+      const ft = box.h * .06, gt = ctx.createLinearGradient(0, box.y, 0, box.y + ft);
+      gt.addColorStop(0, 'rgba(0,0,0,1)'); gt.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = gt; ctx.fillRect(box.x, box.y, box.w, ft);
+      ctx.globalCompositeOperation = 'source-over';
+    };
+    const show = i => {
+      want = i;
+      if (i === lastDrawn) return;
+      if (cache.has(i)) { draw(cache.get(i)); lastDrawn = i; return; }
+      if (decoding) return;
+      decoding = true;
+      createImageBitmap(frames[i]).then(bmp => {
+        cache.set(i, bmp);
+        if (cache.size > 24) { const k = cache.keys().next().value; cache.get(k).close(); cache.delete(k); }
+        decoding = false;
+        if (want === i) { draw(bmp); lastDrawn = i; } else show(want);
+      }).catch(() => { decoding = false; });
+    };
+
+    /* ---- fallback before frames exist: coalesced seeks on the video itself ---- */
+    let seeking = false, pending = -1;
+    vid.addEventListener('seeked', () => { seeking = false; if (pending >= 0) { const t = pending; pending = -1; seek(t); } });
+    const seek = t => {
+      if (seeking) { pending = t; return; }
+      if (Math.abs(vid.currentTime - t) < .5 / FPS) return;
+      seeking = true; vid.currentTime = t;
+    };
+
+    /* ---- scroll → progress ---- */
+    let top = 0, span = 1, vh = innerHeight, lastW = innerWidth;
+    const measure = () => {
+      vh = innerHeight;
+      top = track.getBoundingClientRect().top + scrollY;
+      span = Math.max(1, track.offsetHeight - vh);
+      sizeCanvas();
+    };
+    measure();
+    addEventListener('load', measure);
+    /* content above (fonts, card images) can settle after load and shift this section: re-measure */
+    new ResizeObserver(() => measure()).observe(document.body);
+    addEventListener('resize', () => {
+      if (matchMedia('(pointer: coarse)').matches && innerWidth === lastW) return;   /* URL-bar resize: ignore */
+      lastW = innerWidth; measure();
+    });
+
+    const tick = () => {
+      requestAnimationFrame(tick);
+      const y = scrollY;
+      if (y + vh < top - vh || y > top + span + vh) return;           /* off-screen */
+      const p = Math.min(1, Math.max(0, (y - top) / span));
+      const k = Math.min(1, p / PLAY_END);
+      if (frames) show(Math.round(k * (frames.length - 1)));
+      else if (vid.duration) seek((Math.round(k * LAST_FRAME) + .5) / FPS);
+      sec.dataset.frame = frames ? want : -1;     /* handy for QA */
+    };
+    requestAnimationFrame(tick);
+  })();
+
+  /* =================================================================
+     S6 — CAREER TRANSFORMATIONS: a pinned screen that turns from light to dark
+     (Figma CCBP-v02 794:4806). See the CSS block for what --a / --q / --r drive.
+     ================================================================= */
+  (() => {
+    const sec = document.getElementById('career-transformations');
+    if (!sec) return;
+    const track = sec.querySelector('.ctx-track'), grid = sec.querySelector('.ctx-grid');
+
+    /* PLACEHOLDER learners and quotes (as the previous version of this section was): replace with
+       real, approved testimonials before launch. [name, role, quote, photo] */
+    const P = {
+      aditya:  ['Aditya Rao', 'SDE I, Amazon', 'Every project I built here came up in my Amazon interviews.', 'assets/people/v01.jpg'],
+      sneha:   ['Sneha Iyer', 'Frontend Engineer, Swiggy', 'My mentor reviewed my code every single week.', 'assets/people/v02.jpg'],
+      arjun:   ['Arjun Mehta', 'Full Stack Developer, Zoho', 'Real projects, real feedback, and a real job at the end.', 'assets/people/v03.jpg'],
+      priya:   ['Priya Reddy', 'Software Engineer, Deloitte', 'From zero code to my first offer in eight months.', 'assets/people/v04.jpg'],
+      rohan:   ['Rohan Das', 'SDE II, Razorpay', 'The mock interviews felt harder than the real ones.', 'assets/people/ct-p1.jpg'],
+      nikhil:  ['Nikhil Rao', 'Cloud Engineer, Accenture', 'I finally understood systems, not just syntax.', 'assets/people/ct-p3.jpg'],
+      meera:   ['Meera Pillai', 'ML Engineer, Fractal', 'Weekly reviews kept me honest.', 'assets/people/ct-p4.jpg'],
+      karthik: ['Karthik S', 'ML Scientist, GoKwik', 'It blended theory with hands-on work. I could finally tackle real problems in AI.', 'assets/people/ct-p5.jpg'],
+      vivek:   ['Vivek Menon', 'Data Engineer, PhonePe', 'The DSA track is why I cleared every coding round.', 'assets/people/ct-p6.jpg'],
+      kavya:   ['Kavya Nair', 'Data Analyst, Flipkart', 'I came from a non-tech job. My projects were what every interviewer asked about.'],
+      sai:     ['Sai Teja', 'Android Developer, Paytm', 'Placement support didn’t stop until I had an offer.'],
+      divya:   ['Divya Krishnan', 'QA Engineer, Freshworks', 'Mentors who had done the job told me what actually matters.'],
+    };
+    /* the design's eight columns: [left %, top %, rise delay, cards]; card = [image|solid, height at 248 wide, person, tint] */
+    const COLS = [
+      [-8.776, 55.97, .10, [['s', 230, 'divya'], ['i', 350, 'karthik', '67,56,202']]],
+      [ 6.172, 37.40, .06, [['i', 360, 'aditya', '157,23,77'], ['s', 220, 'kavya']]],
+      [21.12,  54.77, .03, [['s', 260, 'karthik'], ['i', 320, 'sneha', '67,56,202']]],
+      [36.07,  65.09, 0,   [['i', 320, 'rohan', '15,118,110'], ['s', 260, 'nikhil']]],
+      [51.02,  68.01, 0,   [['i', 320, 'priya', '109,40,217'], ['s', 260, 'vivek']]],
+      [65.96,  53.30, .03, [['s', 230, 'sai'], ['i', 350, 'meera', '180,83,9']]],
+      [80.91,  38.88, .06, [['i', 340, 'arjun', '3,105,161'], ['s', 240, 'divya']]],
+      [95.86,  62.64, .10, [['i', 340, 'vivek', '157,23,77'], ['s', 240, 'kavya']]],
+    ];
+    const STAR = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M6.838 1.213a.58.58 0 0 0-.114.125L5.377 4.068a1.63 1.63 0 0 1-1.225.89l-3.013.44a.58.58 0 0 0-.3.2.58.58 0 0 0-.1.21.58.58 0 0 0 .163.525l2.18 2.122a1.63 1.63 0 0 1 .468 1.442l-.514 2.998a.58.58 0 0 0 .847.614l2.693-1.417a1.63 1.63 0 0 1 1.151 0l2.694 1.417a.58.58 0 0 0 .847-.613l-.515-2.999a1.63 1.63 0 0 1 .468-1.442l2.179-2.121a.58.58 0 0 0-.322-.992l-3.013-.44a1.63 1.63 0 0 1-1.225-.891L7.278 1.338a.58.58 0 0 0-.44-.125z"/></svg>';
+    const card = ([t, h, k, tint]) => {
+      const [name, role, quote, img] = P[k], isImg = t === 'i' && img;
+      return `<article class="ctx-card ctx-card--${isImg ? 'img' : 'solid'}" style="--h:${h}${isImg ? `;--tint:rgba(${tint},.314)` : ''}">` +
+        (isImg ? `<img src="${img}" alt="" loading="lazy" decoding="async">` : '') +
+        `<div class="ctx-stars" role="img" aria-label="Rated 5 out of 5">${STAR.repeat(5)}</div>` +
+        `<div><blockquote>“${quote}”</blockquote><p class="ctx-by"><b>${name}</b><span>${role}</span></p></div></article>`;
+    };
+    grid.innerHTML = COLS.map(([x, y, , cards], i) =>
+      `<div class="ctx-col" style="--x:${x};--y:${y}"${i === 0 || i === COLS.length - 1 ? ' aria-hidden="true"' : ''}>${cards.map(card).join('')}</div>`).join('');
+    const cols = [...grid.children];
+
+    const ease = v => v * v * (3 - 2 * v);
+    const seg = (p, from, len) => ease(Math.min(1, Math.max(0, (p - from) / len)));
+    let top = 0, anim = 1, trackH = 1, vh = innerHeight;
+    const measure = () => {
+      vh = innerHeight;
+      top = track.getBoundingClientRect().top + scrollY;
+      trackH = track.offsetHeight;
+      anim = Math.max(1, trackH - 2 * vh);     /* the last screen of the pin belongs to the next section sliding over */
+    };
+    measure();
+    addEventListener('resize', measure);
+    addEventListener('load', measure);
+    new ResizeObserver(measure).observe(document.body);
+
+    const last = {};
+    const set = (el, k, v) => { const key = k + (el === sec ? '' : cols.indexOf(el)); if (last[key] !== v) { last[key] = v; el.style.setProperty(k, v); } };
+    const render = p => {
+      const a = seg(p, .06, .40), q = seg(p, .06, .36);
+      set(sec, '--a', a.toFixed(3));
+      set(sec, '--q', q.toFixed(3));
+      /* subline ink: black on white → soft white on navy */
+      set(sec, '--ctx-ink', [0 + 222 * a, 0 + 228 * a, 0 + 240 * a].map(Math.round).join(','));
+      cols.forEach((c, i) => {
+        const r = seg(p, .08 + COLS[i][2], .48);   /* cards rise while the portraits are still leaving */
+        set(c, '--r', r.toFixed(3));
+        c.classList.toggle('is-on', r > .95);
+      });
+    };
+    if (RM) { render(1); return; }                       /* reduced motion: just the finished dark screen */
+    const tick = () => {
+      requestAnimationFrame(tick);
+      const y = scrollY;
+      if (y + vh < top - vh || y > top + trackH) return;   /* off-screen */
+      render(Math.min(1, Math.max(0, (y - top) / anim)));
+    };
+    render(0);
+    requestAnimationFrame(tick);
+    window.NW = Object.assign(window.NW || {}, { ctxRender: render });
+  })();
+
+  /* =================================================================
+     S3 — AWARDS: the wall film plays with the scroll, forward as the panel rises up the
+     screen and back as it goes down. Like the other scrubbed films, every frame is captured once so any frame can be
+     drawn instantly; until then the video element is seeked directly.
+     ================================================================= */
+  (() => {
+    const wall = document.querySelector('.aw-wall');
+    if (!wall || RM) return;                          /* reduced motion: the still stays */
+    const vid = wall.querySelector('video'), cv = wall.querySelector('canvas'), ctx = cv.getContext('2d');
+    const FPS = 30;
+    let n = 150, frames = null, cur = n - 1, target = n - 1, drawn = -1, box = null, near = false, loaded = null;
+    const AW_Y = .15;          /* vertical crop anchor: 0 = top of the film, .5 = centred (matches CSS object-position 50% 15%) */
+    let fW = 1280, fH = 720;
+    let redraw = () => {};                  /* set once the drawing code below exists */
+
+    const sizeCanvas = () => {
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      cv.width = Math.round(cv.clientWidth * dpr); cv.height = Math.round(cv.clientHeight * dpr);
+      const k = Math.max(cv.width / fW, cv.height / fH);                        /* cover */
+      /* crop mostly from the bottom (floor), keeping the wall's headline clear of the notch */
+      box = { w: fW * k, h: fH * k }; box.x = (cv.width - box.w) / 2; box.y = (cv.height - box.h) * AW_Y;
+      drawn = -1; redraw();                 /* resizing clears the canvas */
+    };
+    new ResizeObserver(sizeCanvas).observe(wall);
+
+    /* load + capture only once the section is near */
+    const start = () => {
+      if (loaded) return loaded;
+      loaded = fetch(vid.dataset.src).then(r => { if (!r.ok) throw 0; return r.blob(); })
+        .then(b => URL.createObjectURL(b)).catch(() => vid.dataset.src);
+      loaded.then(u => {
+        vid.src = u;
+        vid.addEventListener('loadeddata', () => {
+          n = Math.max(1, Math.round(vid.duration * FPS)); cur = target = Math.min(cur, n - 1);
+          wall.classList.add('has-video');
+        }, { once: true });
+        capture(u);
+      });
+      return loaded;
+    };
+    /* capture needs the page painting: a hidden tab never delivers the frames, so wait until it's
+       visible, abandon the pass if it's hidden midway, and try again once it's back */
+    let capturing = false;
+    const whenVisible = () => document.visibilityState === 'visible' ? Promise.resolve()
+      : new Promise(r => document.addEventListener('visibilitychange', function v(){ if (document.visibilityState === 'visible') { document.removeEventListener('visibilitychange', v); r(); } }));
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && !frames && loaded) loaded.then(u => capture(u));
+    });
+    const capture = async url => {
+      if (frames || capturing || location.protocol === 'file:' || !('requestVideoFrameCallback' in HTMLVideoElement.prototype)) return;
+      capturing = true;
+      try { await capturePass(url); } finally { capturing = false; }
+    };
+    const capturePass = async url => {
+      await whenVisible();
+      const cap = document.createElement('video');
+      cap.muted = true; cap.playsInline = true; cap.src = url;
+      Object.assign(cap.style, { position: 'fixed', left: 0, top: 0, width: '2px', height: '2px', opacity: .01, pointerEvents: 'none' });
+      document.body.appendChild(cap);
+      await new Promise(r => cap.addEventListener('loadeddata', r, { once: true }));
+      const count = Math.round(cap.duration * FPS), got = new Array(count), jobs = [];
+      fW = Math.min(1280, cap.videoWidth); fH = Math.round(fW * cap.videoHeight / cap.videoWidth);
+      let hidden = false;
+      const onHide = () => { if (document.visibilityState !== 'visible') { hidden = true; cap.pause(); cap.dispatchEvent(new Event('ended')); } };
+      document.addEventListener('visibilitychange', onHide);
+      await new Promise(done => {
+        const cb = (_, m) => {
+          if (hidden) return;
+          const i = Math.min(count - 1, Math.round(m.mediaTime * FPS));
+          if (!got[i]) {
+            const c = document.createElement('canvas'); c.width = fW; c.height = fH;
+            c.getContext('2d').drawImage(cap, 0, 0, fW, fH); got[i] = true;
+            jobs.push(new Promise(r => c.toBlob(b => { got[i] = b; r(); }, 'image/webp', .85)));
+          }
+          if (!cap.ended) cap.requestVideoFrameCallback(cb);
+        };
+        cap.requestVideoFrameCallback(cb);
+        cap.addEventListener('ended', done, { once: true });
+        cap.play().catch(done);
+      });
+      document.removeEventListener('visibilitychange', onHide);
+      await Promise.all(jobs);
+      cap.remove();
+      if (hidden || got.filter(x => x instanceof Blob).length / count < .9) return;   /* interrupted or patchy: keep seeking, retry when visible */
+      let last = null;
+      for (let i = 0; i < count; i++) { if (got[i] instanceof Blob) last = got[i]; else got[i] = last; }
+      for (let i = count - 1; i >= 0; i--) { if (got[i] instanceof Blob) last = got[i]; else got[i] = last; }
+      frames = got; n = count; sizeCanvas();
+      wall.classList.add('frames');
+    };
+    /* start well before the panel arrives: the frame capture plays the 5s film once, and until it
+       finishes the film can only seek the video, which is the jerky path */
+    new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) start(); }, { rootMargin: '250% 0px' }).observe(wall);
+
+    /* draw: frames are decoded a few at a time and ahead of the scroll direction, kept in a cache of
+       ~60 around the current position, and the two nearest are blended so motion is continuous
+       rather than stepping frame to frame */
+    const CACHE = 60, IN_FLIGHT = 3;
+    const cache = new Map(), inFlight = new Set();
+    let dirty = true, lastPos = -1, dir = 1;
+    redraw = () => { dirty = true; lastPos = -1; };
+    const decode = i => {
+      if (!frames || i < 0 || i >= n || cache.has(i) || inFlight.has(i) || inFlight.size >= IN_FLIGHT) return;
+      inFlight.add(i);
+      createImageBitmap(frames[i]).then(bmp => {
+        inFlight.delete(i);
+        cache.set(i, bmp); dirty = true;
+        if (cache.size > CACHE) {                     /* drop the frame furthest from where we are */
+          let far = -1, fd = -1;
+          for (const k of cache.keys()) { const d = Math.abs(k - cur); if (d > fd) { fd = d; far = k; } }
+          cache.get(far).close(); cache.delete(far);
+        }
+      }).catch(() => inFlight.delete(i));
+    };
+    const nearestCached = i => { for (let d = 0; d < n; d++) { if (cache.has(i - d)) return i - d; if (cache.has(i + d)) return i + d; } return -1; };
+    const show = pos => {
+      if (!box) return;
+      const i0 = Math.floor(pos), f = pos - i0;
+      /* what we need now, then what we'll need next in the direction of travel */
+      decode(i0); decode(i0 + 1);
+      for (let s = 2; s <= 8; s++) decode(i0 + dir * s);
+      decode(i0 - dir);
+      if (!dirty && Math.abs(pos - lastPos) < .01) return;
+      /* if the exact frame isn't decoded yet, only stand in a neighbour a few frames away; a far one
+         would flash the wrong part of the camera move, so hold the current picture a moment instead */
+      const a = cache.has(i0) ? i0 : nearestCached(i0);
+      if (a < 0 || (Math.abs(a - i0) > 3 && drawn >= 0)) return;
+      ctx.globalAlpha = 1;
+      ctx.drawImage(cache.get(a), box.x, box.y, box.w, box.h);
+      if (a === i0 && f > .02 && cache.has(i0 + 1)) {          /* blend in the next frame by the fraction */
+        ctx.globalAlpha = f;
+        ctx.drawImage(cache.get(i0 + 1), box.x, box.y, box.w, box.h);
+        ctx.globalAlpha = 1;
+      }
+      lastPos = pos; dirty = false; drawn = a; wall.dataset.frame = a;   /* data-frame: handy for QA */
+    };
+    let seeking = false, pending = -1;
+    vid.addEventListener('seeked', () => { seeking = false; if (pending >= 0) { const t = pending; pending = -1; seek(t); } });
+    const seek = t => {
+      if (seeking) { pending = t; return; }
+      if (Math.abs(vid.currentTime - t) < .5 / FPS) return;
+      seeking = true; vid.currentTime = t;
+    };
+
+    /* input: the panel's journey through the viewport — the film plays forward as it scrolls up
+       the screen and back as it scrolls down (every device) */
+    let lastT = 0;
+    const tick = now => {
+      requestAnimationFrame(tick);
+      if (!near) { lastT = 0; return; }
+      const r = wall.getBoundingClientRect();
+      target = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height))) * (n - 1);
+      /* eased toward the scroll position at the same rate whatever the display's refresh rate */
+      if (!lastT) cur = target;             /* arriving at the panel: start where the scroll is, don't rewind into it */
+      const dt = lastT ? Math.min(.1, (now - lastT) / 1000) : 1 / 60; lastT = now;
+      const prev = cur;
+      cur += (target - cur) * (1 - Math.pow(1 - .12, dt * 60));
+      if (Math.abs(target - cur) < .002) cur = target;
+      if (cur !== prev) dir = cur > prev ? 1 : -1;
+      const pos = Math.max(0, Math.min(n - 1, cur));
+      if (frames) show(pos);
+      else if (vid.readyState >= 2) seek((Math.round(pos) + .5) / FPS);
+    };
+    requestAnimationFrame(tick);
+  })();
+
+  /* =================================================================
+     S2 — PROGRAMMES backdrop: light lines fan out from behind the cards to the page
+     edges, with pulses of light running along them. The fan is measured from the
+     cards, so it stays aligned with the row.
+     ================================================================= */
+  (() => {
+    const sec = document.getElementById('programmes');
+    const cv = sec && sec.querySelector('.prog-rays');
+    if (!cv) return;
+    const ctx = cv.getContext('2d');
+    const LINES = 17;
+    let W = 0, H = 0, dpr = 1, rays = [], pulses = [], visible = false, lastT = 0, on = false;
+
+    const measure = () => {
+      const slots = [...sec.querySelectorAll('#cards .slot')];
+      on = slots.length > 0 && innerWidth > 900;
+      sec.classList.toggle('has-rays', on);
+      if (!on) return;
+      const sr = sec.getBoundingClientRect();
+      const first = slots[0].getBoundingClientRect(), lastR = slots[slots.length - 1].getBoundingClientRect();
+      const top = first.top - sr.top, bottom = Math.max(first.bottom, lastR.bottom) - sr.top;
+      const left = first.left - sr.left, right = lastR.right - sr.left;
+      dpr = Math.min(2, devicePixelRatio || 1);
+      W = sec.clientWidth; H = sec.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      /* the fan: from just inside the outer cards out to the page edges, spanning the card row
+         with a margin above and below */
+      const fTop = top - 96, fBot = bottom + 96;
+      const midY = (top + bottom) / 2;
+      rays = [];
+      for (const side of [-1, 1]) {
+        const vx = side < 0 ? left + 40 : right - 40, ex = side < 0 ? 0 : W;
+        for (let i = 0; i < LINES; i++) {
+          const f = i / (LINES - 1);
+          const ey = fTop + f * (fBot - fTop);
+          rays.push({ x0: vx, y0: midY, x1: ex, y1: ey });
+        }
+      }
+      paint(performance.now());
+    };
+
+    const spawn = () => {
+      const r = rays[(Math.random() * rays.length) | 0];
+      pulses.push({ r, t: 0, speed: .28 + Math.random() * .3, out: Math.random() < .7, len: .12 + Math.random() * .08 });
+    };
+
+    function paint(now){
+      const dt = Math.min(.05, (now - (lastT || now)) / 1000); lastT = now;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      /* the wires: faint near the cards, clearer towards the edges */
+      for (const r of rays) {
+        const g = ctx.createLinearGradient(r.x0, r.y0, r.x1, r.y1);
+        g.addColorStop(0, 'rgba(147,197,253,0)'); g.addColorStop(.3, 'rgba(147,197,253,.4)'); g.addColorStop(1, 'rgba(147,197,253,.75)');
+        ctx.strokeStyle = g; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(r.x0, r.y0); ctx.lineTo(r.x1, r.y1); ctx.stroke();
+      }
+      if (RM) return;
+      /* the light running along them */
+      if (pulses.length < 9 && Math.random() < dt * 4) spawn();
+      ctx.lineCap = 'round';
+      pulses = pulses.filter(p => {
+        p.t += dt * p.speed;
+        if (p.t > 1 + p.len) return false;
+        const a = p.out ? p.t : 1 - p.t, b = p.out ? p.t - p.len : 1 - p.t + p.len;
+        const s = Math.max(0, Math.min(1, Math.min(a, b))), e = Math.max(0, Math.min(1, Math.max(a, b)));
+        if (e - s < .002) return true;
+        const { x0, y0, x1, y1 } = p.r;
+        const ax = x0 + (x1 - x0) * s, ay = y0 + (y1 - y0) * s, bx = x0 + (x1 - x0) * e, by = y0 + (y1 - y0) * e;
+        const head = p.out ? [bx, by] : [ax, ay], tail = p.out ? [ax, ay] : [bx, by];
+        const g = ctx.createLinearGradient(tail[0], tail[1], head[0], head[1]);
+        g.addColorStop(0, 'rgba(59,130,246,0)'); g.addColorStop(.7, 'rgba(96,165,250,.85)'); g.addColorStop(1, 'rgba(255,255,255,1)');
+        ctx.strokeStyle = g; ctx.lineWidth = 2.2;
+        ctx.shadowColor = 'rgba(96,165,250,.9)'; ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+        ctx.shadowBlur = 0;
+        return true;
+      });
+    }
+    const loop = now => { if (visible && on) paint(now); requestAnimationFrame(loop); };
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; lastT = 0; }).observe(sec);
+    new ResizeObserver(measure).observe(sec);
+    addEventListener('resize', measure);
+    addEventListener('load', measure);
+    requestAnimationFrame(loop);
+  })();
+
+  /* S3b: 3,000+ companies logo ticker (from the supplied build) — five lines drifting in
+     alternate directions; each set is doubled so translate −50% loops seamlessly */
+  (() => {
+    const box = document.getElementById('logo-ticker');
+    if (!box) return;
+    const NAMES = ['Google','Amazon','NVIDIA','Accenture','Deloitte','Bank of America','Bosch',
+      'Jio','TCS','Tech Mahindra','Goldman Sachs','Oracle','Samsung','Infosys',
+      'Wipro','Apollo Hospitals','SAP','Capgemini','Cyient','HCL','Tata Elxsi',
+      'Cognizant','CGI','Merkle Sokrati','Mindtree','Delhivery','needl.ai','Fareportal',
+      'Prodapt','Tanla','GlobalLogic','NTT Data','Fractal','Napier Healthcare','GEP'];
+    const logos = NAMES.map((name, i) => ({ name, src: `assets/logos/logo-${String(i).padStart(2, '0')}.png` }));
+    const ROWS = 5, per = Math.ceil(logos.length / ROWS);
+    const set = (list, hidden) => `<ul class="ticker-set"${hidden ? ' aria-hidden="true"' : ''}>` +
+      list.map(l => `<li><img src="${l.src}" alt="${hidden ? '' : l.name}" decoding="async" loading="lazy"></li>`).join('') + '</ul>';
+    const row = (list, dir, dur) => `<div class="ticker-row ${dir}" style="--tick-dur:${dur}s">${set(list)}${set(list, true)}</div>`;
+    const DUR = [70, 64, 76, 60, 68];
+    box.innerHTML = DUR.map((d, r) => { const l = logos.slice(r * per, r * per + per); return row(l.concat(l), r % 2 ? 'to-left' : 'to-right', d); }).join('');
+  })();
+
+  /* S3: elements rise in as they enter the viewport */
+  (() => {
+    const els = document.querySelectorAll('.reveal-up');
+    if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('is-in')); return; }
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    }), { threshold: .2, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(el => io.observe(el));
+  })();
+
+  /* links with no destination yet */
+  document.querySelectorAll('[data-blank]').forEach(el => el.addEventListener('click', e => e.preventDefault()));
+})();
+</script>
+
+<script>
+  /* ============================================================
+     CARD DATA — add / edit entries here. Same UI, new content.
+     tag colors: indigo | cyan | amber | green
+     imagePosition: which part of the banner stays in view
+     imageOrigin:   where the hover zoom anchors
+     ring:          optional border colour
+     ============================================================ */
+  const SHARED = {
+    startLabel: "Batch starts on",
+    startDate: "21st Sep 2026",
+    seats: "Limited Seats Available",
+    title: "Learn like top IITians and achieve high-paid software jobs",
+    tags: [
+      { text: "Post 12th / Intermediate", color: "indigo" },
+      { text: "1st, 2nd, 3rd Year", color: "cyan" },
+    ],
+    description: "Get industry-ready with expert-led training, hands-on projects and placement support.",
+    secondaryLabel: "Know More",
+    secondaryHref: "#",
+    primaryLabel: "Request Callback",
+  };
+  const CARDS = [
+    { ...SHARED,
+      image: "assets/banner-academy.png",
+      imageAlt: "NxtWave Academy — student with backpack",
+    },
+    { ...SHARED,
+      image: "assets/banner-intensive.png",
+      imageAlt: "NxtWave Intensive — Training Center / Online",
+      imagePosition: "22% 40%",
+    },
+    { ...SHARED,
+      image: "assets/banner-niat.png",
+      imageAlt: "NIAT — NxtWave of Innovation in Advanced Technologies",
+      imagePosition: "50% 25%",
+      imageOrigin: "12% 20%",
+      ring: "#f3d3d8",
+    },
+  ];
+
+  const MAX_TILT = 10; // degrees
+  const root = document.getElementById("cards");
+  const tpl = document.getElementById("card-tpl");
+  const canHover = matchMedia("(hover: hover)").matches;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function build(data) {
+    const node = tpl.content.firstElementChild.cloneNode(true);
+    const card = node.querySelector(".card");
+    const img = node.querySelector(".banner img");
+    img.src = data.image;
+    img.alt = data.imageAlt || "";
+    if (data.imagePosition) img.style.objectPosition = data.imagePosition;
+    if (data.imageOrigin) img.style.transformOrigin = data.imageOrigin;
+    if (data.ring) card.style.setProperty("--ring", data.ring);
+    node.querySelectorAll("[data-f]").forEach(el => { el.textContent = data[el.dataset.f] ?? ""; });
+    node.querySelector(".btn-ghost").href = data.secondaryHref || "#";
+
+    const tags = node.querySelector(".tags");
+    (data.tags || []).forEach(t => {
+      const s = document.createElement("span");
+      s.className = `tag ${t.color || "indigo"}`;
+      s.textContent = t.text;
+      tags.appendChild(s);
+    });
+
+    return node;
+  }
+
+  function wire(slot) {
+    const card = slot.querySelector(".card");
+
+    // reserve the rest-state height so neighbours don't jump when the card expands
+    const measure = () => {
+      if (card.classList.contains("is-open")) return;
+      slot.style.setProperty("--rest-h", card.offsetHeight + "px");
+    };
+    card.querySelector(".banner img").addEventListener("load", measure);
+    requestAnimationFrame(measure);
+    document.fonts && document.fonts.ready.then(measure);
+    addEventListener("resize", measure);
+
+    if (!canHover) return;
+
+    let leaveTimer, raf;
+
+    const open = () => {
+      clearTimeout(leaveTimer);
+      card.classList.remove("is-leaving");
+      card.classList.add("is-active", "is-open");
+      if (!reduced) {
+        card.classList.remove("is-sweeping");
+        void card.offsetWidth; // restart the sweep animation
+        card.classList.add("is-sweeping");
+      }
+    };
+
+    const close = () => {
+      card.classList.remove("is-active", "is-open", "is-sweeping");
+      card.classList.add("is-leaving");
+      card.style.setProperty("--rx", "0deg");
+      card.style.setProperty("--ry", "0deg");
+      ["--ix", "--iy", "--ir"].forEach(v => card.style.removeProperty(v));
+      leaveTimer = setTimeout(() => card.classList.remove("is-leaving"), 350);
+    };
+
+    card.addEventListener("pointerenter", open);
+    card.addEventListener("pointerleave", close);
+
+    card.addEventListener("pointermove", e => {
+      if (reduced) return;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;   // 0..1
+        const py = (e.clientY - r.top) / r.height;   // 0..1
+        card.style.setProperty("--ry", ((px - .5) * 2 * MAX_TILT).toFixed(2) + "deg");
+        card.style.setProperty("--rx", ((.5 - py) * 2 * MAX_TILT * .8).toFixed(2) + "deg");
+        card.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+        card.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+        card.style.setProperty("--ix", ((.5 - px) * 18).toFixed(1) + "px");
+        card.style.setProperty("--iy", ((.5 - py) * 12).toFixed(1) + "px");
+        card.style.setProperty("--ir", ((px - .5) * -3).toFixed(2) + "deg");
+      });
+    });
+
+    // keyboard: expand while focus is inside the card
+    card.addEventListener("focusin", () => card.classList.add("is-open"));
+    card.addEventListener("focusout", e => {
+      if (!card.contains(e.relatedTarget) && !card.matches(":hover")) card.classList.remove("is-open");
+    });
+  }
+
+  CARDS.forEach(d => {
+    const slot = build(d);
+    root.appendChild(slot);
+    wire(slot);
+  });
+
+  /* keep "Recognised by" clear of a card when it opens: its top margin follows how far the tallest
+     card actually grows (description + batch row + the 4% lift), which changes with the card width */
+  const recog = document.querySelector('.recog');
+  const fitRecog = () => {
+    if (!recog || !canHover) return;
+    let grow = 0;
+    root.querySelectorAll('.card').forEach(c => {
+      let h = 0;
+      c.querySelectorAll('.reveal > div').forEach(d => { h += d.scrollHeight; });
+      grow = Math.max(grow, h + (c.offsetHeight + h) * .04);
+    });
+    const gap = parseFloat(getComputedStyle(recog.parentElement).rowGap) || 0;
+    recog.style.marginTop = Math.max(0, Math.ceil(grow + 40 - gap)) + 'px';
+  };
+  fitRecog();
+  addEventListener('resize', fitRecog);
+  addEventListener('load', fitRecog);
+  document.fonts && document.fonts.ready.then(fitRecog);
+</script>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="career/script.js"></script>
+<script src="career/media-footer.js"></script>
+<script src="career/masterclass.js"></script>
+<script>
+  /* ---- design notes ----------------------------------------------------------------
+     One card, pinned bottom-right, showing why the section you are looking at is there.
+     A presentation aid for walking someone through the page: the switch turns it on and
+     the choice is remembered, but it starts off so the page is untouched by default. */
+  (() => {
+    const NOTES = [
+      { id: 'hero', name: 'Hero Section',
+        desc: `Opens on the market, not on us. Every student already feels that AI changed hiring. The story does the convincing — takes one learner from starting out to an offer letter, so the visitor sees where this ends before we ask them for anything. The numbers (3,000+ companies, 16,000+ learners) arrive inside the story, not on a banner — at the moment the visitor wants proof, right before the ask. Ends on one button, “Explore programmes”, and the very next section answers it. Nothing on the screen competes with that click.`,
+        principles: [
+          ['Serial position', `People remember the first thing on a page best.`],
+          ['Peak-end rule', `People remember the high point and the ending. The story peaks at the offer letter and ends on 16,000+, just before the programmes.`] ] },
+
+      { id: 'programmes', name: 'Three programmes. One is yours.',
+        desc: `The routing section. Its only job is to get the right person to the right programme page. Sits directly under the hero because the hero ends on “Explore programmes” — the click and the answer are one scroll apart. Competitors who put their courses five or six sections down bury their strongest asset, and we cannot afford that when only 3 in 10 people get past the first screen.`,
+        principles: [
+          ['Hick’s Law', `Three choices with an identical action pattern is one decision: which programme. Not which button.`],
+          ['Recognition over recall', `Eligibility is stated on the card, so nobody has to work out whether they qualify.`] ] },
+
+      { id: 'recognition', name: 'Awards & Recognitions',
+        desc: `Answers the question a parent and a student both ask when shown programmes: is this a real company. Moved up from the bottom of the page — most visitors never reach the end, so recognition placed there does no work. Here it catches people at the moment they hesitate over the cards. Five items, not a wall. Four named awards and Forbes 30 Under 30.`,
+        principles: [
+          ['Halo effect', `A name people already trust, like Forbes, lends credibility to everything placed next to it.`],
+          ['Von Restorff effect', `When everything is highlighted, nothing is. Five named items land harder than twenty badges.`] ] },
+
+      { id: 'hiring-network', name: '3,000+ companies hire NxtWave learners',
+        desc: `Companies that have hired from our programmes, shown as a moving logo ticker rather than a static image. Backs the number from the hero — the story said 3,000+ companies, this is where that becomes Google, Amazon, NVIDIA, Deloitte and Goldman Sachs. Product firms, startups and global services side by side, so every kind of learner finds a place they would want to work.`,
+        principles: [
+          ['Jakob’s Law', `People judge us against sites they already know. Every competitor shows a hiring logo wall, so its absence reads as having nothing to show.`] ] },
+
+      { id: 'team', name: 'Taught by people who have done the job.',
+        desc: `The reason the outcomes above happened. Companies hired these learners because of who trained them. A scroll-driven video, not a grid of headshots — shows mentors at work. People explain the proof. Before the logos they would be a claim; after them, they are the reason.`,
+        principles: [
+          ['Faces draw attention', `Real people at work hold the eye and carry trust in a way logos and adjectives do not.`],
+          ['Credibility through specificity', `“IITs and top product companies” can be checked. “Expert mentors” cannot, so it convinces nobody.`] ] },
+
+      { id: 'career-transformations', name: 'Career Transformations',
+        desc: `Where 16,000+ becomes one person with a name. A number means nothing until someone has a face and a company. Real people. Named companies. Their own words. Follows the mentors on purpose: who taught them, then what happened to them. Decides whether someone like the visitor belongs here. One action, “View All”, for anyone who wants more stories.`,
+        principles: [
+          ['Social proof', `When people are unsure, they look at what others like them did. One named learner at a named company settles the doubt faster than any claim we make.`] ] },
+
+      { id: 'what-companies-look-for', name: 'We train you for what companies hire for',
+        desc: `Closes the loop the hero opened. The headline said AI changed what companies hire for — this is the “teach it”, in four points. Sits after the proof deliberately: someone who has seen the outcomes reads these as reasons; someone who hasn’t reads them as a syllabus. Every point is something we do, framed by what hiring has become.`,
+        principles: [
+          ['Cognitive load', `Four points read as an argument. Seven read as a feature list and get skipped.`],
+          ['Consistency of narrative', `The hero raises the question and this section answers it in detail, once the visitor trusts us enough to read it.`] ] },
+
+      { id: 'hiring-teams', name: 'Why Top Companies Prefer NxtWave Students',
+        desc: `Short clips from the people who actually made the hiring decision — CEOs, engineering leads, talent heads. The only section where someone outside NxtWave speaks. Answers the question behind the logo wall: those companies hired our learners once — would they do it again? Follows the curriculum section deliberately: we say what companies look for, then the companies confirm it.`,
+        principles: [
+          ['Source credibility', `A claim carries more weight from someone with nothing to gain. Only employers speak here.`],
+          ['Authority', `The person who made the hiring decision is the most credible voice available on this question.`] ] },
+
+      { id: 'featured-in-media', name: 'Recognized by Leading Media',
+        desc: `The last layer of outside confirmation: independent press, not our own claims. Comes last deliberately — coverage confirms what someone already believes; it rarely creates belief. Awards near the top catch the hesitant, press at the end reassures the convinced and the parent the link gets forwarded to. A short carousel, not a wall of logos. The page ends on proof, then help — flows into a footer with support contacts.`,
+        principles: [] }
+    ];
+
+    const card = document.getElementById('dn-card');
+    const sw = document.getElementById('dn-switch');
+    const numEl = document.getElementById('dn-num');
+    const nameEl = document.getElementById('dn-name');
+    const descEl = document.getElementById('dn-desc');
+    const list = document.getElementById('dn-list');
+    if (!card || !sw) return;
+
+    const items = NOTES.map(n => ({ ...n, el: document.getElementById(n.id) })).filter(n => n.el);
+    if (!items.length) return;
+    /* notes only count the sections actually on the page */
+    const totalEl = document.getElementById('dn-total');
+    if (totalEl) totalEl.textContent = String(items.length).padStart(2, '0');
+
+    /* the last section to have crossed the mark owns the card. Reading tops rather than whole
+       boxes keeps it monotonic: sections that overlap (the card deck rides up over the pinned
+       hero) hand over exactly when the newer one takes the screen, and it never falls back to
+       the first section once the page runs past the last one. */
+    const current = () => {
+      const mark = innerHeight * .4;
+      let hit = items[0];
+      for (const it of items) if (it.el.getBoundingClientRect().top <= mark) hit = it;
+      return hit;
+    };
+
+    let shown = null;
+    const render = () => {
+      const it = current();
+      if (!it || it === shown) return;
+      shown = it;
+      numEl.textContent = String(items.indexOf(it) + 1).padStart(2, '0');
+      nameEl.textContent = it.name;
+      descEl.textContent = it.desc;
+      list.textContent = '';
+      list.hidden = !it.principles.length;
+      if (it.principles.length) {
+        const h = document.createElement('h4');
+        h.textContent = 'Design & UX principles';
+        list.append(h);
+        for (const [term, text] of it.principles) {
+          const p = document.createElement('p'); p.className = 'dn-p';
+          const b = document.createElement('b'); b.textContent = term;
+          p.append(b, text);
+          list.append(p);
+        }
+      }
+      card.scrollTop = 0;
+    };
+
+    let on = false;
+    try { on = localStorage.getItem('nw-design-notes') === '1'; } catch {}
+    const apply = () => {
+      sw.setAttribute('aria-checked', String(on));
+      card.hidden = !on;
+      if (on) { shown = null; render(); }
+    };
+    sw.addEventListener('click', () => {
+      on = !on;
+      try { localStorage.setItem('nw-design-notes', on ? '1' : '0'); } catch {}
+      apply();
+    });
+    apply();
+
+    let queued = false;
+    const onScroll = () => {
+      if (!on || queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; render(); });
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => { if (on) { shown = null; render(); } });
+  })();
+
+  /* keep ScrollTrigger in step with Lenis smooth scrolling, and re-measure once the
+     tall pinned sections above (hero, cards, mentors) have settled */
+  (() => {
+    if (!window.ScrollTrigger) return;
+    const lenis = window.NW && NW.lenis;
+    if (lenis) lenis.on('scroll', ScrollTrigger.update);
+    let t = 0, lastH = 0;
+    const refresh = () => { clearTimeout(t); t = setTimeout(() => { lastH = document.body.scrollHeight; ScrollTrigger.refresh(); }, 150); };
+    addEventListener('load', refresh);
+    /* only when the page height really changes (a refresh itself must not re-trigger one) */
+    new ResizeObserver(() => { if (Math.abs(document.body.scrollHeight - lastH) > 4) refresh(); }).observe(document.body);
+  })();
+</script>
+</body>
+</html>

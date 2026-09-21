@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "autoPort": true,
+  "configurations": [
+    { "name": "cards", "runtimeExecutable": "npx", "runtimeArgs": ["-y", "http-server", "-c-1", "."], "port": 5178 }
+  ]
+}

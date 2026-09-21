@@ -1,0 +1,41 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>encode</title>
+<body style="background:#111;color:#ccc;font:14px monospace">
+<pre id="log">ready</pre>
+<script src="mp4-muxer.js"></script>
+<script>
+/* One-off tool: re-encode the hero film to 720p H.264 with a keyframe every 10 frames
+   (smaller file, cheap seeks), then hand the bytes to a local receiver to save. */
+const log = m => { document.getElementById('log').textContent += '\n' + m; };
+window.encodeTo = async (src, out, { width = 1280, height = 720, bitrate = 4_500_000, gop = 10, fps = 30 } = {}) => {
+  const v = document.createElement('video');
+  v.muted = true; v.playsInline = true; v.src = src;
+  Object.assign(v.style, { width: '320px' }); document.body.appendChild(v);
+  await new Promise(r => v.addEventListener('loadeddata', r, { once: true }));
+  const { Muxer, ArrayBufferTarget } = Mp4Muxer;
+  const muxer = new Muxer({ target: new ArrayBufferTarget(), video: { codec: 'avc', width, height, frameRate: fps }, fastStart: 'in-memory' });
+  let err = null;
+  const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: e => { err = e; } });
+  enc.configure({ codec: 'avc1.640028', width, height, bitrate, framerate: fps, latencyMode: 'quality', avc: { format: 'avc' } });
+  const cvs = new OffscreenCanvas(width, height), ctx = cvs.getContext('2d');
+  /* step-seek every frame: works even when the page isn't painting (no rVFC dependency) */
+  const total = Math.round(v.duration * fps); let n = 0;
+  for (let i = 0; i < total; i++) {
+    await new Promise(r => { v.addEventListener('seeked', r, { once: true }); v.currentTime = Math.min(v.duration - 0.001, (i + 0.5) / fps); });
+    ctx.drawImage(v, 0, 0, width, height);
+    const f = new VideoFrame(cvs, { timestamp: Math.round(i * 1e6 / fps), duration: Math.round(1e6 / fps) });
+    enc.encode(f, { keyFrame: n % gop === 0 }); f.close(); n++;
+    window.__progress = n;
+    if (enc.encodeQueueSize > 8) await new Promise(r => setTimeout(r, 5));
+  }
+  await enc.flush();
+  if (err) throw err;
+  muxer.finalize();
+  const buf = muxer.target.buffer;
+  log(`encoded ${n} frames (${Math.round(v.duration * fps)} expected) → ${(buf.byteLength / 1e6).toFixed(2)} MB`);
+  const r = await fetch('http://localhost:5199/', { method: 'POST', body: buf }).then(r => r.text());
+  log(r);
+  return { frames: n, expected: Math.round(v.duration * fps), mb: +(buf.byteLength / 1e6).toFixed(2), saved: r };
+};
+</script>

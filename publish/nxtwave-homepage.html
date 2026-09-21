@@ -1,0 +1,1418 @@
+<title>NxtWave Homepage Concept</title>
+<meta name="description" content="NxtWave programmes: Academy, Intensive and NIAT. Different starting points, same goal, a job in tech.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="vendor/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="vendor/fonts.css">
+<!-- career sections (merged from career-site): styles scoped to .cs -->
+<link rel="stylesheet" href="career/style.css">
+<link rel="stylesheet" href="career/media-footer.css">
+<link rel="stylesheet" href="career/career.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* =====================================================================
+   TOKENS
+   ===================================================================== */
+:root{
+  --font:"InterVariable","Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --page-bg:#ffffff;
+  --card-bg:#ffffff;
+  --ink:#1e293b;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --blue:#2563eb;
+  --blue-ink:#1d4ed8;
+  --border:#cbd5e1;
+  --radius-card:24px;
+  --radius-banner:18px;
+  --card-w:388px;
+  --ease:cubic-bezier(.2,.9,.25,1);
+  --dur:.28s;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--page-bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:clip}
+p,h1,h2,h3{margin:0}
+a{color:inherit;text-decoration:none}
+
+/* =====================================================================
+   S1 — HERO (supplied scroll-scrubbed video hero; styles namespaced hx-)
+   ===================================================================== */
+.hx{--hx-bg:#050d24;--hx-ink:#fff;--hx-ink-2:rgba(255,255,255,.72);--hx-accent:#4a9bff;--hx-line:rgba(255,255,255,.28);--hx-glass:rgba(20,32,64,.55);--hx-shift:14vw;
+  --hx-pad:clamp(40px,7vw,128px);   /* side margin for nav, headline and beats (not the film) */
+  position:relative;height:1300vh;background:var(--hx-bg);color:var(--hx-ink);font-family:var(--font);letter-spacing:normal;font-variation-settings:normal}
+.hx *{margin:0;padding:0}
+.hx-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden}
+.hx-stage video,.hx-stage .hx-frames{position:absolute;top:0;height:100%;left:calc(var(--hx-shift) * var(--hx-sk,1));width:100%;object-fit:cover;pointer-events:none;
+  transform:scale(var(--hx-zoom,1));transform-origin:62% 55%;will-change:transform;backface-visibility:hidden}
+.hx-stage .hx-frames{display:block;opacity:0}
+.hx.has-frames .hx-frames{opacity:1}
+.hx.has-frames .hx-stage video{visibility:hidden}
+/* feathers the video's left edge into the page colour (an overlay, not a mask: masks re-composite every frame) */
+.hx-feather{position:absolute;top:0;bottom:0;left:calc(var(--hx-shift) * var(--hx-sk,1));width:100%;pointer-events:none;
+  transform:scale(var(--hx-zoom,1));transform-origin:62% 55%;will-change:transform;   /* moves exactly with the video */
+  background:linear-gradient(90deg,var(--hx-bg) 0,rgba(5,13,36,.6) 8%,rgba(5,13,36,0) 18%)}
+/* cinematic hand-off: the frame darkens and lifts into light as Section 2 rises over it */
+.hx-dim{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:var(--hx-end,0);
+  background:radial-gradient(120% 90% at 55% 40%,rgba(5,13,36,.35),rgba(5,13,36,.92) 72%),linear-gradient(0deg,rgba(147,197,253,.22),transparent 35%)}
+.hx-stage::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:var(--hx-scrim,1);
+  background:linear-gradient(90deg,rgba(3,8,24,.92) 0%,rgba(3,8,24,.7) 28%,rgba(3,8,24,.25) 50%,rgba(3,8,24,0) 65%),
+             linear-gradient(0deg,rgba(3,8,24,.85) 0%,rgba(3,8,24,.4) 18%,rgba(3,8,24,0) 35%)}
+
+/* nav lives inside the pinned stage: visible through the hero, gone after it */
+.hx-nav{position:absolute;inset:0 0 auto 0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:36px var(--hx-pad)}
+.hx-logo{font-family:Outfit,sans-serif;font-weight:600;font-size:18px;line-height:1;letter-spacing:.02em}
+.hx-logo small{font-size:7px;vertical-align:bottom}
+.hx-nav ul{display:flex;gap:16px;align-items:center;list-style:none}
+.hx-nav a{color:var(--hx-ink);text-decoration:none;font-size:11px;font-weight:500;letter-spacing:.04em}
+.hx-pill{border:1px solid var(--hx-line);border-radius:6px;padding:8px 12px!important;background:rgba(10,20,50,.35);backdrop-filter:blur(6px);display:inline-block}
+.hx-login{font-size:13px!important;letter-spacing:0!important;margin-left:8px!important}
+
+.hx-beat{position:absolute;z-index:2;left:var(--hx-pad);top:50%;max-width:min(600px,44vw);opacity:0;transform:translateY(calc(-50% + var(--y,24px)));pointer-events:none}
+.hx-beat.on{pointer-events:auto}
+.hx-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:500;letter-spacing:.14em;color:var(--hx-accent)}
+.hx-eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.hx-beat h2{margin-top:18px!important;font-family:Outfit,sans-serif;font-weight:400;font-size:clamp(30px,3.2vw,48px);line-height:1.1;letter-spacing:-.01em;font-variation-settings:normal}
+.hx-beat h2 span{color:var(--hx-accent)}
+.hx-beat p{margin-top:18px!important;font-size:15px;line-height:1.6;color:var(--hx-ink-2);max-width:400px}
+.hx-cta{display:inline-block;margin-top:28px!important;padding:13px 22px!important;border-radius:8px;background:var(--hx-accent);color:#fff;text-decoration:none;font-size:14px;font-weight:500;transition:background .25s}
+.hx-cta:hover{background:#2f86ff}
+
+.hx-copy{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:var(--hx-copy,1);transform:translateY(calc((1 - var(--hx-copy,1)) * -40px))}
+.hx-copy > *{pointer-events:auto}
+.hx-headline{position:absolute;left:var(--hx-pad);top:50%;transform:translateY(-62%);font-family:Outfit,sans-serif;font-weight:400;font-size:clamp(32px,4.1vw,60px);line-height:1.12;letter-spacing:-.01em;font-variation-settings:normal}
+.hx-headline span{color:var(--hx-accent)}
+.hx-bottom{position:absolute;left:64px;right:64px;bottom:80px;display:flex;align-items:flex-end;gap:32px}
+.hx-stat b{display:block;font-family:Outfit,sans-serif;font-weight:600;font-size:24px}
+.hx-stat small{display:block;margin-top:8px!important;font-size:8px;letter-spacing:.06em;color:var(--hx-ink-2)}
+.hx-divider{width:1px;align-self:stretch;background:var(--hx-line)}
+.hx-blurb{max-width:330px;font-size:10px;line-height:1.55;color:var(--hx-ink-2)}
+.hx-badge{margin-left:auto!important;min-width:240px;padding:16px!important;border-radius:10px;background:var(--hx-glass);border:1px solid var(--hx-line);backdrop-filter:blur(10px);font-size:11px;line-height:1.6}
+.hx-badge b{font-weight:500}
+.hx-badge span{color:var(--hx-ink-2)}
+
+@media (max-width:860px){
+  .hx{--hx-shift:0px}
+  .hx-feather{display:none}
+  .hx-nav{padding:20px 16px}
+  .hx-nav ul .hx-pill{display:none}
+  .hx-headline{left:16px;right:16px}
+  .hx-bottom{left:16px;right:16px;bottom:32px;flex-wrap:wrap;gap:20px}
+  .hx-badge{margin-left:0!important;width:100%}
+  .hx-blurb{display:none}
+  .hx-beat{left:16px;right:16px;top:auto;bottom:48px;transform:translateY(var(--y,24px))}
+}
+@media (prefers-reduced-motion:reduce){ .hx-copy{transform:none} }
+
+/* hero: cursor-lit dot grid (desktop only) — sits over the video/scrim, under the copy */
+/* 3D glass logo: owns the empty opening frames, above the film, under the copy */
+.hx-logo3d{position:absolute;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .6s ease;
+  filter:drop-shadow(0 0 18px rgba(160,205,255,.3)) drop-shadow(0 26px 44px rgba(2,8,30,.4))}   /* soft glass glow + lift */
+.hx-logo3d.ready{opacity:1}
+.hx-grid{position:absolute;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;display:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 0,#000 38%,rgba(0,0,0,.3) 72%,rgba(0,0,0,.15) 100%);
+          mask-image:linear-gradient(90deg,#000 0,#000 38%,rgba(0,0,0,.3) 72%,rgba(0,0,0,.15) 100%)}
+.hx.has-fx .hx-grid{display:block}
+/* hero: "Scroll down" cursor */
+.hx.has-fx .hx-stage.cur-on,.hx.has-fx .hx-stage.cur-on *{cursor:none}
+.hx.has-fx .hx-stage.cur-on a,.hx.has-fx .hx-stage.cur-on button{cursor:pointer}
+.hx-cursor{position:fixed;left:0;top:0;z-index:60;pointer-events:none;display:flex;align-items:center;gap:8px;
+  padding:6px 14px 6px 6px;border-radius:999px;background:rgba(8,16,40,.55);border:1px solid rgba(255,255,255,.18);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;font:500 12px/1 var(--font,Inter,sans-serif);letter-spacing:.02em;white-space:nowrap;
+  opacity:0;transform:translate3d(-100px,-100px,0) scale(.6);transition:opacity .25s ease;will-change:transform,opacity}
+.hx-cursor.on{opacity:1}
+.hx-cursor svg{width:26px;height:26px;flex:none;transform:rotate(-90deg)}
+.hx-cursor .trk{fill:none;stroke:rgba(255,255,255,.18);stroke-width:2}
+.hx-cursor .bar{fill:none;stroke:#4a9bff;stroke-width:2;stroke-linecap:round;stroke-dasharray:62.83;stroke-dashoffset:62.83}
+.hx-cursor .arw{fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transform-origin:13px 13px;transform:rotate(90deg);animation:hxNudge 1.6s ease-in-out infinite}
+@keyframes hxNudge{0%,100%{translate:0 0}50%{translate:-2px 0}}
+
+
+/* =====================================================================
+   S2 — PROGRAMMES (rises over the pinned hero frame)
+   ===================================================================== */
+.programmes{position:relative;z-index:2;margin-top:-100vh;   /* rises over the full pinned hero frame */
+  background:#fff;
+  box-shadow:0 -48px 96px -24px rgba(2,6,23,.55);
+  min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(48px,6vw,72px);
+  padding:clamp(76px,9vh,104px) 24px clamp(64px,8vh,96px)}
+.prog-inner{width:100%;max-width:1204px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:inherit}
+.programmes::before{content:"";position:absolute;top:0;right:0;width:59.3%;height:40px;background:#050d24;clip-path:polygon(0 0,100% 0,100% 100%,2.8% 100%)}
+
+.prog-head{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;max-width:1000px;margin:0 auto}
+.prog-title{text-wrap:balance}
+.prog-title{
+  font-family:Outfit,sans-serif;font-weight:600;font-size:clamp(34px,4.2vw,60px);line-height:.98;letter-spacing:-.01em;
+  background:linear-gradient(190deg,#8e9ab2 10%,#0d254e 52%,#6f7d99 110%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  padding-bottom:.08em;
+}
+.prog-sub{font-family:Geist,var(--font);font-size:clamp(16px,1.4vw,20px);line-height:1.5;color:#334155}
+
+@media (max-width:860px){ .programmes::before{height:24px;width:70%} .programmes{gap:48px} }
+
+/* =====================================================================
+   PROGRAMME CARDS
+   ===================================================================== */
+/* always one row: cards shrink to fit, then scroll sideways on small screens */
+.grid{
+  --gap:24px;
+  display:flex;flex-wrap:nowrap;align-items:flex-start;gap:var(--gap);justify-content:center;width:100%;
+}
+
+/* slot keeps rest-state footprint; card overflows it on hover */
+.slot{
+  position:relative;flex:0 0 auto;
+  width:clamp(300px, calc((100vw - 48px - 2 * var(--gap)) / 3), var(--card-w));
+  height:var(--rest-h, 400px);
+  perspective:1100px;
+  container-type:inline-size;
+}
+.slot:hover,.slot:focus-within{z-index:5}
+
+.card{
+  --banner-rest:min(170px, 44cqw);
+  --banner-open:min(128px, 33cqw);
+  --rx:0deg;--ry:0deg;--mx:50%;--my:50%;--s:1;
+  position:absolute;inset:0 0 auto 0;transform-origin:50% 0;
+  background:var(--card-bg);border-radius:var(--radius-card);padding:6px;
+  transform-style:preserve-3d;
+  transform:rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--s));
+  transition:transform var(--dur) var(--ease),box-shadow var(--dur) var(--ease);
+  box-shadow:
+    0 0 0 1px var(--ring, rgba(15,23,42,.04)),
+    0 1px 2px rgba(15,23,42,.04),
+    0 12px 32px -12px rgba(15,23,42,.12);
+  will-change:transform;outline:none;
+}
+.card.is-active{
+  --s:1.04;
+  transition:transform .08s linear,box-shadow var(--dur) var(--ease);
+  box-shadow:
+    0 0 0 1px var(--ring, rgba(15,23,42,.04)),
+    0 2px 4px rgba(15,23,42,.04),
+    0 30px 60px -20px rgba(15,23,42,.22),
+    0 18px 36px -18px rgba(37,99,235,.18);
+}
+.card.is-leaving{transition:transform .35s var(--ease),box-shadow var(--dur) var(--ease)}
+
+/* banner: big at rest, shrinks on hover */
+.banner{
+  position:relative;border-radius:var(--radius-banner);overflow:hidden;
+  height:var(--banner-rest);background:#dde7fb;
+  transform:translateZ(10px);
+  transition:height var(--dur) var(--ease);
+}
+.card.is-open .banner{height:var(--banner-open)}
+.banner img{
+  display:block;width:100%;height:100%;object-fit:cover;object-position:32% 40%;
+  transform-origin:12% 40%;  /* zoom anchors near the logo so it never clips */
+  transition:transform .35s var(--ease),object-position var(--dur) var(--ease);
+  transform:scale(1.001);
+}
+/* image drifts against the cursor, zooms and counter-rotates for a live, parallax feel */
+.card.is-active .banner img{
+  transition:transform .12s linear,object-position var(--dur) var(--ease);
+  transform:scale(1.1) translate(var(--ix,0px),var(--iy,0px)) rotate(var(--ir,0deg));
+}
+
+/* white content sheet (overlaps banner) */
+.sheet{
+  position:relative;z-index:1;margin-top:-18px;background:var(--card-bg);
+  border-radius:18px;padding:18px 14px 14px;
+  transform:translateZ(24px);
+}
+
+/* collapsible rows */
+.reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--dur) var(--ease)}
+.card.is-open .reveal{grid-template-rows:1fr}
+.reveal > div{overflow:hidden;min-height:0}
+.reveal-inner{opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform var(--dur) var(--ease)}
+.card.is-open .reveal-inner{opacity:1;transform:none;transition-delay:.04s}
+
+.meta{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:2px 6px 14px;border-bottom:1px solid transparent;transition:border-color var(--dur) var(--ease)}
+.card.is-open .meta{border-color:var(--line)}
+.label{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);line-height:18px}
+.date{font-size:15px;font-weight:600;line-height:22px;margin-top:2px;color:var(--ink)}
+.seats{display:flex;gap:8px;align-items:flex-start;flex:0 1 150px;min-width:0;font-size:13px;font-weight:500;line-height:19px;color:var(--ink)}
+.seats svg{flex:none;margin-top:1px}
+
+.title{font-size:clamp(17px,1.35vw,19px);font-weight:600;line-height:1.5;letter-spacing:-.01em;color:var(--ink);padding:12px 6px 0}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;padding:10px 6px 4px}
+.tag{font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;line-height:16px;padding:2px 8px;border-radius:6px}
+.tag.indigo{background:#e0e7ff;color:#4338ca}
+.tag.cyan{background:#cffafe;color:#0e7490}
+.tag.amber{background:#fef3c7;color:#b45309}
+.tag.green{background:#dcfce7;color:#15803d}
+
+.desc{font-size:14px;line-height:22px;color:var(--muted);padding:10px 6px 0}
+.ctas{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px 0 4px}
+
+.btn{height:46px;padding:0 16px;border-radius:12px;font:500 14px/20px var(--font);cursor:pointer;display:grid;place-items:center;white-space:nowrap;text-decoration:none;
+  transition:background-color .2s,box-shadow .2s,transform .2s var(--ease)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.btn-ghost{background:#fff;color:var(--blue-ink);border:1px solid var(--border);box-shadow:0 1px 1px rgba(0,0,0,.06)}
+.btn-ghost:hover{background:#f8fafc}
+.btn-primary{background:var(--blue);color:#fff;border:0;box-shadow:0 1px 0 rgba(0,0,0,.08),0 -1px 0 rgba(0,0,0,.2) inset}
+.btn-primary:hover{background:var(--blue-ink)}
+
+/* shine layers */
+.glare,.sheen{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:10;transform:translateZ(40px)}
+.glare{opacity:0;transition:opacity var(--dur) var(--ease);
+  background:radial-gradient(420px circle at var(--mx) var(--my),rgba(255,255,255,.55),rgba(255,255,255,.12) 35%,transparent 60%);
+  mix-blend-mode:soft-light}
+.card.is-active .glare{opacity:1}
+.sheen{overflow:hidden}
+.sheen::before{content:"";position:absolute;top:-50%;left:-60%;width:45%;height:200%;
+  background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,0) 20%,rgba(255,255,255,.55) 50%,rgba(255,255,255,0) 80%,transparent 100%);
+  transform:rotate(18deg) translateX(0);opacity:0}
+.card.is-sweeping .sheen::before{animation:sweep .7s var(--ease) forwards}
+@keyframes sweep{
+  0%{opacity:0;transform:rotate(18deg) translateX(0)}
+  12%{opacity:1}
+  100%{opacity:0;transform:rotate(18deg) translateX(420%)}
+}
+
+/* touch / no-hover: show expanded state */
+@media (hover:none){
+  .slot{height:auto}
+  .card{position:relative;inset:auto;translate:none}
+  .card .reveal{grid-template-rows:1fr}
+  .card .reveal-inner{opacity:1;transform:none}
+  .card .banner{height:var(--banner-open)}
+  .card .meta{border-color:var(--line)}
+}
+
+@media (max-width:1060px){
+  .grid{
+    justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:40px 24px 140px;margin:-40px -24px -140px;width:calc(100% + 48px);scrollbar-width:none;
+  }
+  .grid::-webkit-scrollbar{display:none}
+  .slot{scroll-snap-align:center}
+}
+
+/* =====================================================================
+   S3 — RECOGNITION ("On the record. A higher standard.")
+   ===================================================================== */
+.record{background:#fff;padding:clamp(24px,4vw,56px) clamp(12px,1.4vw,20px) 0}
+.record-card{position:relative;max-width:1400px;margin:0 auto;border-radius:clamp(24px,2.8vw,40px);overflow:hidden;
+  padding:clamp(40px,4vw,56px) clamp(24px,5.5vw,80px) clamp(72px,7vw,96px);
+  display:flex;flex-direction:column;align-items:center;gap:clamp(40px,4.2vw,60px);
+  background:linear-gradient(179.4deg,#000 7%,#0b1e40 71%,#2563eb 117%);color:#fff}
+.record-head{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+.record-title{font-family:Outfit,sans-serif;font-weight:600;font-size:clamp(34px,4.2vw,60px);line-height:.98;letter-spacing:-.01em;
+  background:linear-gradient(250deg,#b8b8b8 12%,#fff 58%,#b5b5b5 93%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em}
+.record-sub{font-family:Geist,var(--font);font-size:clamp(15px,1.4vw,20px);line-height:1.5;color:#fff;max-width:760px}
+.awards{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:clamp(24px,4vw,59px);list-style:none;margin:0;padding:0}
+.awards li{height:clamp(96px,10.4vw,150px);display:flex;align-items:center}
+.awards img{height:100%;width:auto;display:block;object-fit:contain;
+  filter:drop-shadow(0 12px 24px rgba(0,0,0,.35));transition:transform .35s var(--ease),filter .35s var(--ease)}
+.awards li:hover img{transform:translateY(-6px) scale(1.04);filter:drop-shadow(0 18px 30px rgba(37,99,235,.45))}
+.awards .forbes{width:clamp(114px,12.4vw,178px);overflow:hidden}
+.awards .forbes img{width:100%;height:138%;object-fit:cover}
+/* the white tab at the foot of the card that hands over to the next section */
+.record-notch{position:absolute;left:50%;bottom:-1px;width:min(880px,70%);height:38px;translate:-50% 0;display:block}
+
+/* =====================================================================
+   S4 — HIRING COMPANIES ("Where our learners work now")
+   ===================================================================== */
+.companies{background:#fefffe;padding:clamp(40px,4vw,58px) clamp(16px,4vw,57px) clamp(64px,7vw,96px)}
+.companies-inner{max-width:1320px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:clamp(36px,3.7vw,53px)}
+.companies-head{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.companies-title{font-family:Outfit,sans-serif;font-weight:600;font-size:clamp(32px,4.2vw,60px);line-height:.98;letter-spacing:-.01em;
+  background:linear-gradient(185deg,#8e9ab2 12%,#0d254e 52%,#6f7d99 115%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em;text-wrap:balance}
+.companies-sub{font-family:Geist,var(--font);font-size:clamp(15px,1.4vw,20px);line-height:1.5;color:#000101}
+/* logo ticker: two lines drifting in opposite directions, edges fade into the page */
+.ticker{width:100vw;margin-inline:calc(50% - 50vw);display:flex;flex-direction:column;gap:clamp(28px,3vw,44px);overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%)}
+.ticker-row{display:flex;width:max-content;animation:tickL var(--tick-dur,60s) linear infinite}
+.ticker-row.to-right{animation-name:tickR}
+.ticker-set{display:flex;align-items:center;gap:clamp(48px,6vw,96px);padding-right:clamp(48px,6vw,96px);list-style:none;margin:0}
+.ticker-set li{flex:none;display:flex;align-items:center;height:clamp(30px,3.2vw,44px)}
+.ticker-set img{height:100%;width:auto;max-width:clamp(96px,11vw,160px);object-fit:contain;display:block}
+@keyframes tickL{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tickR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){ .ticker-row{animation:none} }
+
+/* scroll reveal for both new sections */
+.reveal-up{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform 1s var(--ease)}
+.is-in .reveal-up,.reveal-up.is-in{opacity:1;transform:none}
+.awards li.reveal-up{transition-delay:calc(var(--i,0) * 90ms)}
+@media (prefers-reduced-motion:reduce){ .reveal-up{opacity:1;transform:none;transition:none} }
+
+/* =====================================================================
+   S3 — MENTORS: scroll-scrubbed video ("Taught by people who have done the job")
+   ===================================================================== */
+.mentors{position:relative;background:#fff}
+.mw-track{position:relative;height:var(--mw-track,340vh)}
+.mw-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column;align-items:center}
+.mw-head{flex:none;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;
+  padding:clamp(64px,11vh,128px) 16px 0;max-width:820px}
+.mw-title{font-family:Outfit,sans-serif;font-weight:600;font-size:clamp(34px,4.8vw,69px);line-height:.98;letter-spacing:-.01em;
+  background:linear-gradient(193deg,#8e9ab2 12%,#0d254e 52%,#6f7d99 115%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em}
+.mw-sub{font-family:Geist,var(--font);font-size:clamp(15px,1.2vw,17px);line-height:1.5;color:#000101;max-width:640px}
+/* heading rises in as the section arrives */
+.mw-head > *{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .9s var(--ease)}
+.mw-head > * + *{transition-delay:.12s}
+.mentors.is-in .mw-head > *{opacity:1;transform:none}
+
+.mw-screen{position:relative;flex:1 1 0;min-height:0;width:100%;margin-top:clamp(24px,5vh,64px)}
+.mw-screen video,.mw-screen canvas{position:absolute;inset:0;width:100%;height:100%;display:block;
+  /* fallback video: feather sides + top (the canvas feathers its own drawn frame) */
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 12%);
+  -webkit-mask-composite:source-in;
+          mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(180deg,transparent 0,#000 12%);
+          mask-composite:intersect}
+.mw-screen video{object-fit:contain;object-position:50% 100%}
+/* the film's backdrop is #fdfdfb; lift it to pure white so it melts into the white section */
+.mw-screen video,.mw-screen canvas{filter:brightness(1.012)}
+.mw-screen canvas{opacity:0;transition:opacity .2s;-webkit-mask-image:none;mask-image:none}
+.mw-screen.frames canvas{opacity:1}
+.mw-screen.frames video{visibility:hidden}
+
+@media (max-width:860px){
+  .mentors{--mw-track:240vh}
+  .mw-head{gap:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  .mentors{--mw-track:auto}
+  .mw-stage{position:relative;height:auto;min-height:100svh}
+  .mw-screen{flex:none;aspect-ratio:1278/720;max-height:80vh}
+  .mw-head > *{opacity:1;transform:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .card,.card.is-active,.banner,.banner img,.reveal,.reveal-inner{transition-duration:.01s!important}
+  .card.is-sweeping .sheen::before{animation:none}
+}
+</style>
+<style>
+.proto-tag{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9999;display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:999px;background:rgba(5,13,36,.82);color:#e6edff;border:1px solid rgba(255,255,255,.18);
+  font:500 12px/1.3 InterVariable,Inter,system-ui,sans-serif;letter-spacing:.01em;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);max-width:calc(100vw - 32px)}
+.proto-tag b{font-weight:600;color:#fff}
+.proto-tag i{width:7px;height:7px;border-radius:50%;background:#f5b841;flex:none;font-style:normal}
+</style>
+<div class="proto-tag" role="note"><i aria-hidden="true"></i><span><b>Design prototype</b> · testimonial names, photos and quotes are placeholders</span></div>
+<main id="main">
+
+<!-- ===================================================================
+     S1 — HERO (scroll-scrubbed video)
+     =================================================================== -->
+<section class="hx" id="hero" aria-labelledby="hx-title">
+  <div class="hx-stage">
+    <nav class="hx-nav" aria-label="Primary">
+      <div class="hx-logo" aria-label="NxtWave">NXT<br>WAVE<small>TM</small></div>
+      <ul>
+        <li><a class="hx-pill" href="#programmes">PROGRAMMES</a></li>
+        <li><a class="hx-pill" href="#" data-blank>ABOUT US</a></li>
+        <li><a class="hx-pill" href="#" data-blank>HIRE WITH US</a></li>
+        <li><a class="hx-login" href="#" data-blank>Login</a></li>
+      </ul>
+    </nav>
+
+    <video id="hx-vid" data-src="assets/hero-v2-720.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+    <canvas class="hx-frames" aria-hidden="true"></canvas>
+    <div class="hx-feather" aria-hidden="true"></div>
+    <div class="hx-dim" aria-hidden="true"></div>
+    <canvas class="hx-grid" aria-hidden="true"></canvas>
+    <canvas class="hx-logo3d" data-src="assets/nxtwave-logo-mark.svg"
+      data-orbit="assets/orbit-network.svg, assets/orbit-chip.svg, assets/orbit-code.svg, assets/orbit-database.svg"
+      role="img" aria-label="NxtWave"></canvas>
+
+    <div class="hx-copy">
+      <h1 class="hx-headline" id="hx-title">AI changed what tech<br>companies hire for.<br><span>Our programs teach it</span>.</h1>
+    </div>
+
+    <!-- beats: data-in / data-out are hero scroll progress (0–1) = video time / 20.15s, matched to its scenes -->
+    <!-- 2.2–5.2s: the crowd on their phones → he pulls on the NxtWave hoodie -->
+    <div class="hx-beat" data-in="0.11" data-out="0.255">
+      <span class="hx-eyebrow">01 — START</span>
+      <h2>Everyone's scrolling.<br><span>You start building.</span></h2>
+      <p>While others watch tutorials, you join a programme built around what tech companies actually hire for.</p>
+    </div>
+    <!-- 5.8–9.0s: at the laptop, mentor at his shoulder -->
+    <div class="hx-beat" data-in="0.29" data-out="0.445">
+      <span class="hx-eyebrow">02 — LEARN</span>
+      <h2>Fundamentals + AI,<br><span>with a mentor beside you.</span></h2>
+      <p>Industry mentors review your code, unblock you and push you further every single week.</p>
+    </div>
+    <!-- 9.2–12.2s: suited up, sharpening at the laptop -->
+    <div class="hx-beat" data-in="0.46" data-out="0.6">
+      <span class="hx-eyebrow">03 — PREPARE</span>
+      <h2>Projects that prove it.<br><span>Interviews you're ready for.</span></h2>
+      <p>A portfolio of real builds, mock interviews with working engineers, and feedback until you're sharp.</p>
+    </div>
+    <!-- 12.6–16.2s: the interview, the handshake, "Congratulations" on his phone -->
+    <div class="hx-beat" data-in="0.625" data-out="0.8">
+      <span class="hx-eyebrow">04 — GET HIRED</span>
+      <h2>Then the message<br><span>you've worked for.</span></h2>
+      <p>Interviews with 3,000+ hiring companies. One of them says yes.</p>
+    </div>
+    <!-- 16.6–18.6s: celebrating with his parents -->
+    <div class="hx-beat" data-in="0.825" data-out="0.915">
+      <span class="hx-eyebrow">05 — THE MOMENT</span>
+      <h2>An offer letter changes<br><span>more than one life.</span></h2>
+      <p>For you, and for the people who believed in you first.</p>
+    </div>
+    <!-- 18.9–20.1s: the crowd of placed learners — holds through the hand-off -->
+    <div class="hx-beat" data-in="0.93" data-out="1.2">
+      <span class="hx-eyebrow">06 — JOIN THEM</span>
+      <h2>Join the <span>16,000+</span><br>who already made it.</h2>
+      <p>NxtWave learners now build at 3,000+ companies. Your name could be next.</p>
+      <a class="hx-cta" href="#programmes">Explore programmes</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     S2 — PROGRAMMES
+     =================================================================== -->
+<section class="programmes" id="programmes" aria-labelledby="prog-title">
+  <div class="prog-inner">
+    <header class="prog-head">
+      <h2 class="prog-title" id="prog-title">Three programmes. One is yours.</h2>
+      <p class="prog-sub">Different starting points, same goal, a job in tech.</p>
+    </header>
+    <div class="grid" id="cards"></div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     S3 — RECOGNITION
+     =================================================================== -->
+<section class="record" id="recognition" aria-labelledby="record-title">
+  <div class="record-card">
+    <header class="record-head reveal-up">
+      <h2 class="record-title" id="record-title">On the record.<br>A higher standard.</h2>
+      <p class="record-sub">Recognised by global institutions for our approach to tech education and outcomes.</p>
+    </header>
+    <ul class="awards" aria-label="Awards and recognition">
+      <li class="reveal-up" style="--i:0"><img src="assets/award-1.png" alt="Business award trophy presented to NxtWave" loading="lazy"></li>
+      <li class="reveal-up" style="--i:1"><img src="assets/award-2.png" alt="Star award trophy" loading="lazy"></li>
+      <li class="reveal-up" style="--i:2"><img src="assets/award-3.png" alt="India's Greatest Brands &amp; Leaders 2021–22" loading="lazy"></li>
+      <li class="reveal-up" style="--i:3"><img src="assets/award-4.png" alt="Marksmen Daily Most Preferred Brands 2021" loading="lazy"></li>
+      <li class="reveal-up forbes" style="--i:4"><img src="assets/award-forbes.png" alt="Forbes 30 Under 30" loading="lazy"></li>
+    </ul>
+    <img class="record-notch" src="assets/record-notch.svg" alt="" aria-hidden="true">
+  </div>
+</section>
+
+<!-- ===================================================================
+     S4 — HIRING COMPANIES
+     =================================================================== -->
+<section class="companies" id="hiring-network" aria-labelledby="companies-title">
+  <div class="companies-inner">
+    <header class="companies-head reveal-up">
+      <h2 class="companies-title" id="companies-title">Where our learners work now</h2>
+      <p class="companies-sub">Product firms, startups, and global services companies. 3,000+ of them.</p>
+    </header>
+    <div class="ticker reveal-up" id="logo-ticker" role="region" aria-label="Companies that hire NxtWave learners"></div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     S5 — MENTORS (scroll-scrubbed video)
+     =================================================================== -->
+<section class="mentors" id="team" aria-labelledby="mw-title">
+  <div class="mw-track">
+    <div class="mw-stage">
+      <header class="mw-head">
+        <h2 class="mw-title" id="mw-title">Taught by people<br>who have done the job.</h2>
+        <p class="mw-sub">Trainers from IITs and top product companies. Mentors who review your work. Coaches who get you through interviews.</p>
+      </header>
+      <div class="mw-screen">
+        <video id="mw-vid" data-src="assets/mentors.mp4" poster="assets/mentors-poster.png" muted playsinline preload="auto"
+          aria-label="Mentors Pavan, Revanth, Rahul, Sriram Teja, Trivikram and Shashank gather around a learner at his laptop"></video>
+        <canvas aria-hidden="true"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================
+     S6–S9 — CAREER TRANSFORMATIONS · WHAT COMPANIES LOOK FOR · HIRING TEAMS · MEDIA
+     (merged from career-site; styles scoped to .cs)
+     =================================================================== -->
+<div class="cs">
+<section class="ct" id="career-transformations" aria-labelledby="ct-title">
+  <canvas class="ct__canvas" aria-hidden="true"></canvas>
+  <div class="ct__inner">
+    <div class="ct__copy">
+      <h2 class="ct__title" id="ct-title">Career Transformations</h2>
+      <p class="ct__sub">Real people. Named companies. Their own words.</p>
+      <a class="ct__btn" href="#">View All</a>
+    </div>
+    <div class="ct__cols"><!-- video marquees rendered by career.js --></div>
+  </div>
+</section>
+
+<section class="wl" id="what-companies-look-for" aria-labelledby="wl-title">
+  <header class="wl__head">
+    <h2 class="wl__title" id="wl-title">What companies look for now</h2>
+    <p class="wl__sub">3,000+ companies have hired from our programmes. This is what we teach that gets people through.</p>
+  </header>
+  <div class="wl__grid">
+    <div class="wl__row wl__row--top">
+      <article class="wl__card wl__card--ai">
+        <div class="wl__copy">
+          <h3 class="wl__h">AI runs through the work,<br class="wl__br"> not a module at the end.</h3>
+          <p class="wl__p">You use the tools working engineers use, on everything you build here.</p>
+        </div>
+        <div class="wl__panel" role="img" aria-label="AI learning assistant offering to explain a concept, help brainstorm or review an approach"><img src="assets/wl-ai-1.png" alt="" loading="lazy"><img src="assets/wl-ai-2.png" alt="" loading="lazy"><img src="assets/wl-ai-3.png" alt="" loading="lazy"><img src="assets/wl-ai-4.png" alt="" loading="lazy"><img src="assets/wl-ai-5.png" alt="" loading="lazy"></div>
+      </article>
+      <figure class="wl__card wl__card--photo"><img src="assets/wl-mentor-v2.jpg" alt="Two students smiling while working together at a laptop" loading="lazy"></figure>
+    </div>
+    <div class="wl__row wl__row--bottom">
+      <div class="wl__stack">
+        <article class="wl__card wl__card--blue">
+          <div class="wl__copy">
+            <h3 class="wl__h">We update the curriculum when hiring changes.</h3>
+            <p class="wl__p">What companies screen for keeps moving. So does what you learn.</p>
+          </div>
+          <ol class="wl__tl" aria-label="How a curriculum update ships"><li>New hiring trend detected</li><li>Curriculum Update</li><li>Updating relevant content</li><li class="is-now">Deployed to learners</li></ol>
+        </article>
+        <article class="wl__card wl__card--lime">
+          <div class="wl__copy">
+            <h3 class="wl__h">The fundamentals still decide interviews.</h3>
+            <p class="wl__p">DSA, systems, problem solving. AI raised the bar on these. It did not remove them.</p>
+          </div>
+          <img class="wl__flow" src="assets/wl-flow.jpg" alt="Problem-solving flow: problem, break down, explore tradeoffs, arrive at a solution" loading="lazy">
+        </article>
+      </div>
+      <article class="wl__card wl__card--violet">
+        <div class="wl__copy">
+          <h3 class="wl__h">Interview prep for the rounds companies actually run.</h3>
+          <p class="wl__p">Not generic soft skills training.</p>
+        </div>
+        <img class="wl__shot" src="assets/wl-call.jpg" alt="Mock interview video call between a candidate and an interviewer" loading="lazy">
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="ht" id="hiring-teams" aria-labelledby="ht-title">
+  <header class="ht__head">
+    <div>
+      <h2 class="ht__title" id="ht-title">What hiring teams say</h2>
+      <p class="ht__sub">The people who actually make the hiring decision, on why they keep coming back.</p>
+    </div>
+    <div class="ht__nav">
+      <button class="ht__arrow" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="ht__arrow" data-dir="1" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </header>
+  <div class="ht__rail">
+    <ul class="ht__track" id="ht-track"></ul>
+  </div>
+</section>
+
+<section class="fm" id="featured-in-media" aria-labelledby="fm-title">
+  <h2 class="fm__title" id="fm-title">Featured in the media</h2>
+  <ul class="fm__track" id="fm-track" aria-roledescription="carousel"></ul>
+  <div class="fm__nav">
+    <button class="fm__arrow" data-dir="-1" aria-label="Previous articles"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="fm__arrow" data-dir="1" aria-label="Next articles"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</section>
+</div>
+
+</main>
+
+<div class="cs">
+<footer class="ft" id="footer">
+  <div class="ft__inner">
+    <nav class="ft__crumb" aria-label="Breadcrumb"><ul><li><a href="https://www.ccbp.in/">Home</a></li><li><a href="https://www.ccbp.in/hire">Hire with us</a></li></ul></nav>
+
+    <div class="ft__list">
+      <div class="ft__col">
+        <button class="ft__h" type="button">Quick Links</button>
+        <ul>
+          <li><a href="https://www.ccbp.in/">Home</a></li>
+          <li><a href="https://www.ccbp.in/academy">Academy</a></li>
+          <li><a href="https://www.ccbp.in/intensive">Intensive</a></li>
+          <li><a href="https://www.ccbp.in/hire">Hire with us</a></li>
+          <li><a href="https://www.ccbp.in/contact-us">Contact Us</a></li>
+          <li><a href="https://www.ccbp.in/blog">Blog</a></li>
+          <li><a href="https://www.ccbp.in/our-tech">Our Tech</a></li>
+          <li><a href="https://www.ccbp.in/careers">NxtWave Careers</a></li>
+        </ul>
+      </div>
+      <div class="ft__col">
+        <button class="ft__h" type="button">About</button>
+        <ul>
+          <li><a href="https://www.ccbp.in/about-us">About Us</a></li>
+          <li><a href="https://www.ccbp.in/reviews">Reviews</a></li>
+          <li><a href="https://www.ccbp.in/tech-community">Community</a></li>
+          <li><a href="https://www.ccbp.in/4-0-champions">4.0 Champions</a></li>
+          <li><a href="https://www.youtube.com/watch?v=fpPwEFB86d4" target="_blank" rel="noopener">NxtWave'23 Review</a></li>
+        </ul>
+      </div>
+      <div class="ft__col">
+        <button class="ft__h" type="button">Reach Us</button>
+        <ul>
+          <li><a href="https://forms.ccbp.in/public/form/whatsapp-us-have-a-query" target="_blank" rel="noopener">+919390111761 <sup>WhatsApp only</sup></a></li>
+          <li><a href="mailto:support@nxtwave.tech">support@nxtwave.tech</a></li>
+          <li><a href="https://www.ccbp.in/llm-info">Hey AI, learn about us <span>New</span></a></li>
+        </ul>
+      </div>
+      <div class="ft__col">
+        <button class="ft__h" type="button">Payment Methods</button>
+        <ul class="ft__pay">
+          <li><img src="assets/footer/visa-icon.svg" alt="Visa"></li>
+          <li><img src="assets/footer/master-card-icon.svg" alt="Mastercard"></li>
+          <li><img src="assets/footer/payment-method-icon.svg" alt="Maestro"></li>
+          <li><img src="assets/footer/Razor-pay-icon.svg" alt="Razorpay"></li>
+          <li><img src="assets/footer/upi-icon.svg" alt="UPI"></li>
+          <li><img src="assets/footer/rupay-icon.svg" alt="RuPay"></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ft__tracks" id="ft-tracks"><p class="ft__tracks-h">Course Tracks</p></div>
+
+    <div class="ft__terms">
+      <img class="ft__logo" src="assets/footer/Nxtwave_White_logo.svg" width="80" height="24" alt="NxtWave">
+      <div class="ft__legal">
+        <a href="https://www.ccbp.in/privacy-policy">Privacy Policy</a>
+        <a href="https://www.ccbp.in/cookie-policy">Cookie Policy</a>
+        <a href="https://www.ccbp.in/terms-and-conditions">Terms and Conditions</a>
+        <a href="https://www.ccbp.in/grievance-redressal">Grievance Redressal</a>
+        <a href="https://www.ccbp.in/corporate-information">Corporate Information</a>
+        <a href="https://www.ccbp.in/vision-and-values">Vision and Values</a>
+        <a href="https://www.ccbp.in/csr-policy">Corporate Social Responsibility Policy</a>
+      </div>
+    </div>
+
+    <div class="ft__copy">
+      <div class="ft__info">
+        <div><p class="ft__info-h">Address</p><p>8th Floor, Sohini Tech Park, Nanakramguda Rd, Financial District, Gachibowli, Nanakramguda, Telangana 500032</p></div>
+        <div><p class="ft__info-h">Support</p><p><a href="mailto:support@nxtwave.tech">support@nxtwave.tech</a> · <a href="https://forms.ccbp.in/public/form/whatsapp-us-have-a-query">+91 93901 11761</a> (WhatsApp only)</p></div>
+      </div>
+      <div class="ft__social">
+        <div class="ft__icons">
+          <a href="https://www.facebook.com/NxtWave-106729994530632/" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/footer/facebook-icon.svg" alt=""></a>
+          <a href="https://www.instagram.com/ccbp_nxtwave/" target="_blank" rel="noopener" aria-label="Instagram"><img src="assets/footer/instgram-icon.svg" alt=""></a>
+          <a href="https://twitter.com/nxtwave_tech" target="_blank" rel="noopener" aria-label="X (Twitter)"><img src="assets/footer/twitterimage.svg" alt=""></a>
+          <a href="https://www.linkedin.com/company/nxtwavetech" target="_blank" rel="noopener" aria-label="LinkedIn"><img src="assets/footer/linkedin-icon.svg" alt=""></a>
+          <a href="https://www.youtube.com/c/NxtWaveTech" target="_blank" rel="noopener" aria-label="YouTube"><img src="assets/footer/youtube-icon.svg" alt=""></a>
+        </div>
+        <p class="ft__rights">© <span id="ft-year">2026</span> NxtWave Disruptive Technologies Pvt. Ltd. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<dialog class="ht__modal" id="ht-modal">
+  <button class="ht__close" aria-label="Close">×</button>
+  <div class="ht__frame"></div>
+</dialog>
+</div>
+
+<template id="card-tpl">
+  <div class="slot">
+    <article class="card" tabindex="0">
+      <div class="banner"><img alt="" /></div>
+      <div class="sheet">
+        <div class="meta">
+          <div>
+            <div class="label" data-f="startLabel"></div>
+            <div class="date" data-f="startDate"></div>
+          </div>
+          <div class="seats">
+            <svg width="13" height="17" viewBox="0 0 12.87 17.09" fill="none" aria-hidden="true"><use href="#fire"/></svg>
+            <span data-f="seats"></span>
+          </div>
+        </div>
+        <h3 class="title" data-f="title"></h3>
+        <div class="tags"></div>
+        <div class="reveal">
+          <div>
+            <div class="reveal-inner">
+              <p class="desc" data-f="description"></p>
+              <div class="ctas">
+                <a class="btn btn-ghost" data-f="secondaryLabel"></a>
+                <button class="btn btn-primary" type="button" data-f="primaryLabel"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="glare"></div>
+      <div class="sheen"></div>
+    </article>
+  </div>
+</template>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="fire" viewBox="0 0 12.87 17.09">
+    <path d="M2.58 15.55C1.8 14.66 1.01 13.73.51 12.62.01 11.45-.13 10.09.12 8.81c.25-1.28.82-2.5 1.64-3.53-.07.89.25 1.82.86 2.5-.36-1.71.21-3.57 1.35-4.92C5.11 1.5 6.68.61 8.32 0c-.82.86-.93 2.21-.61 3.35.32 1.14 1 2.14 1.61 3.18.61 1.03 1.18 2.1 1.21 3.28.32-.61.68-1.21.89-1.89.21-.68.32-1.39.14-2.07.64.78 1 1.57 1.18 2.57.18 1 .14 2.03.04 3.03-.14 1.11-.43 2.25-1.03 3.17-.71 1.11-1.85 1.89-3.1 2.32-2.21.39-4.39.07-6.06-1.39Z" fill="#F3705A"/>
+    <path d="M5.29 16.87c2.93 1.14 5.81-2.32 4.21-4.99l-.04-.07c.14 1.46-.21 2.53-.89 3.14.36-.86.11-1.85-.32-2.71-.43-.82-1.04-1.57-1.5-2.35-.46-.82-.82-1.75-.61-2.68-.86.64-1.46 1.61-1.71 2.64-.25 1.03-.11 2.18.36 3.14-.54-.39-.93-1.03-.96-1.71-.57.68-.93 1.57-.89 2.46 0 1.39 1.11 2.64 2.35 3.14Z" fill="#FFD15C"/>
+  </symbol>
+</svg>
+
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
+<script type="module" src="assets/hero-logo-3d.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* smooth scrolling keeps the scrubbed hero fluid */
+  if (!RM && window.Lenis){
+    const lenis = new Lenis({ lerp: 0, duration: 1, easing: t => 1 - Math.pow(1 - t, 4), anchors: true });
+    const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+    window.NW = Object.assign(window.NW || {}, { lenis });
+  }
+
+  /* =================================================================
+     S1 — HERO: the video scrubs with scroll; copy fades, beats take over,
+     then Section 2 rises over the pinned frame (cinematic hand-off)
+     ================================================================= */
+  (() => {
+    const hero = document.getElementById('hero');
+    const vid  = document.getElementById('hx-vid');
+    if (!hero || !vid) return;
+    const FADE_END = 0.09, FADE = 0.03;   /* headline clears before the crowd walks in (~2s) */
+    /* the film holds its empty first frame for the first 3% of the scroll: that stretch belongs to
+       the 3D logo, which then rises away as the student walks in from the right */
+    const HOLD = 0.03, LOGO_OUT = [0.012, 0.05];
+    const beats = [...hero.querySelectorAll('.hx-beat')].map(el => ({ el, in: +el.dataset.in, out: +el.dataset.out, a: -1 }));
+    const phone = matchMedia('(pointer: coarse), (max-width: 860px)').matches;
+
+    /* one download, as a Blob: fully seekable on any host (no byte-range dependency).
+       Phones get the lighter 720p / GOP-4 encode. */
+    const src = (phone && vid.dataset.srcMobile) || vid.dataset.src;
+    const load = fetch(src).then(r => { if (!r.ok) throw 0; return r.blob(); })
+      .then(b => URL.createObjectURL(b))
+      .catch(() => src);
+    load.then(u => { vid.src = u; });
+
+    /* The source has sparse keyframes (random seeks up to ~170 ms), so after it loads every
+       frame is captured once, off-screen, into small webp blobs and the scrub draws the exact
+       frame to a canvas. Until that finishes the scrub seeks the video directly. */
+    const cv = hero.querySelector('.hx-frames');
+    const cctx = cv && cv.getContext('2d');
+    let frames = null, fW = 1280, fH = 720, drawBox = null, drawn = -1, want = -1, decoding = false;
+    const bmpCache = new Map();
+    const sizeFrames = () => {
+      if (!cv) return;
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      const w = cv.clientWidth, h = cv.clientHeight;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      const k = Math.max(cv.width / fW, cv.height / fH);                     /* object-fit: cover */
+      drawBox = { w: fW * k, h: fH * k }; drawBox.x = (cv.width - drawBox.w) / 2; drawBox.y = (cv.height - drawBox.h) / 2;
+      drawn = -1;
+    };
+    const paint = bmp => { cctx.drawImage(bmp, drawBox.x, drawBox.y, drawBox.w, drawBox.h); };
+    const showFrame = i => {
+      want = i;
+      if (i === drawn) return;
+      if (bmpCache.has(i)) { paint(bmpCache.get(i)); drawn = i; return; }
+      if (decoding) return;
+      decoding = true;
+      createImageBitmap(frames[i]).then(bmp => {
+        bmpCache.set(i, bmp);
+        if (bmpCache.size > 10) { const k = bmpCache.keys().next().value; bmpCache.get(k).close(); bmpCache.delete(k); }
+        decoding = false;
+        if (want === i) { paint(bmp); drawn = i; } else showFrame(want);
+      }).catch(() => { decoding = false; });
+    };
+    /* Capture only counts if the browser actually painted the frames: a hidden tab / window
+       skips painting, the frame callbacks never fire, and the pass comes back nearly empty.
+       So: wait until the page is visible, restart if it's hidden mid-pass, and only switch to
+       captured frames when (almost) every one of them was really captured. */
+    const MIN_COVERAGE = 0.95;
+    let capturing = false;
+    const whenVisible = () => document.visibilityState === 'visible' ? Promise.resolve()
+      : new Promise(r => document.addEventListener('visibilitychange', function v(){ if (document.visibilityState === 'visible'){ document.removeEventListener('visibilitychange', v); r(); } }));
+    const capture = async () => {
+      if (frames || capturing || !cv || RM || !('requestVideoFrameCallback' in HTMLVideoElement.prototype)) return;
+      capturing = true;
+      try {
+        const url = await load;
+        await whenVisible();
+        const cap = document.createElement('video');
+        cap.muted = true; cap.playsInline = true; cap.src = url;
+        Object.assign(cap.style, { position: 'fixed', left: 0, top: 0, width: '2px', height: '2px', opacity: .01, pointerEvents: 'none' });
+        document.body.appendChild(cap);
+        await new Promise(r => cap.addEventListener('loadeddata', r, { once: true }));
+        const n = Math.round(cap.duration * FPS), got = new Array(n), jobs = [];
+        fW = Math.min(1280, cap.videoWidth); fH = Math.round(fW * cap.videoHeight / cap.videoWidth);
+        let hidden = false;
+        const onHide = () => { if (document.visibilityState !== 'visible') { hidden = true; cap.pause(); cap.dispatchEvent(new Event('ended')); } };
+        document.addEventListener('visibilitychange', onHide);
+        await new Promise(done => {
+          const cb = (_, m) => {
+            if (hidden) return;
+            const i = Math.min(n - 1, Math.round(m.mediaTime * FPS));
+            if (!got[i]) {
+              const c = document.createElement('canvas'); c.width = fW; c.height = fH;
+              c.getContext('2d').drawImage(cap, 0, 0, fW, fH);
+              got[i] = true;
+              jobs.push(new Promise(r => c.toBlob(b => { got[i] = b; r(); }, 'image/webp', .82)));
+            }
+            if (!cap.ended) cap.requestVideoFrameCallback(cb);
+          };
+          cap.requestVideoFrameCallback(cb);
+          cap.addEventListener('ended', done, { once: true });
+          cap.play().catch(done);                          /* 1× — every frame gets painted */
+        });
+        document.removeEventListener('visibilitychange', onHide);
+        await Promise.all(jobs);
+        cap.remove();
+        const captured = got.filter(x => x instanceof Blob).length;
+        (window.NW = window.NW || {}).heroFrames = { captured, total: n, hidden };
+        if (hidden || captured / n < MIN_COVERAGE) return;   /* keep seeking the video; retried when visible again */
+        /* the odd skipped frame borrows its nearest captured neighbour (invisible at 30 fps) */
+        let lastB = null;
+        for (let i = 0; i < n; i++) { if (got[i] instanceof Blob) lastB = got[i]; else got[i] = lastB; }
+        for (let i = n - 1; i >= 0; i--) { if (got[i] instanceof Blob) lastB = got[i]; else got[i] = lastB; }
+        frames = got; sizeFrames();
+        hero.classList.add('has-frames');
+      } finally {
+        capturing = false;
+      }
+    };
+    load.then(() => setTimeout(capture, 300));
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && !frames) setTimeout(capture, 300); });
+    /* iOS: a muted video that never played won't paint seeked frames — prime it once */
+    addEventListener('touchstart', () => { vid.play().then(() => vid.pause()).catch(() => {}); }, { once: true, passive: true });
+
+    /* layout is read once (and on resize), never per frame — per-frame reads after style writes force a reflow */
+    let top = 0, span = 1, vh = innerHeight;
+    const measure = () => {
+      vh = innerHeight;
+      top = hero.getBoundingClientRect().top + scrollY;
+      span = Math.max(1, hero.offsetHeight - vh);
+      /* the part of the hero Section 2 overlaps */
+      endFrom = 1 - Math.max(0, -parseFloat(getComputedStyle(document.getElementById('programmes')).marginTop) || 0) / span;
+      if (frames) sizeFrames();
+    };
+    let endFrom = .9;
+    measure();
+    addEventListener('resize', measure);
+    addEventListener('load', measure);
+
+    const FPS = 30, FRAME = 1 / FPS;
+    let seeking = false, pending = -1, last = {};
+    vid.addEventListener('seeked', () => {
+      seeking = false;
+      if (pending >= 0){ const t = pending; pending = -1; seek(t); }       /* coalesced: only the newest target */
+    });
+    function seek(t){
+      if (seeking){ pending = t; return; }
+      if (Math.abs(vid.currentTime - t) < FRAME * .5) return;               /* already on this frame */
+      seeking = true; vid.currentTime = t;
+    }
+    const set = (k, v) => { if (last[k] !== v){ last[k] = v; hero.style.setProperty(k, v); } };
+    const ease = v => v * v * (3 - 2 * v);
+
+    function frame(){
+      const y = scrollY;
+      if (y < top + span + vh && y + vh > top){                            /* only while the hero is on screen */
+        const raw = Math.min(1, Math.max(0, (y - top) / span));
+        /* the film (and its beats) finish as Section 2 starts rising; the last frame then holds, pinned, beneath it */
+        const pAll = Math.min(1, raw / endFrom);
+        const p = Math.max(0, (pAll - HOLD) / (1 - HOLD));      /* film + beats progress */
+        (window.NW = window.NW || {}).heroLogo = 1 - ease(Math.min(1, Math.max(0, (pAll - LOGO_OUT[0]) / (LOGO_OUT[1] - LOGO_OUT[0]))));
+        const copy = Math.max(0, 1 - pAll / FADE_END);
+        set('--hx-copy', copy.toFixed(3));
+        /* opening frame: the student stands at the far right, so the video starts unshifted
+           and slides into its offset as the headline clears */
+        set('--hx-sk', ease(Math.min(1, pAll / FADE_END)).toFixed(3));
+        let scrim = copy;
+        for (const b of beats){
+          const a = Math.max(0, Math.min(1, (p - b.in) / FADE, (b.out - p) / FADE));
+          if (Math.abs(a - b.a) > .001){
+            b.a = a;
+            b.el.style.opacity = a.toFixed(3);
+            b.el.style.setProperty('--y', ((1 - a) * 24).toFixed(1) + 'px');
+            b.el.classList.toggle('on', a > .5);
+          }
+          scrim = Math.max(scrim, a);
+        }
+        set('--hx-scrim', scrim.toFixed(3));
+        const e = ease(Math.min(1, Math.max(0, (raw - endFrom) / (1 - endFrom))));
+        set('--hx-end', e.toFixed(3));
+        set('--hx-zoom', (1 + e * .08).toFixed(4));
+        if (frames){
+          showFrame(Math.round(p * (frames.length - 1)));
+        } else if (vid.duration){
+          /* Lenis already smooths the scroll, so map straight to time (no second easing = no lag) */
+          const t = Math.round(p * (vid.duration - .05) * FPS) / FPS;
+          seek(t);
+        }
+      }
+    }
+    const tick = () => { frame(); requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+    window.NW = Object.assign(window.NW || {}, { heroMeasure: measure, heroFrame: frame });
+  })();
+
+  /* =================================================================
+     S1 — HERO add-ons (desktop, fine pointer, motion allowed):
+     a cursor-lit dot grid + a "Scroll down" cursor with a progress ring
+     ================================================================= */
+  (() => {
+    const hero = document.getElementById('hero');
+    if (!hero || RM || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const stage = hero.querySelector('.hx-stage');
+    const cv = hero.querySelector('.hx-grid');
+    const ctx = cv.getContext('2d');
+    hero.classList.add('has-fx');
+
+    /* cursor pill */
+    const cur = document.createElement('div');
+    cur.className = 'hx-cursor'; cur.setAttribute('aria-hidden', 'true');
+    cur.innerHTML = '<svg viewBox="0 0 26 26"><circle class="trk" cx="13" cy="13" r="10"/><circle class="bar" cx="13" cy="13" r="10"/>' +
+      '<path class="arw" d="M13 8.5v9M9.5 14l3.5 3.5 3.5-3.5"/></svg><span>Scroll down</span>';
+    document.body.appendChild(cur);
+    const bar = cur.querySelector('.bar'), RING = 62.83;
+
+    /* grid geometry, rebuilt on resize: base layer is pre-rendered once */
+    const GAP = 28, R = 190, DOT = 1.1;
+    let W = 0, H = 0, dpr = 1, base = null, top = 0, span = 1, heroH = 1;
+    const build = () => {
+      dpr = Math.min(2, devicePixelRatio || 1);
+      W = stage.clientWidth; H = stage.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      base = document.createElement('canvas'); base.width = cv.width; base.height = cv.height;
+      const b = base.getContext('2d'); b.scale(dpr, dpr); b.fillStyle = 'rgba(160,190,255,.11)';
+      for (let y = GAP / 2; y < H; y += GAP) for (let x = GAP / 2; x < W; x += GAP) { b.beginPath(); b.arc(x, y, DOT, 0, 6.2832); b.fill(); }
+      top = hero.getBoundingClientRect().top + scrollY;
+      heroH = hero.offsetHeight;
+      span = Math.max(1, heroH - innerHeight);
+      dirty = true;
+    };
+
+    let mx = -9999, my = -9999, sx = -9999, sy = -9999, cx = -200, cy = -200;   /* pointer, spotlight, cursor */
+    let inHero = false, overLink = false, lit = 0, dirty = true, visible = true;
+
+    const hitTest = () => {
+      const el = document.elementFromPoint(mx, my);
+      inHero = !!(el && el.closest('#hero'));
+      overLink = !!(el && el.closest('a, button, .hx-nav'));
+      stage.classList.toggle('cur-on', inHero);
+      cur.classList.toggle('on', inHero && !overLink);
+    };
+    addEventListener('pointermove', e => {
+      mx = e.clientX; my = e.clientY;
+      if (sx < -999) { sx = cx = mx; sy = cy = my; }
+      hitTest();
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => { inHero = false; cur.classList.remove('on'); stage.classList.remove('cur-on'); });
+    let scrollQueued = false;
+    addEventListener('scroll', () => {                  /* pointer still, page moving: re-check what's under it */
+      if (scrollQueued || mx < -999) return; scrollQueued = true;
+      requestAnimationFrame(() => { scrollQueued = false; hitTest(); });
+    }, { passive: true });
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(hero);
+    addEventListener('resize', build);
+    build();
+
+    function drawGrid(){
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      ctx.drawImage(base, 0, 0, W, H);
+      if (lit < .01) return;
+      /* text beats on screen → keep the grid quieter so copy stays legible */
+      const scrim = parseFloat(hero.style.getPropertyValue('--hx-scrim')) || 0;
+      const k = lit * (1 - .3 * scrim);
+      /* faint light pooled under the pointer */
+      const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, R * 1.3);
+      g.addColorStop(0, `rgba(74,155,255,${(.07 * k).toFixed(3)})`); g.addColorStop(1, 'rgba(74,155,255,0)');
+      ctx.fillStyle = g; ctx.fillRect(sx - R * 1.3, sy - R * 1.3, R * 2.6, R * 2.6);
+      const x0 = Math.max(0, Math.floor((sx - R) / GAP)), x1 = Math.ceil((sx + R) / GAP);
+      const y0 = Math.max(0, Math.floor((sy - R) / GAP)), y1 = Math.ceil((sy + R) / GAP);
+      for (let j = y0; j <= y1; j++) for (let i = x0; i <= x1; i++) {
+        const x = i * GAP + GAP / 2, y = j * GAP + GAP / 2;
+        const dx = sx - x, dy = sy - y, d = Math.hypot(dx, dy);
+        if (d > R) continue;
+        const f = 1 - d / R, e = f * f;                  /* soft falloff */
+        const pull = e * 5 / (d || 1);                   /* dots lean slightly toward the pointer */
+        ctx.fillStyle = `rgba(110,175,255,${(e * .95 * k).toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(x + dx * pull, y + dy * pull, DOT + e * 1.4, 0, 6.2832); ctx.fill();
+      }
+    }
+
+    function tick(){
+      requestAnimationFrame(tick);
+      if (!visible) return;
+      /* ease spotlight + cursor toward the pointer */
+      /* sticky stage's viewport top, from cached layout (no per-frame layout reads) */
+      const y = scrollY;
+      const stTop = y < top ? top - y : Math.min(0, top + heroH - H - y);
+      const tx = mx, ty = my - stTop;
+      const nl = lit + ((inHero ? 1 : 0) - lit) * .08;
+      const moved = Math.abs(tx - sx) + Math.abs(ty - sy) > .3 || Math.abs(nl - lit) > .002;
+      sx += (tx - sx) * .14; sy += (ty - sy) * .14; lit = nl;
+      if (moved || dirty) { drawGrid(); dirty = false; }
+
+      cx += (mx - cx) * .22; cy += (my - cy) * .22;
+      const p = Math.min(1, Math.max(0, (scrollY - top) / span));
+      bar.style.strokeDashoffset = (RING * (1 - p)).toFixed(2);
+      cur.style.transform = `translate3d(${(cx + 14).toFixed(1)}px,${(cy + 14).toFixed(1)}px,0)`;
+    }
+    requestAnimationFrame(tick);
+  })();
+
+
+  /* =================================================================
+     S3 — MENTORS: the video scrubs with scroll.
+     The source file has sparse keyframes (random seeks ≈ 20–180 ms), so once it
+     is near, every frame is captured into memory (small webp blobs) and the
+     scrub draws the exact frame to a canvas. Until then it seeks the video directly.
+     ================================================================= */
+  (() => {
+    const sec = document.getElementById('team');
+    const vid = document.getElementById('mw-vid');
+    if (!sec || !vid) return;
+    const screen = sec.querySelector('.mw-screen');
+    const cv = screen.querySelector('canvas');
+    const ctx = cv.getContext('2d');
+    const track = sec.querySelector('.mw-track');
+    const PLAY_END = 0.86;          /* last 14% of the pin holds the final frame */
+    const FPS = 30;
+    const LAST_FRAME = 121;         /* scene ends here (≈4.0s): mentors settled, learner smiling */
+
+    /* heading reveal */
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) sec.classList.add('is-in'); }, { threshold: .15 }).observe(sec);
+
+    const load = fetch(vid.dataset.src).then(r => { if (!r.ok) throw 0; return r.blob(); })
+      .then(b => URL.createObjectURL(b))
+      .catch(() => vid.dataset.src);
+    load.then(u => { vid.src = u; });
+    addEventListener('touchstart', () => { vid.play().then(() => vid.pause()).catch(() => {}); }, { once: true, passive: true });
+
+    if (RM) {                                   /* reduced motion: just show the finished scene */
+      vid.addEventListener('loadedmetadata', () => { vid.currentTime = (LAST_FRAME + .5) / FPS; }, { once: true });
+      return;
+    }
+
+    /* ---- canvas: contain-fit, anchored to the bottom (desk sits on the fold) ---- */
+    let cvW = 1278, cvH = 720, box = { x: 0, y: 0, w: 0, h: 0 }, lastDrawn = -1;
+    const sizeCanvas = () => {
+      const dpr = Math.min(2, devicePixelRatio || 1);
+      const w = screen.clientWidth, h = screen.clientHeight;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      const s = Math.min(w / cvW, h / cvH);
+      box = { w: cvW * s * dpr, h: cvH * s * dpr };
+      box.x = (cv.width - box.w) / 2; box.y = cv.height - box.h;
+      lastDrawn = -1;
+    };
+
+    /* ---- frame capture (runs once, off-screen, when the section is near) ---- */
+    let frames = null;                          /* Blob[] */
+    let started = false;
+    const capture = async () => {
+      if (started) return; started = true;
+      const url = await load;
+      const cap = document.createElement('video');
+      cap.muted = true; cap.playsInline = true; cap.src = url;
+      Object.assign(cap.style, { position: 'fixed', left: 0, top: 0, width: '2px', height: '2px', opacity: .01, pointerEvents: 'none' });
+      document.body.appendChild(cap);
+      await new Promise(r => cap.addEventListener('loadeddata', r, { once: true }));
+      const n = Math.min(LAST_FRAME + 1, Math.round(cap.duration * FPS)), got = new Array(n);
+      const W = cap.videoWidth, H = cap.videoHeight;
+      const grab = t => {
+        const i = Math.min(n - 1, Math.round(t * FPS));
+        if (got[i]) return Promise.resolve();
+        const c = document.createElement('canvas'); c.width = W; c.height = H;
+        c.getContext('2d').drawImage(cap, 0, 0, W, H);
+        return new Promise(r => c.toBlob(b => { got[i] = b; r(); }, 'image/webp', .9));
+      };
+      const jobs = [];
+      if ('requestVideoFrameCallback' in cap) {
+        await new Promise(done => {
+          const cb = (_, m) => {
+            if (m.mediaTime * FPS > n - .5) { cap.pause(); done(); return; }   /* past the last frame we keep */
+            jobs.push(grab(m.mediaTime)); if (!cap.ended) cap.requestVideoFrameCallback(cb);
+          };
+          cap.requestVideoFrameCallback(cb);
+          cap.addEventListener('ended', done, { once: true });
+          cap.play().catch(done);
+        });
+      }
+      await Promise.all(jobs);
+      /* anything the playback pass missed (or no rVFC): step-seek for it */
+      for (let i = 0; i < n; i++) if (!got[i]) {
+        await new Promise(r => { cap.addEventListener('seeked', r, { once: true }); cap.currentTime = (i + .5) / FPS; });
+        await grab((i + .5) / FPS);
+      }
+      frames = got; cap.remove();
+      cvW = W; cvH = H; sizeCanvas();
+      screen.classList.add('frames');
+    };
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) capture(); }, { rootMargin: '150% 0px' }).observe(sec);
+
+    /* decode-on-demand with a tiny cache; only the newest request wins */
+    const cache = new Map(); let want = -1, decoding = false;
+    const draw = bmp => {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(bmp, box.x, box.y, box.w, box.h);
+      /* feather the frame's left/right edges into the page so the desk doesn't end in a hard line */
+      const f = box.w * .11;
+      ctx.globalCompositeOperation = 'destination-out';
+      for (const [x0, x1] of [[box.x, box.x + f], [box.x + box.w, box.x + box.w - f]]) {
+        const g = ctx.createLinearGradient(x0, 0, x1, 0);
+        g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g; ctx.fillRect(Math.min(x0, x1), box.y, f, box.h);
+      }
+      const ft = box.h * .22, gt = ctx.createLinearGradient(0, box.y, 0, box.y + ft);   /* same fade along the top */
+      gt.addColorStop(0, 'rgba(0,0,0,1)'); gt.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = gt; ctx.fillRect(box.x, box.y, box.w, ft);
+      ctx.globalCompositeOperation = 'source-over';
+    };
+    const show = i => {
+      want = i;
+      if (i === lastDrawn) return;
+      if (cache.has(i)) { draw(cache.get(i)); lastDrawn = i; return; }
+      if (decoding) return;
+      decoding = true;
+      createImageBitmap(frames[i]).then(bmp => {
+        cache.set(i, bmp);
+        if (cache.size > 24) { const k = cache.keys().next().value; cache.get(k).close(); cache.delete(k); }
+        decoding = false;
+        if (want === i) { draw(bmp); lastDrawn = i; } else show(want);
+      }).catch(() => { decoding = false; });
+    };
+
+    /* ---- fallback before frames exist: coalesced seeks on the video itself ---- */
+    let seeking = false, pending = -1;
+    vid.addEventListener('seeked', () => { seeking = false; if (pending >= 0) { const t = pending; pending = -1; seek(t); } });
+    const seek = t => {
+      if (seeking) { pending = t; return; }
+      if (Math.abs(vid.currentTime - t) < .5 / FPS) return;
+      seeking = true; vid.currentTime = t;
+    };
+
+    /* ---- scroll → progress ---- */
+    let top = 0, span = 1, vh = innerHeight, lastW = innerWidth;
+    const measure = () => {
+      vh = innerHeight;
+      top = track.getBoundingClientRect().top + scrollY;
+      span = Math.max(1, track.offsetHeight - vh);
+      sizeCanvas();
+    };
+    measure();
+    addEventListener('load', measure);
+    /* content above (fonts, card images) can settle after load and shift this section: re-measure */
+    new ResizeObserver(() => measure()).observe(document.body);
+    addEventListener('resize', () => {
+      if (matchMedia('(pointer: coarse)').matches && innerWidth === lastW) return;   /* URL-bar resize: ignore */
+      lastW = innerWidth; measure();
+    });
+
+    const tick = () => {
+      requestAnimationFrame(tick);
+      const y = scrollY;
+      if (y + vh < top - vh || y > top + span + vh) return;           /* off-screen */
+      const p = Math.min(1, Math.max(0, (y - top) / span));
+      const k = Math.min(1, p / PLAY_END);
+      if (frames) show(Math.round(k * (frames.length - 1)));
+      else if (vid.duration) seek((Math.round(k * LAST_FRAME) + .5) / FPS);
+      sec.dataset.frame = frames ? want : -1;     /* handy for QA */
+    };
+    requestAnimationFrame(tick);
+  })();
+
+  /* S4: logo ticker — first line drifts right, second drifts left; each set is duplicated
+     so the loop is seamless (translate −50% lands exactly on the copy) */
+  (() => {
+    const box = document.getElementById('logo-ticker');
+    if (!box) return;
+    const NAMES = ['Google','Amazon','NVIDIA','Accenture','Deloitte','Bank of America','Bosch',
+      'Jio','TCS','Tech Mahindra','Goldman Sachs','Oracle','Samsung','Infosys',
+      'Wipro','Apollo Hospitals','SAP','Capgemini','Cyient','HCL','Tata Elxsi',
+      'Cognizant','CGI','Merkle Sokrati','Mindtree','Delhivery','needl.ai','Fareportal',
+      'Prodapt','Tanla','GlobalLogic','NTT Data','Fractal','Napier Healthcare','GEP'];
+    const logos = NAMES.map((name, i) => ({ name, src: `assets/logos/logo-${String(i).padStart(2, '0')}.png` }));
+    const half = Math.ceil(logos.length / 2);
+    const set = (list, hidden) => `<ul class="ticker-set"${hidden ? ' aria-hidden="true"' : ''}>` +
+      list.map(l => `<li><img src="${l.src}" alt="${hidden ? '' : l.name}" loading="lazy"></li>`).join('') + '</ul>';
+    const row = (list, dir, dur) => `<div class="ticker-row ${dir}" style="--tick-dur:${dur}s">${set(list)}${set(list, true)}</div>`;
+    box.innerHTML = row(logos.slice(0, half), 'to-right', 70) + row(logos.slice(half), 'to-left', 64);
+  })();
+
+  /* S3/S4: elements rise in as they enter the viewport */
+  (() => {
+    const els = document.querySelectorAll('.reveal-up');
+    if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('is-in')); return; }
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    }), { threshold: .2, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(el => io.observe(el));
+  })();
+
+  /* links with no destination yet */
+  document.querySelectorAll('[data-blank]').forEach(el => el.addEventListener('click', e => e.preventDefault()));
+})();
+</script>
+
+<script>
+  /* ============================================================
+     CARD DATA — add / edit entries here. Same UI, new content.
+     tag colors: indigo | cyan | amber | green
+     imagePosition: which part of the banner stays in view
+     imageOrigin:   where the hover zoom anchors
+     ring:          optional border colour
+     ============================================================ */
+  const SHARED = {
+    startLabel: "Batch starts on",
+    startDate: "21st Sep 2026",
+    seats: "Limited Seats Available",
+    title: "Learn like top IITians and achieve high-paid software jobs",
+    tags: [
+      { text: "Post 12th / Intermediate", color: "indigo" },
+      { text: "1st, 2nd, 3rd Year", color: "cyan" },
+    ],
+    description: "Get industry-ready with expert-led training, hands-on projects and placement support.",
+    secondaryLabel: "Know More",
+    secondaryHref: "#",
+    primaryLabel: "Request Callback",
+  };
+  const CARDS = [
+    { ...SHARED,
+      image: "assets/banner-academy.png",
+      imageAlt: "NxtWave Academy — student with backpack",
+    },
+    { ...SHARED,
+      image: "assets/banner-intensive.png",
+      imageAlt: "NxtWave Intensive — Training Center / Online",
+      imagePosition: "22% 40%",
+    },
+    { ...SHARED,
+      image: "assets/banner-niat.png",
+      imageAlt: "NIAT — NxtWave of Innovation in Advanced Technologies",
+      imagePosition: "50% 25%",
+      imageOrigin: "12% 20%",
+      ring: "#f3d3d8",
+    },
+  ];
+
+  const MAX_TILT = 10; // degrees
+  const root = document.getElementById("cards");
+  const tpl = document.getElementById("card-tpl");
+  const canHover = matchMedia("(hover: hover)").matches;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function build(data) {
+    const node = tpl.content.firstElementChild.cloneNode(true);
+    const card = node.querySelector(".card");
+    const img = node.querySelector(".banner img");
+    img.src = data.image;
+    img.alt = data.imageAlt || "";
+    if (data.imagePosition) img.style.objectPosition = data.imagePosition;
+    if (data.imageOrigin) img.style.transformOrigin = data.imageOrigin;
+    if (data.ring) card.style.setProperty("--ring", data.ring);
+    node.querySelectorAll("[data-f]").forEach(el => { el.textContent = data[el.dataset.f] ?? ""; });
+    node.querySelector(".btn-ghost").href = data.secondaryHref || "#";
+
+    const tags = node.querySelector(".tags");
+    (data.tags || []).forEach(t => {
+      const s = document.createElement("span");
+      s.className = `tag ${t.color || "indigo"}`;
+      s.textContent = t.text;
+      tags.appendChild(s);
+    });
+
+    return node;
+  }
+
+  function wire(slot) {
+    const card = slot.querySelector(".card");
+
+    // reserve the rest-state height so neighbours don't jump when the card expands
+    const measure = () => {
+      if (card.classList.contains("is-open")) return;
+      slot.style.setProperty("--rest-h", card.offsetHeight + "px");
+    };
+    card.querySelector(".banner img").addEventListener("load", measure);
+    requestAnimationFrame(measure);
+    document.fonts && document.fonts.ready.then(measure);
+    addEventListener("resize", measure);
+
+    if (!canHover) return;
+
+    let leaveTimer, raf;
+
+    const open = () => {
+      clearTimeout(leaveTimer);
+      card.classList.remove("is-leaving");
+      card.classList.add("is-active", "is-open");
+      if (!reduced) {
+        card.classList.remove("is-sweeping");
+        void card.offsetWidth; // restart the sweep animation
+        card.classList.add("is-sweeping");
+      }
+    };
+
+    const close = () => {
+      card.classList.remove("is-active", "is-open", "is-sweeping");
+      card.classList.add("is-leaving");
+      card.style.setProperty("--rx", "0deg");
+      card.style.setProperty("--ry", "0deg");
+      ["--ix", "--iy", "--ir"].forEach(v => card.style.removeProperty(v));
+      leaveTimer = setTimeout(() => card.classList.remove("is-leaving"), 350);
+    };
+
+    card.addEventListener("pointerenter", open);
+    card.addEventListener("pointerleave", close);
+
+    card.addEventListener("pointermove", e => {
+      if (reduced) return;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;   // 0..1
+        const py = (e.clientY - r.top) / r.height;   // 0..1
+        card.style.setProperty("--ry", ((px - .5) * 2 * MAX_TILT).toFixed(2) + "deg");
+        card.style.setProperty("--rx", ((.5 - py) * 2 * MAX_TILT * .8).toFixed(2) + "deg");
+        card.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+        card.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+        card.style.setProperty("--ix", ((.5 - px) * 18).toFixed(1) + "px");
+        card.style.setProperty("--iy", ((.5 - py) * 12).toFixed(1) + "px");
+        card.style.setProperty("--ir", ((px - .5) * -3).toFixed(2) + "deg");
+      });
+    });
+
+    // keyboard: expand while focus is inside the card
+    card.addEventListener("focusin", () => card.classList.add("is-open"));
+    card.addEventListener("focusout", e => {
+      if (!card.contains(e.relatedTarget) && !card.matches(":hover")) card.classList.remove("is-open");
+    });
+  }
+
+  CARDS.forEach(d => {
+    const slot = build(d);
+    root.appendChild(slot);
+    wire(slot);
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="career/career.js"></script>
+<script src="career/script.js"></script>
+<script src="career/media-footer.js"></script>
+<script>
+  /* keep ScrollTrigger in step with Lenis smooth scrolling, and re-measure once the
+     tall pinned sections above (hero, cards, mentors) have settled */
+  (() => {
+    if (!window.ScrollTrigger) return;
+    const lenis = window.NW && NW.lenis;
+    if (lenis) lenis.on('scroll', ScrollTrigger.update);
+    let t = 0, lastH = 0;
+    const refresh = () => { clearTimeout(t); t = setTimeout(() => { lastH = document.body.scrollHeight; ScrollTrigger.refresh(); }, 150); };
+    addEventListener('load', refresh);
+    /* only when the page height really changes (a refresh itself must not re-trigger one) */
+    new ResizeObserver(() => { if (Math.abs(document.body.scrollHeight - lastH) > 4) refresh(); }).observe(document.body);
+  })();
+</script>
