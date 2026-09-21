@@ -1520,7 +1520,8 @@ a{color:inherit;text-decoration:none}
     const track = sec.querySelector('.mw-track');
     const PLAY_END = 0.86;          /* last 14% of the pin holds the final frame */
     const FPS = 30;
-    const LAST_FRAME = 128;         /* scene ends here (≈4.27s): all four mentor groups in, glow full, learner grinning */
+    const LAST_FRAME = 140;         /* scene ends here (≈4.67s): all four mentor groups in, glow full, learner settled at the laptop.
+                                       the clip runs to 149, but the glow drops away and the scene reads as 'finished' — so we stop short */
 
     /* heading reveal */
     new IntersectionObserver(([e]) => { if (e.isIntersecting) sec.classList.add('is-in'); }, { threshold: .15 })
