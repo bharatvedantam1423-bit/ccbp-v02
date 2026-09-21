@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="career/style.css">
 <link rel="stylesheet" href="career/media-footer.css">
 <link rel="stylesheet" href="career/masterclass.css">
+<link rel="stylesheet" href="career/learners.css">
 <link rel="stylesheet" href="career/transformations.css">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -63,7 +64,7 @@ a{color:inherit;text-decoration:none}
    Subheadings: Geist. The hero (.hx) is deliberately left out of this.
    ===================================================================== */
 .prog-title,.record-title,.mw-title,.companies-title,.inv-title,.mc .mc__title,
-.ctv-title,.cs .wl__title,.cs .ht__title,.cs .fm__title,.cs .cta__title{
+.ctv-title,.lb .lb__title,.cs .wl__title,.cs .ht__title,.cs .fm__title,.cs .cta__title{
   font-family:var(--font-head);font-weight:600;
   line-height:.98;letter-spacing:-.01em;font-variation-settings:normal;
   background-image:var(--head-grad);
@@ -75,15 +76,15 @@ a{color:inherit;text-decoration:none}
 .cs .cta__title{background-image:var(--head-grad-dark)}
 
 .prog-sub,.mw-sub,.companies-sub,.inv-sub,
-.ctv-sub,.cs .wl__sub,.cs .ht__sub,.cs .cta__sub{
+.ctv-sub,.lb .lb__sub,.cs .wl__sub,.cs .ht__sub,.cs .cta__sub{
   font-family:var(--font-sub);font-weight:400;line-height:1.5;letter-spacing:normal;
 }
 /* the sections below the awards share one heading size */
 .prog-title,.record-title,.mw-title,.ctv-title,
-.companies-title,.inv-title,.mc .mc__title,.cs .wl__title,.cs .ht__title,.cs .fm__title{font-size:var(--head-size);line-height:1.12}
+.companies-title,.inv-title,.mc .mc__title,.lb .lb__title,.cs .wl__title,.cs .ht__title,.cs .fm__title{font-size:var(--head-size);line-height:1.12}
 /* ...and one subheading size */
 .prog-sub,.mw-sub,.companies-sub,.inv-sub,
-.ctv-sub,.cs .wl__sub,.cs .ht__sub,.cs .cta__sub{font-size:var(--sub-size)}
+.ctv-sub,.lb .lb__sub,.cs .wl__sub,.cs .ht__sub,.cs .cta__sub{font-size:var(--sub-size)}
 /* card-level heading/body inside a section follow the same two families */
 .cs .wl__h{font-family:var(--font-head);font-weight:600;letter-spacing:-.01em}
 .cs .wl__p{font-family:var(--font-sub);font-weight:400;letter-spacing:normal}
@@ -881,6 +882,29 @@ a{color:inherit;text-decoration:none}
 </section>
 
 </div>
+
+<!-- ===================================================================
+     S6a — WHAT OUR LEARNERS HAVE BUILT (from the supplied build; styles career/learners.css,
+     data career/learners-projects.js, script career/learners.js). A centre carousel of learner
+     projects over a drifting grid floor: arrows, drag, horizontal wheel and arrow keys.
+     Sits right after Career Transformations.
+     =================================================================== -->
+<section class="lb" id="learner-projects" aria-labelledby="lb-title">
+  <div class="lb__floor" aria-hidden="true"><div class="lb__persp"><div class="lb__plane"></div></div></div>
+  <div class="lb__inner">
+    <header class="lb__head">
+      <h2 class="lb__title" id="lb-title">What Our Learners Have Built</h2>
+      <p class="lb__sub">Real projects, built during the programme, reviewed by working engineers.</p>
+    </header>
+    <div class="lb__stage">
+      <ul class="lb__track" id="lb-track" aria-live="polite"></ul>
+    </div>
+    <div class="lb__nav">
+      <button class="lb__arrow" data-dir="-1" aria-label="Previous project"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="lb__arrow" data-dir="1" aria-label="Next project"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+</section>
 
 <!-- ===================================================================
      S6b — MASTERCLASSES FROM MENTORS IN THE COMMUNITY (from the supplied build;
@@ -2221,6 +2245,8 @@ a{color:inherit;text-decoration:none}
 <script src="career/script.js"></script>
 <script src="career/media-footer.js"></script>
 <script src="career/masterclass.js"></script>
+<script src="career/learners-projects.js"></script>
+<script src="career/learners.js"></script>
 <script src="career/transformations.js"></script>
 <script>
   /* ---- design notes ----------------------------------------------------------------
