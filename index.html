@@ -503,17 +503,15 @@ a{color:inherit;text-decoration:none}
 .mw-sub{color:#000101;max-width:640px}
 
 /* the alumni strip that sits under the mentors heading, in place of a subhead */
-.mw-alumni{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:20px;width:100%}
-.mw-alumni-h{margin:0;font-family:var(--font-sub);font-size:13px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;color:#1e3a8a}
+.mw-alumni{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:10px;width:100%}
 .mw-alumni-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
-  gap:clamp(16px,2.6vw,40px);list-style:none;margin:0;padding:0}
-.mw-alumni-row li{display:flex;align-items:center}
-.mw-alumni-row img{display:block;width:auto;height:clamp(22px,1.9vw,28px);object-fit:contain}
-.mw-alumni-row b{font-family:var(--font-head);font-size:clamp(16px,1.4vw,20px);
+  gap:clamp(14px,2.2vw,34px);list-style:none;margin:0;padding:0}
+.mw-alumni-row li{display:flex;align-items:center;gap:8px}
+.mw-alumni-row img{display:block;width:auto;height:clamp(19px,1.6vw,24px);object-fit:contain}
+.mw-alumni-row b{font-family:var(--font-head);font-size:clamp(14px,1.15vw,17px);
   font-weight:600;color:#0f172a;letter-spacing:-.01em;white-space:nowrap}
 .mw-alumni-more{margin:0;font-family:var(--font-sub);font-size:13px;color:#64748b}
-@media (max-width:640px){ .mw-alumni-row{gap:18px 24px} }
+@media (max-width:640px){ .mw-alumni-row{gap:14px 20px} }
 /* heading rises in as the section arrives */
 .mw-head > *{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .9s var(--ease)}
 .mw-head > * + *{transition-delay:.12s}
@@ -907,15 +905,12 @@ a{color:inherit;text-decoration:none}
       <header class="mw-head">
         <h2 class="mw-title" id="mw-title">Taught by people<br>who have done the job.</h2>
         <div class="mw-alumni">
-          <p class="mw-alumni-h">Learn the best from the alumni of</p>
           <ul class="mw-alumni-row">
             <li><img src="assets/masterclass/logos/stanford-mono.png" alt="Stanford University" width="190" height="61" loading="lazy"></li>
             <li><img src="assets/masterclass/logos/google-mono.png" alt="Google" width="174" height="60" loading="lazy"></li>
-            <!-- TODO: no IIT marks in assets/ yet -- these two are set as wordmarks.
-                 Drop the real files into assets/masterclass/logos/ and swap them in. -->
-            <li><b>IIT Bombay</b></li>
+            <li><img src="assets/masterclass/logos/iit-bombay.png" alt="" width="263" height="256" loading="lazy"><b>IIT Bombay</b></li>
             <li><img src="assets/masterclass/logos/amazon-mono.png" alt="Amazon" width="179" height="55" loading="lazy"></li>
-            <li><b>IIT Delhi</b></li>
+            <li><img src="assets/masterclass/logos/iit-delhi.png" alt="" width="256" height="256" loading="lazy"><b>IIT Delhi</b></li>
             <li><img src="assets/masterclass/logos/microsoft-mono.png" alt="Microsoft" width="229" height="46" loading="lazy"></li>
           </ul>
           <p class="mw-alumni-more">and many more&hellip;</p>
