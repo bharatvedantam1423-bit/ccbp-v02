@@ -1,0 +1,72 @@
+/* ── NxtWave Learner's Experiences (Figma CCBP-v02 828:149) ───────
+   One large player with a five-up strip of stills under it, on the same
+   1200px content grid and 16px gutter as the media section. The stage is
+   sized so the player and the whole strip land in one viewport: the
+   section's fixed parts (padding, heading, gutter) come off the viewport
+   height first, and the rest is split between the two at their ratios. */
+.ctf{padding:var(--sec) 0;overflow:hidden}
+.ctf__stage{width:min(1200px, max(520px, (100svh - 310px) * 1.7908));max-width:calc(100% - 2 * var(--m));margin:0 auto}
+
+/* the player keeps 16:9 so a YouTube embed fills it without letterboxing */
+.ctf__player{position:relative;aspect-ratio:1200/495;border-radius:16px;overflow:hidden;background:#0f172a}
+.ctf__player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.ctf__player.is-live{aspect-ratio:16/9}
+.ctf__poster{position:absolute;inset:0;width:100%;padding:0;border:0;background:#0f172a;cursor:pointer;display:block;overflow:hidden}
+.ctf__poster img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;
+  transition:transform .9s cubic-bezier(.2,.7,.1,1)}
+.ctf__poster:hover img{transform:scale(1.03)}
+.ctf__poster:focus-visible{outline:2px solid #2563eb;outline-offset:3px}
+/* play badge — the mark the hiring-teams cards use, scaled up for the hero slot */
+.ctf__play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;
+  background:rgba(15,23,42,.62);backdrop-filter:blur(4px);display:grid;place-items:center;
+  transition:background .3s,transform .3s cubic-bezier(.2,.7,.1,1)}
+.ctf__play svg{width:28px;height:28px;fill:#fff;margin-left:4px}
+.ctf__poster:hover .ctf__play{background:#1d4ed8;transform:translate(-50%,-50%) scale(1.06)}
+
+/* the strip: five across, the rest a scroll away behind the arrows */
+.ctf__carousel{position:relative;margin-top:16px}
+.ctf__rail{list-style:none;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 64px) / 5);justify-content:center;gap:16px;margin:0;padding:0;
+  overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.ctf__rail::-webkit-scrollbar{display:none}
+.ctf__item{scroll-snap-align:start}
+.ctf__thumb{position:relative;width:100%;padding:0;border:0;background:#eceae6;border-radius:12px;overflow:hidden;
+  aspect-ratio:227/166;cursor:pointer;display:block;transition:box-shadow .3s,transform .3s cubic-bezier(.2,.7,.1,1)}
+.ctf__thumb img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block}
+.ctf__thumb::after{content:"";position:absolute;inset:0;border-radius:12px;box-shadow:inset 0 0 0 2px transparent;transition:box-shadow .3s}
+.ctf__thumb:hover{transform:translateY(-2px);box-shadow:0 12px 24px -16px rgba(15,23,42,.45)}
+.ctf__thumb:focus-visible{outline:2px solid #2563eb;outline-offset:3px}
+/* the one in the big slot is ringed, so the strip always says where you are */
+.ctf__item--on .ctf__thumb::after{box-shadow:inset 0 0 0 3px #1d4ed8}
+.ctf__item--on .ctf__thumb img{opacity:.92}
+
+/* arrows straddle the strip's outer edges — centred on the first and last still */
+.ctf__arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:48px;height:48px;border-radius:50%;
+  display:grid;place-items:center;background:#fff;border:1px solid var(--line,#e2e8f0);cursor:pointer;
+  box-shadow:0 6px 18px -6px rgba(15,23,42,.5);transition:background .25s,border-color .25s,opacity .25s,transform .25s}
+.ctf__arrow[data-dir="-1"]{left:-24px}
+.ctf__arrow[data-dir="1"]{right:-24px}
+.ctf__arrow svg{width:18px;height:18px;fill:none;stroke:#1e293b;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ctf__arrow:hover:not(:disabled){background:#1d4ed8;border-color:#1d4ed8;transform:translateY(-50%) scale(1.06)}
+.ctf__arrow:hover:not(:disabled) svg{stroke:#fff}
+.ctf__arrow:disabled{opacity:.35;cursor:default}
+.ctf__arrow[hidden]{display:none}
+.ctf__arrow:focus-visible{outline:2px solid #2563eb;outline-offset:3px}
+
+@media (prefers-reduced-motion:reduce){
+  .ctf__poster img,.ctf__play,.ctf__thumb,.ctf__arrow{transition:none}
+  .ctf__poster:hover img{transform:none}
+  .ctf__rail{scroll-behavior:auto}
+}
+/* below the five-up breakpoint the strip scrolls by touch instead of shrinking past legibility */
+@media (max-width:900px){
+  .ctf__stage{width:auto;margin:0 var(--m)}
+  .ctf__rail{grid-auto-columns:190px;gap:12px}
+  .ctf__carousel{margin-top:12px}
+  .ctf__arrow{display:none}
+}
+@media (max-width:640px){
+  .ctf__player{border-radius:12px}
+  .ctf__play{width:56px;height:56px}
+  .ctf__play svg{width:20px;height:20px}
+  .ctf__rail{grid-auto-columns:160px}
+}

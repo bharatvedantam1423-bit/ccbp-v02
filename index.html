@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="career/style.css">
 <link rel="stylesheet" href="career/media-footer.css">
 <link rel="stylesheet" href="career/masterclass.css">
+<link rel="stylesheet" href="career/transformations.css">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -908,6 +909,20 @@ a{color:inherit;text-decoration:none}
 </section>
 
 <div class="cs cs--after">
+<!-- NxtWave Learner's Experiences (Figma CCBP-v02 828:149): one large player, five-up
+     thumbnail strip. Sits first in .cs--after, so it follows the masterclasses section. -->
+<section class="ctf" id="learner-experiences" aria-labelledby="ctf-title">
+  <h2 class="fm__title ctf__title" id="ctf-title">NxtWave Learner's Experiences</h2>
+  <div class="ctf__stage">
+    <div class="ctf__player" id="ctf-player"></div>
+    <div class="ctf__carousel">
+      <button class="ctf__arrow" type="button" data-dir="-1" aria-label="Previous stories"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <ul class="ctf__rail" id="ctf-rail" aria-label="Learner stories"></ul>
+      <button class="ctf__arrow" type="button" data-dir="1" aria-label="More stories"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+</section>
+
 <section class="wl" id="what-companies-look-for" aria-labelledby="wl-title">
   <header class="wl__head">
     <h2 class="wl__title" id="wl-title">We train you for what<br>companies hire for</h2>
@@ -2206,6 +2221,7 @@ a{color:inherit;text-decoration:none}
 <script src="career/script.js"></script>
 <script src="career/media-footer.js"></script>
 <script src="career/masterclass.js"></script>
+<script src="career/transformations.js"></script>
 <script>
   /* ---- design notes ----------------------------------------------------------------
      One card, pinned bottom-right, showing why the section you are looking at is there.
@@ -2246,6 +2262,12 @@ a{color:inherit;text-decoration:none}
         desc: `Where 16,000+ becomes one person with a name. A number means nothing until someone has a face and a company. Real people. Named companies. Their own words. Follows the mentors on purpose: who taught them, then what happened to them. Decides whether someone like the visitor belongs here. One action, “View All”, for anyone who wants more stories.`,
         principles: [
           ['Social proof', `When people are unsure, they look at what others like them did. One named learner at a named company settles the doubt faster than any claim we make.`] ] },
+
+      { id: 'learner-experiences', name: "NxtWave Learner's Experiences",
+        desc: `Learners in their own words, on video, straight after the mentors who taught them. One story plays large and the rest wait in a strip under it, so the section asks for one click rather than a choice between five equal players.`,
+        principles: [
+          ['Self-similarity', `A visitor recognises themselves in a learner far more readily than in a mentor, a CEO or a headline.`],
+          ['Single choice', `One video is already cued. A grid of equal players asks the visitor to decide before they care.`] ] },
 
       { id: 'what-companies-look-for', name: 'We train you for what companies hire for',
         desc: `Closes the loop the hero opened. The headline said AI changed what companies hire for — this is the “teach it”, in four points. Sits after the proof deliberately: someone who has seen the outcomes reads these as reasons; someone who hasn’t reads them as a syllabus. Every point is something we do, framed by what hiring has become.`,
