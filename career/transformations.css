@@ -5,7 +5,10 @@
    section's fixed parts (padding, heading, gutter) come off the viewport
    height first, and the rest is split between the two at their ratios. */
 .ctf{padding:var(--sec) 0;overflow:hidden}
-.ctf__stage{width:min(1200px, max(520px, (100svh - 310px) * 1.7908));max-width:calc(100% - 2 * var(--m));margin:0 auto}
+.ctf .fm__title{margin-bottom:28px}   /* a touch tighter than the media grid: it buys the player width */
+/* design width first: 1200px as in the frame. Only a short viewport pulls it in, and never
+   below 1040px — past that the big card stops reading as the hero the design makes it. */
+.ctf__stage{width:min(1200px, max(1040px, (100svh - 296px) * 1.7908));max-width:calc(100% - 2 * var(--m));margin:0 auto}
 
 /* the player keeps 16:9 so a YouTube embed fills it without letterboxing */
 .ctf__player{position:relative;aspect-ratio:1200/495;border-radius:16px;overflow:hidden;background:#0f172a}

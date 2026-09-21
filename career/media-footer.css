@@ -2,8 +2,7 @@
 .fm{padding:var(--sec) 0;overflow:hidden;--fm-accent:#042ac0}
 .fm__title{font-size:48px;line-height:1.1;font-weight:600;letter-spacing:-.02em;font-variation-settings:"opsz" 32;margin:0 auto 36px;text-align:center}
 /* "Featured in" — publication marks between the title and the grid (ccbp.in press strip) */
-.fm__press{max-width:1180px;margin:0 auto 64px;padding:0 var(--m);box-sizing:content-box}
-.fm__press-h{margin:0 0 28px;font-family:InterVariable,"Inter",system-ui,sans-serif;font-size:13px;line-height:1;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#64748b;text-align:center}
+.fm__press{max-width:1180px;margin:8px auto 64px;padding:0 var(--m);box-sizing:content-box}
 .fm__press-row{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:32px 48px;margin:0;padding:0}
 .fm__press-item{display:flex;align-items:center;justify-content:center;min-height:40px}
 .fm__press-item img{display:block;height:28px;width:auto;max-width:168px;opacity:.92}
@@ -62,7 +61,6 @@
   .fm__grid{grid-template-columns:1fr}
   .fm__card--sm{grid-column:1/-1}
   .fm__press{margin-bottom:36px}
-  .fm__press-h{margin-bottom:20px;font-size:12px}
   .fm__press-row{gap:20px 26px}
   .fm__press-item img{max-width:104px;max-height:22px;height:auto!important;width:auto}
   .fm__press-item{min-height:28px}

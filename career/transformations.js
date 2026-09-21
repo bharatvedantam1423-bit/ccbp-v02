@@ -12,6 +12,7 @@
     { id: 'hUfEOmF9TaQ', t: 'Associate Engineer \u2014 Lakshmi Agraharapu, BSc Mathematics graduate', img: L + 'lakshmi-agraharapu.png' },
     { id: 'f1k5caShuOY', t: 'Upskilling myself with NxtWave \u2014 Shri Nakshathi, student at NxtWave', img: L + 'shri-nakshathi.png' },
     { id: 'zApgysr1Dqk', t: 'NxtWave offered a career, not a placement \u2014 Bharathidevi Mogalapu, NxtWave alumna', img: L + 'bharathidevi-mogalapu.png' },
+    { id: '6EiBJ37MMFc', t: 'How I learnt tech skills from scratch \u2014 NxtWave CCBP 4.0 success review (Telugu)', img: L + 'how-i-learnt-tech-skills.png' },
   ];
 
 
