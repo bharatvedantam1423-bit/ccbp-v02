@@ -2423,68 +2423,87 @@ a{color:inherit;text-decoration:none}
      A presentation aid for walking someone through the page: the switch turns it on and
      the choice is remembered, but it starts off so the page is untouched by default. */
   (() => {
+    /* Design notes — the written rationale behind each section.
+       Source: Figma CCBP-v02, page "Design Notes" (node 844:664), replaced wholesale.
+       An entry only shows if a section with that id is on the page; the counter
+       counts the ones present. */
     const NOTES = [
       { id: 'hero', name: 'Hero Section',
-        desc: `Opens on the market, not on us. Every student already feels that AI changed hiring. The story does the convincing — takes one learner from starting out to an offer letter, so the visitor sees where this ends before we ask them for anything. The numbers (3,000+ companies, 16,000+ learners) arrive inside the story, not on a banner — at the moment the visitor wants proof, right before the ask. Ends on one button, “Explore programmes”, and the very next section answers it. Nothing on the screen competes with that click.`,
+        desc: `The hero is a scroll story, not a banner: a visitor who has never heard of NxtWave understands what we do by living through it, not by reading a claim. The emotional peak is the family, not the salary — “an offer letter changes more than one life” sits just before the ask, because for most of our learners this decision is never made alone. Belief first, action last: 16,000+ hired and 3,000+ companies land before the story starts, and the only button appears once the whole path has been seen.`,
         principles: [
           ['Serial position', `People remember the first thing on a page best.`],
           ['Peak-end rule', `People remember the high point and the ending. The story peaks at the offer letter and ends on 16,000+, just before the programmes.`] ] },
 
       { id: 'programmes', name: 'Three programmes. One is yours.',
-        desc: `The routing section. Its only job is to get the right person to the right programme page. Sits directly under the hero because the hero ends on “Explore programmes” — the click and the answer are one scroll apart. Competitors who put their courses five or six sections down bury their strongest asset, and we cannot afford that when only 3 in 10 people get past the first screen.`,
+        desc: `Built to be scanned, not read. Each card puts the important information upfront, so a visitor can tell which programme is theirs in one look. Hover and parallax rather than three plain cards: the movement makes the section feel alive and invites a visitor to interact with the choice instead of skimming past it. Less on the card, less on the mind — only what matters for choosing is shown, so the eye has nothing to wade through before it reaches a decision.`,
         principles: [
           ['Hick’s Law', `Three choices with an identical action pattern is one decision: which programme. Not which button.`],
           ['Recognition over recall', `Eligibility is stated on the card, so nobody has to work out whether they qualify.`] ] },
 
-      { id: 'recognition', name: 'Awards & Recognitions',
-        desc: `Answers the question a parent and a student both ask when shown programmes: is this a real company. Moved up from the bottom of the page — most visitors never reach the end, so recognition placed there does no work. Here it catches people at the moment they hesitate over the cards. Five items, not a wall. Four named awards and Forbes 30 Under 30.`,
+      { id: 'recognised-by', name: 'Recognised by',
+        desc: `Trust right after the choice, not after the pitch. A visitor who has just seen three programmes asks one question before clicking: is this real. Government and industry bodies answer it right there.`,
         principles: [
-          ['Halo effect', `A name people already trust, like Forbes, lends credibility to everything placed next to it.`],
-          ['Von Restorff effect', `When everything is highlighted, nothing is. Five named items land harder than twenty badges.`] ] },
+          ['Authority bias', `People trust what recognised institutions stand behind. Four government and industry bodies say more than any line we could write about ourselves.`] ] },
 
-      { id: 'national-recognition', name: 'National Level Recognition for NxtWave Students',
-        desc: `The awards above belong to the company; this one belongs to the learners. Placed immediately after them so the proof moves from "this is a real company" to "this happens to people like you" without a scroll in between. One honour, named in full — the Union Education Minister, the year, the emblem — instead of a claim about many.`,
+      { id: 'recognition', name: 'Awards & Recognitions',
+        desc: `Built to answer the biggest doubt about us. The most common objection we hear is that NxtWave is fake — and a company that is fake does not get honoured by the Government of India. Celebration, not a list: the grand treatment says we are proud of this, and pride reads as confidence in a way a row of small badges never does. Real photos of our founders on stage and on a national magazine cover make the recognition impossible to mistake for stock.`,
         principles: [
-          ['Authority', `A named office of the Government of India carries weight no self-description can.`],
-          ['Self-relevance', `Recognition given to students, not founders, is the one a student can picture receiving.`] ] },
+          ['Authority bias', `People trust what recognised institutions stand behind. Four government and industry bodies say more than any line we could write about ourselves.`],
+          ['Von Restorff effect', `What stands out gets remembered. The celebratory treatment makes this the section people recall.`] ] },
+
+      { id: 'national-recognition', name: 'National Level Recognition',
+        desc: `The same doubt, answered from the learner’s side. The Union Education Minister honouring NxtWave students is proof no fake company could manufacture. It moves the recognition from the company to the students, so the visitor sees people like them being honoured, not only founders. The national emblem and a named minister make the claim checkable at a glance.`,
+        principles: [
+          ['Halo effect', `A respected figure’s approval spreads to everything connected to it. The minister’s recognition lifts the whole institution.`],
+          ['Similarity bias', `People believe outcomes that happen to people like them. Students being honoured lands harder than founders being honoured.`] ] },
 
       { id: 'hiring-network', name: '3,000+ companies hire NxtWave learners',
-        desc: `Companies that have hired from our programmes, shown as a moving logo ticker rather than a static image. Backs the number from the hero — the story said 3,000+ companies, this is where that becomes Google, Amazon, NVIDIA, Deloitte and Goldman Sachs. Product firms, startups and global services side by side, so every kind of learner finds a place they would want to work.`,
+        desc: `The title does the heavy lifting: 3,000+ companies is the claim, and the running logos are the proof sitting right beneath it. A claimed number needs visible evidence — moving logos show scale without asking anyone to read a list. Every competitor has this section; leaving it out would make its absence the thing people notice.`,
         principles: [
-          ['Jakob’s Law', `People judge us against sites they already know. Every competitor shows a hiring logo wall, so its absence reads as having nothing to show.`] ] },
+          ['Jakob’s Law', `People expect our site to work like the ones they already know. A hiring logo strip is what they look for.`],
+          ['Social proof', `People follow what many others have already chosen. Thousands of companies hiring says the decision is safe.`] ] },
 
-      { id: 'team', name: 'Taught by people who have done the job.',
-        desc: `The reason the outcomes above happened. Companies hired these learners because of who trained them. A scroll-driven video, not a grid of headshots — shows mentors at work. People explain the proof. Before the logos they would be a claim; after them, they are the reason.`,
+      { id: 'team', name: 'Taught by people who have done the job',
+        desc: `A storyboard, not a staff list. The scroll animation follows a learner being helped at each stage — by IIT trainers, mentors, career coaches and working product developers. Real faces with real industry jobs show exactly who will be beside the learner, not a vague promise of “expert support”. The animation’s outcome is the point: by the end, the visitor has seen the whole support system around one person.`,
         principles: [
-          ['Faces draw attention', `Real people at work hold the eye and carry trust in a way logos and adjectives do not.`],
-          ['Credibility through specificity', `“IITs and top product companies” can be checked. “Expert mentors” cannot, so it convinces nobody.`] ] },
+          ['Storytelling effect', `People understand and remember a sequence far better than a list. The scroll turns a team into a journey.`],
+          ['Law of common fate', `Things that move together are seen as one group. Everyone helping the learner reads as a single support system.`] ] },
 
       { id: 'career-transformations', name: 'Career Transformations',
-        desc: `Where 16,000+ becomes one person with a name. A number means nothing until someone has a face and a company. Real people. Named companies. Their own words. Follows the mentors on purpose: who taught them, then what happened to them. Decides whether someone like the visitor belongs here. One action, “View All”, for anyone who wants more stories.`,
+        desc: `Proof of work at scale. A rolling list of placed learners with their CTC shows this is not a handful of hand-picked stories. Faces and numbers together: a photo makes it a real person, the CTC makes it a real outcome. Written testimonials sit alongside, so the section carries both volume and voice.`,
         principles: [
-          ['Social proof', `When people are unsure, they look at what others like them did. One named learner at a named company settles the doubt faster than any claim we make.`] ] },
+          ['Bandwagon effect', `The more people someone sees doing something, the more natural it feels to join them. A continuous roll says thousands did this.`],
+          ['Law of similarity', `Repeated cards in the same format read as one large body of evidence rather than separate claims.`] ] },
 
-      { id: 'learner-experiences', name: "NxtWave Learner's Experiences",
-        desc: `Learners in their own words, on video, straight after the mentors who taught them. One story plays large and the rest wait in a strip under it, so the section asks for one click rather than a choice between five equal players.`,
+      { id: 'masterclasses', name: 'Masterclasses from mentors in the community',
+        desc: `Instant proof of world-class mentors: real people holding senior roles at top companies, shown helping learners. Video plus names — the video shows them teaching, the list shows who they are and where they work. It answers “who else is in my corner” beyond the core trainers.`,
         principles: [
-          ['Self-similarity', `A visitor recognises themselves in a learner far more readily than in a mentor, a CEO or a headline.`],
-          ['Single choice', `One video is already cued. A grid of equal players asks the visitor to decide before they care.`] ] },
+          ['Authority bias', `Senior people from companies everyone knows carry weight without explanation.`],
+          ['Multimedia effect', `People take in more from video and words together than from words alone.`] ] },
 
       { id: 'what-companies-look-for', name: 'We train you for what companies hire for',
-        desc: `Closes the loop the hero opened. The headline said AI changed what companies hire for — this is the “teach it”, in four points. Sits after the proof deliberately: someone who has seen the outcomes reads these as reasons; someone who hasn’t reads them as a syllabus. Every point is something we do, framed by what hiring has become.`,
+        desc: `What we offer, shown visually rather than as paragraphs. Clear cards, each holding one idea, so the visitor never has to read a block of text to understand the offering. Low cognitive load by design: the eye moves card to card and picks up the whole offer without effort.`,
         principles: [
-          ['Cognitive load', `Four points read as an argument. Seven read as a feature list and get skipped.`],
-          ['Consistency of narrative', `The hero raises the question and this section answers it in detail, once the visitor trusts us enough to read it.`] ] },
+          ['Miller’s Law', `People can hold only a few things in mind at once. A small set of cards fits comfortably.`],
+          ['Law of common region', `Content inside a shared boundary is read as one unit. Each card is one clear idea.`] ] },
 
       { id: 'hiring-teams', name: 'Why Top Companies Prefer NxtWave Students',
-        desc: `Short clips from the people who actually made the hiring decision — CEOs, engineering leads, talent heads. The only section where someone outside NxtWave speaks. Answers the question behind the logo wall: those companies hired our learners once — would they do it again? Follows the curriculum section deliberately: we say what companies look for, then the companies confirm it.`,
+        desc: `The same conviction as the learner stories, from the other side of the table: hiring managers explain why they keep coming back. They are the only voices on the page with nothing to gain from saying it. Learner stories say “I got the job.” This section says “we would hire again.”`,
         principles: [
-          ['Source credibility', `A claim carries more weight from someone with nothing to gain. Only employers speak here.`],
-          ['Authority', `The person who made the hiring decision is the most credible voice available on this question.`] ] },
+          ['Source credibility', `A claim is believed more when the speaker has no stake in it.`],
+          ['Social proof', `When many companies choose the same source of talent, a visitor reads it as the safe choice.`] ] },
+
+      { id: 'investors', name: 'Backed by Leading Global Investors',
+        desc: `Logos are large and easy to spot, so the point lands in a glance. Serious investors do not back a fake company, which answers the same doubt as the awards and national recognition sections, from a financial angle.`,
+        principles: [
+          ['Halo effect', `Respected backers lend their reputation to what they support.`],
+          ['Visual hierarchy', `Size signals importance. Prominent logos tell the eye this matters.`] ] },
 
       { id: 'featured-in-media', name: 'Recognized by Leading Media',
-        desc: `The last layer of outside confirmation: independent press, not our own claims. Comes last deliberately — coverage confirms what someone already believes; it rarely creates belief. Awards near the top catch the hesitant, press at the end reassures the convinced and the parent the link gets forwarded to. A short carousel, not a wall of logos. The page ends on proof, then help — flows into a footer with support contacts.`,
-        principles: [] }
+        desc: `Shows NxtWave’s presence across press, media and national newspapers with big, prominent logos. Logos are large and easy to spot, so the point lands in a glance.`,
+        principles: [
+          ['Mere-exposure effect', `People trust names they already recognise. Familiar media brands transfer that familiarity to us.`],
+          ['Authority bias', `Established publications carry credibility of their own.`] ] },
     ];
 
     const card = document.getElementById('dn-card');
