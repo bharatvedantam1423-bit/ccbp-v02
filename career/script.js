@@ -127,9 +127,9 @@ modal.querySelector(".ht__close").addEventListener("click", close);
 modal.addEventListener("click", e => { if (e.target === modal) close(); });
 modal.addEventListener("close", () => { frame.innerHTML = ""; });
 
-/* What companies look for now — each card grows from small to full size as it scrolls into view (one-way) */
+/* Recognised media cards — each grows from small to full size as it scrolls into view (one-way) */
 addEventListener('DOMContentLoaded', () => {
-  const cards = [...document.querySelectorAll('.wl__card, .fm__card')];
+  const cards = [...document.querySelectorAll('.fm__card')];
   if (!cards.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const MIN = 0.5, TRAVEL = 0.6;                    // start scale · viewport-heights of scroll to reach full size
   const target = cards.map(() => 0), cur = cards.map(() => 0);
@@ -169,18 +169,22 @@ addEventListener('DOMContentLoaded', () => {
   kick();
 });
 
-/* What companies look for now — click (or Enter/Space) zooms the card's image; one card at a time, Esc resets */
+/* What companies hire for — two reveal units: the hero card, and the three cards
+   on the right as one block. Each settles in once, then its parts stagger in (CSS). */
 (() => {
-  const cards = [...document.querySelectorAll('.wl__card')];
-  const toggle = card => {
-    const on = !card.classList.contains('is-zoomed');
-    cards.forEach(c => c.classList.remove('is-zoomed'));
-    if (on) card.classList.add('is-zoomed');
-  };
-  cards.forEach(c => {
-    c.tabIndex = 0;
-    c.addEventListener('click', () => toggle(c));
-    c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(c); } });
-  });
-  addEventListener('keydown', e => { if (e.key === 'Escape') cards.forEach(c => c.classList.remove('is-zoomed')); });
+  const units = [...document.querySelectorAll('.wl [data-reveal]')];
+  if (!units.length) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    units.forEach(u => u.classList.add('is-in'));
+    return;
+  }
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-in');
+      e.target.addEventListener('transitionend', () => { e.target.style.willChange = 'auto'; }, { once: true });
+      obs.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+  units.forEach(u => io.observe(u));
 })();

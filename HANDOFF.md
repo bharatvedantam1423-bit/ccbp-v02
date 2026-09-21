@@ -49,7 +49,12 @@ A static single-page NxtWave homepage (`index.html`, no build step) built from F
 7. **Masterclasses** `#masterclasses` (`.mc`, `career/masterclass.*`) — follows Career
    Transformations in normal flow (it used to ride over the old pinned screen with
    `margin-top:-100vh`; that was removed with the pin).
-8. **We train you for what companies hire for** `#what-companies-look-for` — hover lift/zoom + click-zoom.
+8. **We train you for what companies hire for** `#what-companies-look-for` — Figma 839:377: a tall
+   hero card (inline-SVG isometric AI diagram, built in code — the Figma raster couldn't be
+   downloaded here) next to a column of three cards. Two scroll-reveal units (`[data-reveal]`):
+   the hero and the right column each settle in oversized→normal with a blur fade, then their
+   parts stagger in (`.wl-a`, delay in `--d`). IntersectionObserver in `career/script.js`,
+   one-way; reduced motion shows everything at rest.
 9. **Why Top Companies Prefer NxtWave Students** `#hiring-teams` — cards sized ~5.4 across, max 280px.
 10. **Backed by Leading Global Investors** `#investors`.
 11. **Recognized by Leading Media** `#featured-in-media` — bento grid + View More. Then footer.
