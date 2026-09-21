@@ -38,7 +38,10 @@ A static single-page NxtWave homepage (`index.html`, no build step) built from F
    callback form on the page yet.
 4. **3,000+ companies hire NxtWave learners** `#hiring-network` — 5-row logo ticker (`assets/logos`).
 5. **Taught by people…** `#team` — heading pinned with a contained scroll-scrubbed film
-   `assets/mentors-v2.mp4`, stops at `LAST_FRAME = 128`. No extra desk strip.
+   `assets/mentors-v2.mp4`, stops at `LAST_FRAME = 140`. The subhead is replaced by the
+   alumni strip (`.mw-alumni`), inside `.mw-head` so it pins and reveals with the heading.
+   **IIT Bombay and IIT Delhi are set as text wordmarks** — there are no IIT marks in
+   `assets/`; drop the real files into `assets/masterclass/logos/` and swap them in.
 6. **Career Transformations** `#career-transformations` (`.ctv`) — two looping tickers, no
    pinning and no scroll-scrub: learner portraits drift up the left column, a three-column
    wall of short written reviews drifts on the right (middle column runs the other way).

@@ -91,6 +91,7 @@ a{color:inherit;text-decoration:none}
 /* card-level heading/body inside a section follow the same two families */
 .cs .wl__h{font-family:var(--font-head);font-weight:600;letter-spacing:-.01em}
 .cs .wl__p{font-family:var(--font-sub);font-weight:400;letter-spacing:normal}
+.wl__sub b{font-weight:700;color:var(--blue,#2563eb)}
 
 /* =====================================================================
    S1 — HERO (supplied scroll-scrubbed video hero; styles namespaced hx-)
@@ -140,7 +141,7 @@ a{color:inherit;text-decoration:none}
 .hx-eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
 .hx-beat h2{margin-top:18px!important;font-family:Outfit,sans-serif;font-weight:400;font-size:clamp(30px,3.2vw,48px);line-height:1.1;letter-spacing:-.01em;font-variation-settings:normal}
 .hx-beat h2 span{color:var(--hx-accent)}
-.hx-beat p{margin-top:18px!important;font-size:18px;line-height:1.6;color:var(--hx-ink-2);max-width:440px}
+.hx-beat p{margin-top:18px!important;font-size:20px;line-height:1.55;color:var(--hx-ink-2);max-width:470px}
 .hx-cta{display:inline-block;margin-top:28px!important;padding:13px 22px!important;border-radius:8px;background:var(--hx-accent);color:#fff;text-decoration:none;font-size:14px;font-weight:500;transition:background .25s}
 .hx-cta:hover{background:#2f86ff}
 
@@ -497,8 +498,22 @@ a{color:inherit;text-decoration:none}
 .mw-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column;align-items:center;
   padding-bottom:clamp(24px,6vh,64px)}   /* breathing room under the table */
 .mw-head{flex:none;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;
-  padding:clamp(40px,8vh,96px) 16px clamp(12px,2.6vh,28px);max-width:820px;margin:0 auto}
+  padding:clamp(40px,8vh,96px) 16px clamp(12px,2.6vh,28px);max-width:1080px;margin:0 auto}
+.mw-title{max-width:820px}
 .mw-sub{color:#000101;max-width:640px}
+
+/* the alumni strip that sits under the mentors heading, in place of a subhead */
+.mw-alumni{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:20px;width:100%}
+.mw-alumni-h{margin:0;font-family:var(--font-sub);font-size:13px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:#1e3a8a}
+.mw-alumni-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:clamp(16px,2.6vw,40px);list-style:none;margin:0;padding:0}
+.mw-alumni-row li{display:flex;align-items:center}
+.mw-alumni-row img{display:block;width:auto;height:clamp(22px,1.9vw,28px);object-fit:contain}
+.mw-alumni-row b{font-family:var(--font-head);font-size:clamp(16px,1.4vw,20px);
+  font-weight:600;color:#0f172a;letter-spacing:-.01em;white-space:nowrap}
+.mw-alumni-more{margin:0;font-family:var(--font-sub);font-size:13px;color:#64748b}
+@media (max-width:640px){ .mw-alumni-row{gap:18px 24px} }
 /* heading rises in as the section arrives */
 .mw-head > *{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .9s var(--ease)}
 .mw-head > * + *{transition-delay:.12s}
@@ -581,6 +596,9 @@ a{color:inherit;text-decoration:none}
 
 .ctv-note{flex:none;background:#f8fafc;border:1px solid #eef2f7;border-radius:12px;padding:16px}
 .ctv-note-by{display:flex;align-items:center;gap:10px}
+.ctv-note-by > div{min-width:0;flex:1 1 auto}
+.ctv-ctc{flex:none;align-self:center;background:#e8f5e9;color:#166534;border-radius:999px;
+  padding:4px 9px;font-family:var(--font-sub);font-size:12px;font-weight:700;line-height:1}
 .ctv-note-by img{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none;background:#e2e8f0}
 .ctv-note-by b{display:block;font-family:var(--font-sub);font-size:13px;font-weight:600;color:#0f172a;line-height:1.3}
 .ctv-note-by span{display:block;font-family:var(--font-sub);font-size:12px;color:#64748b;line-height:1.3}
@@ -651,8 +669,9 @@ a{color:inherit;text-decoration:none}
    A presentation aid: off until the switch is flipped, so the page
    itself is untouched by default.
    ===================================================================== */
-.dn{position:fixed;right:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px);z-index:60;
-  display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none}
+/* left side on purpose: the WhatsApp button owns the bottom-right corner */
+.dn{position:fixed;left:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px);z-index:60;
+  display:flex;flex-direction:column;align-items:flex-start;gap:10px;pointer-events:none}
 .dn > *{pointer-events:auto}
 
 .dn-switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;
@@ -742,37 +761,31 @@ a{color:inherit;text-decoration:none}
     <!-- beats: data-in / data-out are hero scroll progress (0–1) = video time / 20.15s, matched to its scenes -->
     <!-- 2.2–5.2s: the crowd on their phones → he pulls on the NxtWave hoodie -->
     <div class="hx-beat" data-in="0.11" data-out="0.255">
-      <span class="hx-eyebrow">01 — START</span>
       <h2>Everyone's scrolling.<br><span>You start building.</span></h2>
       <p>While others watch tutorials, you join a programme built around what tech companies actually hire for.</p>
     </div>
     <!-- 5.8–9.0s: at the laptop, mentor at his shoulder -->
     <div class="hx-beat" data-in="0.29" data-out="0.445">
-      <span class="hx-eyebrow">02 — LEARN</span>
       <h2>Fundamentals + AI,<br><span>with a mentor beside you.</span></h2>
       <p>Industry mentors review your code, unblock you and push you further every single week.</p>
     </div>
     <!-- 9.2–12.2s: suited up, sharpening at the laptop -->
     <div class="hx-beat" data-in="0.46" data-out="0.6">
-      <span class="hx-eyebrow">03 — PREPARE</span>
       <h2>Projects that prove it.<br><span>Interviews you're ready for.</span></h2>
       <p>A portfolio of real builds, mock interviews with working engineers, and feedback until you're sharp.</p>
     </div>
     <!-- 12.6–16.2s: the interview, the handshake, "Congratulations" on his phone -->
     <div class="hx-beat" data-in="0.625" data-out="0.8">
-      <span class="hx-eyebrow">04 — GET HIRED</span>
       <h2>Then the message<br><span>you've worked for.</span></h2>
       <p>Interviews with 3,000+ hiring companies. One of them says yes.</p>
     </div>
     <!-- 16.6–18.6s: celebrating with his parents -->
     <div class="hx-beat" data-in="0.825" data-out="0.915">
-      <span class="hx-eyebrow">05 — THE MOMENT</span>
       <h2>An offer letter changes<br><span>more than one life.</span></h2>
       <p>For you, and for the people who believed in you first.</p>
     </div>
     <!-- 18.9–20.1s: the crowd of placed learners — holds through the hand-off -->
     <div class="hx-beat" data-in="0.93" data-out="1.2">
-      <span class="hx-eyebrow">06 — JOIN THEM</span>
       <h2>Join the <span>16,000+</span><br>who already made it.</h2>
       <p>NxtWave learners now build at 3,000+ companies. Your name could be next.</p>
       <a class="hx-cta" href="#programmes">Explore programmes</a>
@@ -893,7 +906,20 @@ a{color:inherit;text-decoration:none}
       <!-- the heading pins with the film, so it stays in view for the whole scrub -->
       <header class="mw-head">
         <h2 class="mw-title" id="mw-title">Taught by people<br>who have done the job.</h2>
-        <p class="mw-sub">Trainers from IITs and top product companies. Mentors who review your work. Coaches who get you through interviews.</p>
+        <div class="mw-alumni">
+          <p class="mw-alumni-h">Learn the best from the alumni of</p>
+          <ul class="mw-alumni-row">
+            <li><img src="assets/masterclass/logos/stanford-mono.png" alt="Stanford University" width="190" height="61" loading="lazy"></li>
+            <li><img src="assets/masterclass/logos/google-mono.png" alt="Google" width="174" height="60" loading="lazy"></li>
+            <!-- TODO: no IIT marks in assets/ yet -- these two are set as wordmarks.
+                 Drop the real files into assets/masterclass/logos/ and swap them in. -->
+            <li><b>IIT Bombay</b></li>
+            <li><img src="assets/masterclass/logos/amazon-mono.png" alt="Amazon" width="179" height="55" loading="lazy"></li>
+            <li><b>IIT Delhi</b></li>
+            <li><img src="assets/masterclass/logos/microsoft-mono.png" alt="Microsoft" width="229" height="46" loading="lazy"></li>
+          </ul>
+          <p class="mw-alumni-more">and many more&hellip;</p>
+        </div>
       </header>
       <div class="mw-screen">
         <video id="mw-vid" data-src="assets/mentors-v2.mp4" muted playsinline preload="auto"
@@ -996,7 +1022,7 @@ a{color:inherit;text-decoration:none}
 <section class="wl" id="what-companies-look-for" aria-labelledby="wl-title">
   <header class="wl__head">
     <h2 class="wl__title" id="wl-title">We train you for what<br>companies hire for</h2>
-    <p class="wl__sub">3,000+ companies have hired from our programmes. This is what we teach that gets people through.</p>
+    <p class="wl__sub"><b>3,000+ companies</b> have hired from our programmes. This is what we teach that gets people through.</p>
   </header>
   <!-- Figma 839:377. Two reveal units: the hero card, and the three cards on the
        right as one block. Their parts settle in after, like the reference. -->
@@ -1872,23 +1898,23 @@ a{color:inherit;text-decoration:none}
     ];
 
     const REVIEWS = [
-      { av: 'assets/people/p01.jpg', name: 'Sebastian Speier', at: 'Shop',
+      { av: 'assets/people/p01.jpg', name: 'Sebastian Speier', at: 'Shop',        ctc: '19LPA',
         text: 'The projects are the part that stuck. I walked into interviews with something I had actually built and could talk about line by line.' },
-      { av: 'assets/people/p02.jpg', name: 'Meng To', at: 'DesignCode',
+      { av: 'assets/people/p02.jpg', name: 'Meng To',          at: 'DesignCode',  ctc: '15LPA',
         text: 'Coming from a non-tech degree I expected to be lost. The fundamentals track meant I never had to fake understanding something.' },
-      { av: 'assets/people/p03.jpg', name: 'Marco Cornacchia', at: 'Figma',
+      { av: 'assets/people/p03.jpg', name: 'Marco Cornacchia', at: 'Figma',       ctc: '26LPA',
         text: 'My mentor reviewed every submission properly. Not a rubber stamp -- actual comments on why a decision was wrong.' },
-      { av: 'assets/people/p04.jpg', name: 'Taha Hossain', at: 'Daybreak',
+      { av: 'assets/people/p04.jpg', name: 'Taha Hossain',     at: 'Daybreak',    ctc: '13LPA',
         text: 'I was working full time. Sessions were recorded and the doubt support was quick enough that I never fell a week behind.' },
-      { av: 'assets/people/p05.jpg', name: 'Haerin Song', at: 'Visa',
+      { av: 'assets/people/p05.jpg', name: 'Haerin Song',      at: 'Visa',        ctc: '21LPA',
         text: 'The interview prep was the difference. Mock rounds with people who actually hire, and blunt feedback afterwards.' },
-      { av: 'assets/people/p06.jpg', name: 'John Bai', at: 'Plaid',
+      { av: 'assets/people/p06.jpg', name: 'John Bai',         at: 'Plaid',       ctc: '24LPA',
         text: 'Six months in I had a portfolio that looked like a junior engineer’s, not a student’s. That is what got the first callback.' },
-      { av: 'assets/people/p07.jpg', name: 'Josiah Gulden', at: 'Compound Labs',
+      { av: 'assets/people/p07.jpg', name: 'Josiah Gulden',    at: 'Compound Labs', ctc: '17LPA',
         text: 'What I did not expect was the peer group. Being around people grinding the same problems kept me honest on the slow weeks.' },
-      { av: 'assets/people/p08.jpg', name: 'Rachel How', at: 'Stripe',
+      { av: 'assets/people/p08.jpg', name: 'Rachel How',       at: 'Stripe',      ctc: '28LPA',
         text: 'The curriculum tracked what companies were actually asking. Nothing felt like filler by the time I reached the interviews.' },
-      { av: 'assets/people/p09.jpg', name: 'Oykun Yilmaz', at: 'Jotform',
+      { av: 'assets/people/p09.jpg', name: 'Oykun Yilmaz',     at: 'Jotform',     ctc: '14LPA',
         text: 'I switched from support to engineering at 27. It took longer than the brochure says, but the path was never unclear.' },
     ];
 
@@ -1902,7 +1928,8 @@ a{color:inherit;text-decoration:none}
     const note = r =>
       `<article class="ctv-note"><div class="ctv-note-by">` +
       `<img src="${r.av}" alt="" loading="lazy">` +
-      `<div><b>${esc(r.name)}</b><span>${esc(r.at)}</span></div></div>` +
+      `<div><b>${esc(r.name)}</b><span>${esc(r.at)}</span></div>` +
+      (r.ctc ? `<b class="ctv-ctc">${esc(r.ctc)}</b>` : '') + `</div>` +
       `<p>${esc(r.text)}</p></article>`;
 
     /* the portrait column: the list twice over, so translating one copy loops */
