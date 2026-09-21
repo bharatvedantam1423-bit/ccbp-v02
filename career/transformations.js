@@ -45,9 +45,12 @@
     b.setAttribute('aria-current', on ? 'true' : 'false');
   });
 
-  rail.innerHTML = V.slice(1).map((v, i) => `
+  /* the strip runs the five stills twice: five fill the row, the repeat gives the arrows
+     somewhere to go until there are more stories. A repeat plays the same video. */
+  const strip = V.slice(1);
+  rail.innerHTML = strip.concat(strip).map((v, i) => `
     <li class="ctf__item">
-      <button class="ctf__thumb" type="button" data-k="${i + 1}" aria-current="false" aria-label="Play: ${esc(v.t)}">
+      <button class="ctf__thumb" type="button" data-k="${(i % strip.length) + 1}" aria-current="false" aria-label="Play: ${esc(v.t)}">
         <img src="${v.img}" alt="" ${i > 3 ? 'loading="lazy"' : ''} decoding="async">
       </button>
     </li>`).join('');
