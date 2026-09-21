@@ -34,11 +34,16 @@
     [L.indiaToday,'08 Oct 2024','WfvCnYQZJP4unFn5CZ2X58kJUg.png',"Over 2000 Companies Hire NxtWave Learners",'https://www.indiatoday.in/pr-newswire?rkey=20241008EN25620'],
     [L.fe,'11 Jun 2024','lvRE1NGG7DrJxMPHXdqlLaUYFbQ.png',"NxtWave recognized as a ‘Technology Pioneer’ by World Economic Forum",'https://www.financialexpress.com/jobs-career/education/nxtwave-recognized-as-a-technology-pioneer-by-world-economic-forum/3522172/'],
     [L.ttoday,'01 Jun 2025','CigQSRhoABLGcVTXxBHghquceqU.webp',"NIAT is Empowering Universities to Deliver NEP-Aligned, Industry-Ready Education",'https://telanganatoday.com/niat-is-empowering-universities-to-deliver-nep-aligned-industry-ready-education'],
-    ['zwEh7lTHMg9cvkaTuLNfeBSqMp0.png','7 Months ago','IiTw52Lcg1bhYu1lhrxIpPGhkwU.jpeg',"NIAT’s new campaign ‘Built By Skills’ puts the spotlight back on what matters most on World Youth Skills Day",'https://www.adgully.com/post/3923/niats-new-campaign-built-by-skills-puts-the-spotlight-back-on-what-matters-most-on-world-youth-skills-day'],
+    ['zwEh7lTHMg9cvkaTuLNfeBSqMp0.png','15 Jul 2025','IiTw52Lcg1bhYu1lhrxIpPGhkwU.jpeg',"NIAT’s new campaign ‘Built By Skills’ puts the spotlight back on what matters most on World Youth Skills Day",'https://www.adgully.com/post/3923/niats-new-campaign-built-by-skills-puts-the-spotlight-back-on-what-matters-most-on-world-youth-skills-day'],
     ['5u2EIBJ7FYnB8r2aFVDR2HdqBo.png','29 Jun 2025','IyH13MAGQXHzc8Q6z9QQL1WqrQA.jpg',"Rahul Attuluri of NxtWave and NIAT spotlights India’s upskilling revolution helping career opportunities in the age of AI",'https://education21.in/rahul-attuluri-of-nxtwave-and-niat-spotlights-indias-upskilling-revolution-helping-career-opportunities-in-the-age-of-ai/'],
     [L.ttoday,'22 Jun 2025','Lh8yywkZ7P5R3g1Js74sAOkZhM.webp',"Over 600 students take part in NIAT’s ‘Build for Telangana Hackathon’",'https://telanganatoday.com/over-600-students-take-part-in-niats-build-for-telangana-hackathon'],
   ];
   const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  /* every card shows month + year only: the source strings mix '19 Feb 2026' with '09 March 2026',
+     and the long ones used to overflow the narrow card headers */
+  const MON = { jan:'Jan', feb:'Feb', mar:'Mar', apr:'Apr', may:'May', jun:'Jun', jul:'Jul', aug:'Aug', sep:'Sep', oct:'Oct', nov:'Nov', dec:'Dec' };
+  const when = d => { const m = /([A-Za-z]{3,})\w*\s+(\d{4})/.exec(d);
+    return m && MON[m[1].slice(0, 3).toLowerCase()] ? `${MON[m[1].slice(0, 3).toLowerCase()]}, ${m[2]}` : d; };
   const pub = u => new URL(u).hostname.replace(/^www\./,'');
   /* publication logos trimmed to their ink (assets/media/trim) so every mark can be sized on the same rule */
   const logo = f => F + (f.endsWith('.svg') ? f : 'trim/' + f.replace(/\.\w+$/, '.png'));
@@ -48,10 +53,10 @@
   const SQ = new Set(['krZDWpBsncwt7rRpwL9syFM8as.png']);
   const cover = img => F + 'hd/' + img.replace(/\.\w+$/, '') + '.jpg?v=2';   /* v=2: covers re-cropped (baked-in side strips removed) — busts stale browser caches */
   const card = ([lg,date,img,title,url], i) => `
-    <li class="fm__card${i === 0 ? ' fm__card--feat' : ''}">
-      <a class="fm__link" href="${url}" target="_blank" rel="noopener" aria-label="${esc(title)} — ${pub(url)}, ${date}">
+    <li class="fm__card${i === 0 ? ' fm__card--feat' : i > 2 ? ' fm__card--sm' : ''}">
+      <a class="fm__link" href="${url}" target="_blank" rel="noopener" aria-label="${esc(title)} — ${pub(url)}, ${when(date)}">
         <div class="fm__body">
-          <div class="fm__top"><img class="fm__logo" src="${logo(lg)}" alt="${pub(url)}" loading="lazy"><span class="fm__date">${date}</span></div>
+          <div class="fm__top"><img class="fm__logo" src="${logo(lg)}" alt="${pub(url)}" loading="lazy"><span class="fm__date">${when(date)}</span></div>
           <h3 class="fm__h">${esc(title)}</h3>
           <span class="fm__cta">View More${ARROW}</span>
         </div>
@@ -60,8 +65,9 @@
     </li>`;
   const grid = document.getElementById('fm-grid'), more = document.getElementById('fm-more');
   /* equal visual weight: height from a constant logo area, clamped so tall and very wide marks stay legible */
-  const fit = im => { const r = im.naturalWidth / im.naturalHeight || 4;
-    const h = Math.min(22, Math.max(11, Math.sqrt(1400 / r))); im.style.height = Math.min(h, 140 / r) + 'px'; };
+  const sizeLogo = (im, lo, hi, area, wmax) => { const r = im.naturalWidth / im.naturalHeight || 4;
+    const h = Math.min(hi, Math.max(lo, Math.sqrt(area / r))); im.style.height = Math.min(h, wmax / r) + 'px'; };
+  const fit = im => sizeLogo(im, 14, 27, 2200, 172);
   let shown = 0;
   const add = n => {
     grid.insertAdjacentHTML('beforeend', A.slice(shown, shown + n).map((a, k) => card(a, shown + k)).join(''));
@@ -69,8 +75,28 @@
     grid.querySelectorAll('.fm__logo:not([style])').forEach(im => im.complete ? fit(im) : im.addEventListener('load', () => fit(im), { once: true }));
     more.hidden = shown >= A.length;
   };
-  add(7);                                   // featured + 2 stacked + 2×2, as in Figma CCBP-v02 755:495
+  add(11);                                  // featured + 2 stacked + two rows of four
   more.addEventListener('click', () => add(4));
+
+  /* "Featured in" — publication marks under the section title (ccbp.in press strip) */
+  const P = [
+    ['TxrnMm2oSomvy9vwpcesZZ1SWm4.png', 'The Economic Times'], ['azZzOZoucHAM2Ny65pwoSEK9S1Y.png', 'The Times of India'],
+    [L.ht, 'Hindustan Times'], [L.bs, 'Business Standard'], [L.ys, 'YourStory'],
+    [L.indiaToday, 'India Today'],
+    [L.fe, 'The Financial Express'], ['nLYbCjFDOM6zjSkPmOnvP0wN2ic.png', 'Forbes India'],
+    ['cYhikmiBBJnT4QawISTn4bS8Jlg.png', 'CNBC TV18'], [L.print, 'ThePrint'],
+    ['3t9YXsu5qSJnDH676d1oS6g5ZY.png', 'Deccan Chronicle'], [L.ttoday, 'Telangana Today'],
+  ];
+  const press = document.getElementById('fm-press');
+  if (press) {
+    press.insertAdjacentHTML('beforeend', P.map(([lg, name]) =>
+      `<li class="fm__press-item"><img src="${logo(lg)}" alt="${esc(name)}" loading="lazy"></li>`).join(''));
+    /* same optical-weight rule as the card marks, one step up so the strip reads as the headline of the section */
+    press.querySelectorAll('img').forEach(im => {
+      const go = () => sizeLogo(im, 20, 36, 4200, 168);
+      im.complete ? go() : im.addEventListener('load', go, { once: true });
+    });
+  }
 
   /* Footer — course tracks from ccbp.in, laid out like Ather's footer locator */
   const B = 'https://www.ccbp.in/intensive/';

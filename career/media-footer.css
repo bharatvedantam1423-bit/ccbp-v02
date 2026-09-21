@@ -1,10 +1,16 @@
 /* ── Featured in the media (rebuilt from niatindia.com) ───────── */
 .fm{padding:var(--sec) 0;overflow:hidden;--fm-accent:#042ac0}
-.fm__title{font-size:48px;line-height:1.1;font-weight:600;letter-spacing:-.02em;font-variation-settings:"opsz" 32;margin:0 auto 56px;text-align:center}
+.fm__title{font-size:48px;line-height:1.1;font-weight:600;letter-spacing:-.02em;font-variation-settings:"opsz" 32;margin:0 auto 36px;text-align:center}
+/* "Featured in" — publication marks between the title and the grid (ccbp.in press strip) */
+.fm__press{max-width:1180px;margin:0 auto 64px;padding:0 var(--m);box-sizing:content-box}
+.fm__press-h{margin:0 0 28px;font-family:InterVariable,"Inter",system-ui,sans-serif;font-size:13px;line-height:1;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#64748b;text-align:center}
+.fm__press-row{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:32px 48px;margin:0;padding:0}
+.fm__press-item{display:flex;align-items:center;justify-content:center;min-height:40px}
+.fm__press-item img{display:block;height:28px;width:auto;max-width:168px;opacity:.92}
 /* 12-col grid: featured (7 cols, 2 rows) + two stacked (5 cols), then pairs (6 + 6).
    Rows have a floor and grow with the longest headline, so cards in a row always end level. */
 .fm__grid{list-style:none;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(2,minmax(248px,auto));grid-auto-rows:minmax(200px,auto);gap:16px;max-width:1200px;margin:0 auto;padding:0 var(--m);box-sizing:content-box}
-.fm__card{grid-column:span 6}
+.fm__card{grid-column:span 3}
 .fm__card:nth-child(2),.fm__card:nth-child(3){grid-column:span 5}
 .fm__card--feat{grid-column:span 7;grid-row:span 2}   /* dominant: ~58% wide, two tall rows */
 .fm__link{height:100%;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);background:#f6f7fb;border:0;border-radius:16px;overflow:hidden;color:#1e293b;text-decoration:none;isolation:isolate;transition:box-shadow .35s}
@@ -16,7 +22,9 @@
 .fm__card--feat .fm__h{margin-top:0}
 .fm__body{display:flex;flex-direction:column;padding:24px;min-width:0}
 .fm__top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:24px}
-.fm__logo{display:block;height:16px;width:auto;max-width:140px}
+.fm__top .fm__logo{flex:0 1 auto;min-width:0;object-fit:contain;object-position:left center}
+.fm__top .fm__date{flex:0 0 auto}
+.fm__logo{display:block;height:20px;width:auto;max-width:172px}
 .fm__date{font-family:InterVariable,"Inter",system-ui,sans-serif;font-size:12px;line-height:1.4;font-weight:500;color:#475569;letter-spacing:0;white-space:nowrap}
 .fm__h{margin-top:auto;padding-top:16px;font-family:"Inter Display","Inter",system-ui,sans-serif;font-size:16px;line-height:1.4;font-weight:500;letter-spacing:-.01em;color:#1e293b;text-wrap:pretty;
   display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}   /* 2 lines + ellipsis; full title stays in the link label */
@@ -24,8 +32,14 @@
 .fm__cta{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-family:InterVariable,"Inter",system-ui,sans-serif;font-size:14px;line-height:20px;font-weight:600;letter-spacing:0;color:#2563eb}
 .fm__cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.2,.7,.1,1)}
 .fm__link:hover .fm__cta svg{transform:translateX(4px)}
+/* quarter-width cards: cover on top, then the headline — the side-by-side split is too tight at 3 columns */
+.fm__card--sm .fm__link{display:flex;flex-direction:column}
+.fm__card--sm .fm__img{order:-1;aspect-ratio:3/2}
+.fm__card--sm .fm__body{flex:1;padding:20px}
+.fm__card--sm .fm__h{margin-top:16px;padding-top:0;font-size:15px;-webkit-line-clamp:3}
+.fm__card--sm .fm__cta{margin-top:auto;padding-top:14px;font-size:13px}
 .fm__img{display:block;position:relative;overflow:hidden;background:#eceae6}
-.fm__img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s cubic-bezier(.2,.7,.1,1)}
+.fm__img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 35%;display:block;transition:transform .9s cubic-bezier(.2,.7,.1,1)}
 .fm__link:hover .fm__img img{transform:scale(1.08)}
 
 .fm__more{display:block;margin:48px auto 0;padding:12px 32px;min-width:160px;background:#1d4ed8;color:#fff;border:0;border-radius:12px;font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:20px;font-weight:600;letter-spacing:0;cursor:pointer;transition:transform .3s cubic-bezier(.2,.7,.1,1),box-shadow .3s}
@@ -34,13 +48,24 @@
 .fm__more[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){.fm__img img,.fm__cta svg{transition:none}}
 @media (max-width:1180px){
-  .fm__grid{max-width:880px;grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:auto}
+  .fm__grid{max-width:880px;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:auto}
   .fm__card,.fm__card:nth-child(2),.fm__card:nth-child(3),.fm__card--feat{grid-column:1/-1;grid-row:auto}
+  .fm__card--sm{grid-column:span 1}
   .fm__card--feat .fm__img{flex:none;aspect-ratio:16/9;min-height:0}
   .fm__link{min-height:240px}
+  .fm__card--sm .fm__link{min-height:0}
+  .fm__press{margin-bottom:56px}
+  .fm__press-row{gap:28px 44px}
 }
 @media (max-width:640px){
-  .fm__title{font-size:30px;margin-bottom:32px}
+  .fm__title{font-size:30px;margin-bottom:24px}
+  .fm__grid{grid-template-columns:1fr}
+  .fm__card--sm{grid-column:1/-1}
+  .fm__press{margin-bottom:36px}
+  .fm__press-h{margin-bottom:20px;font-size:12px}
+  .fm__press-row{gap:20px 26px}
+  .fm__press-item img{max-width:104px;max-height:22px;height:auto!important;width:auto}
+  .fm__press-item{min-height:28px}
   .fm__link{grid-template-columns:1fr;min-height:0}
   .fm__img{order:-1;aspect-ratio:16/9}
   .fm__h{margin-top:4px}
