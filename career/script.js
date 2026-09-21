@@ -29,7 +29,7 @@ track.innerHTML = TESTIMONIALS.map((t, i) => `
 const cards  = [...track.children];
 /* logos of very different shapes get the same visual weight: height from a constant area, clamped */
 const fitLogo = im => { const r = im.naturalWidth / im.naturalHeight || 3;
-  im.style.height = Math.min(26, Math.max(14, Math.sqrt(1500 / r)), 124 / r) + "px"; };
+  im.style.height = Math.min(44, Math.max(24, Math.sqrt(3800 / r)), 190 / r) + "px"; };
 track.querySelectorAll(".ht__co img").forEach(im => im.complete ? fitLogo(im) : im.addEventListener("load", () => fitLogo(im), { once: true }));
 const labels = cards.map(c => c.querySelector(".ht__label"));
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
