@@ -107,61 +107,64 @@ a{color:inherit;text-decoration:none}
   background:linear-gradient(90deg,rgba(3,8,24,.92) 0%,rgba(3,8,24,.7) 28%,rgba(3,8,24,.25) 50%,rgba(3,8,24,0) 65%),
              linear-gradient(0deg,rgba(3,8,24,.85) 0%,rgba(3,8,24,.4) 18%,rgba(3,8,24,0) 35%)}
 
-/* nav lives inside the pinned stage: visible through the hero, gone after it */
-.hx-nav{position:absolute;inset:0 0 auto 0;z-index:10;display:flex;align-items:center;gap:16px;
-  height:60px;margin-top:clamp(16px,4.4vh,40px)!important;padding:0 var(--hx-pad)!important}
-.hx-logo{display:block;line-height:0;flex:1 1 0}
+/* nav lives inside the pinned stage: visible through the hero, gone after it.
+   Figma 869:112 — a full-width band, 19% black over a 16px backdrop blur, 10px of padding
+   around a 60px row. Tokens below are read straight off that frame. */
+.hx-nav{--nav-stroke:#3e5787;--nav-stroke-hot:#406bdb;--nav-streak:#9dc6ff;
+  position:absolute;inset:0 0 auto 0;z-index:10;margin-top:0!important;padding:10px 0!important;
+  background:rgba(0,0,0,.19);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.hx-nav-row{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  height:60px;padding:0 var(--hx-pad)}
+.hx-logo{display:block;line-height:0}
 .hx-logo img{display:block;width:clamp(72px,6.67vw,96px);height:auto}
+.hx-nav ul{display:flex;gap:24px;align-items:center;list-style:none}   /* Figma: 24px between controls */
+.hx-nav a{color:#fff;text-decoration:none}
 
-/* the links sit in one glass capsule (Figma 761:441): a frosted, near-clear pane with a
-   light hairline on top and a soft drop shadow, so it reads over the film and the dot grid */
-.hx-glass{flex:0 0 auto;padding:5px;border-radius:999px;
-  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow:0 10px 30px rgba(3,8,24,.34),inset 0 1px 0 rgba(255,255,255,.20);
-  -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
-.hx-nav ul{display:flex;gap:2px;align-items:center;list-style:none}
-.hx-nav a{color:var(--hx-ink);text-decoration:none;font:600 16px/24px var(--font);white-space:nowrap}
-
-/* one link: a highlight pill grows in behind it, its label rolls over letter by letter */
-.hx-nl{position:relative;display:block;padding:9px 18px;border-radius:999px;isolation:isolate;
-  font:600 12px/normal Geist,var(--font)!important;text-transform:uppercase;letter-spacing:.04em}
-.hx-nl::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;
-  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.09));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.28);
-  opacity:0;transform:scale(.82);transition:opacity .28s ease,transform .38s cubic-bezier(.2,.8,.2,1)}
-.hx-nl:hover::before,.hx-nl:focus-visible::before{opacity:1;transform:scale(1)}
+/* one nav button (Figma 869:151/153/155): 1px stroke, 100px radius, 10/18 padding,
+   Geist SemiBold 12 caps on a near-clear fill. Default stroke #3e5787, hover #406bdb. */
+.hx-nl{position:relative;display:block;padding:10px 18px;border-radius:100px;
+  border:1px solid var(--nav-stroke);background:rgba(255,255,255,.02);
+  font:600 12px/normal Geist,var(--font);text-transform:uppercase;white-space:nowrap;
+  transition:border-color .35s ease,background .35s ease,box-shadow .45s ease}
+.hx-nl:hover,.hx-nl:focus-visible{border-color:var(--nav-stroke-hot);background:rgba(64,107,219,.10);
+  box-shadow:0 0 22px rgba(64,107,219,.30),inset 0 0 18px rgba(64,107,219,.14)}
 .hx-nl:focus-visible{outline:none}
-/* the two label copies share one grid cell; the clip keeps the roll inside the pill */
-.hx-nl-clip{display:grid;overflow:hidden;padding-block:1px}
-.hx-nl-txt{grid-area:1/1;display:flex}
-.hx-ch{display:inline-block;will-change:transform;
-  transition:transform .46s cubic-bezier(.22,.9,.24,1);transition-delay:calc(var(--i,0)*24ms)}
-.hx-sp{width:.4em}   /* the word gap, wide enough to read at these letter-spaced caps */
-.hx-nl-dup .hx-ch{transform:translateY(105%)}
-.hx-nl:hover .hx-nl-top .hx-ch,.hx-nl:focus-visible .hx-nl-top .hx-ch{transform:translateY(-105%)}
-.hx-nl:hover .hx-nl-dup .hx-ch,.hx-nl:focus-visible .hx-nl-dup .hx-ch{transform:translateY(0)}
 
-/* right-hand action: the same glass, sized as a button */
-.hx-login{flex:1 1 0;display:flex;justify-content:flex-end}
-.hx-login a{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;
-  font:600 12px/normal Geist,var(--font);text-transform:uppercase;letter-spacing:.04em;
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.22);
-  -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);
-  transition:background .25s ease,border-color .25s ease,transform .25s cubic-bezier(.2,.8,.2,1)}
-.hx-login a:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.38);transform:translateY(-1px)}
-.hx-login svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round;
-  transition:transform .3s cubic-bezier(.2,.8,.2,1)}
-.hx-login a:hover svg{transform:translateX(3px)}
-/* between the phone breakpoint and ~1180 the capsule and the button tighten up so they
-   keep clear of each other and of the logo */
-@media (max-width:1180px){
-  .hx-nl{padding:8px 13px;font-size:11px!important}
-  .hx-login a{padding:10px 15px;font-size:11px}
-  .hx-login svg{width:15px;height:15px}
-}
+/* HOVER 1 — the diagonal glow: a slanted band of light crossing the button. The pseudo-element
+   carries the button's own radius, so the band is clipped to the pill without an overflow clip
+   (which would eat the stroke glow). */
+.hx-nl::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.20) 47%,rgba(190,215,255,.30) 52%,transparent 68%);
+  background-size:260% 100%;background-position:-60% 0;background-repeat:no-repeat;
+  opacity:0;transition:opacity .3s ease}
+.hx-nl:hover::after,.hx-nl:focus-visible::after{opacity:1;animation:hx-sweep 1.6s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes hx-sweep{from{background-position:-60% 0}to{background-position:160% 0}}
+
+/* HOVER 2 — the moving stroke: a conic gradient turning clockwise behind a 1px ring mask, so
+   two bright streaks run round the outline. Starts with the glow above, same hover. */
+.hx-nl-ring{position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;
+  padding:1px;opacity:0;transition:opacity .3s ease;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+.hx-nl-ring::before{content:"";position:absolute;top:50%;left:50%;width:150%;aspect-ratio:1;translate:-50% -50%;
+  background:conic-gradient(from 0deg,transparent 0 6%,var(--nav-streak) 12%,var(--nav-stroke-hot) 17%,
+    transparent 25%,transparent 56%,var(--nav-streak) 62%,var(--nav-stroke-hot) 67%,transparent 75%)}
+.hx-nl:hover .hx-nl-ring,.hx-nl:focus-visible .hx-nl-ring{opacity:1}
+.hx-nl:hover .hx-nl-ring::before,.hx-nl:focus-visible .hx-nl-ring::before{animation:hx-orbit 2.6s linear infinite}
+@keyframes hx-orbit{to{rotate:360deg}}
+/* where the ring mask can't be composited, the stroke colour change and the glow still read */
+@supports not ((mask-composite:exclude) or (-webkit-mask-composite:xor)){ .hx-nl-ring{display:none} }
+
+/* Login stays a plain link (Figma 869:158): Geist Medium 14 */
+.hx-login{display:block;padding:0 8px;font:500 14px/normal Geist,var(--font);
+  transition:color .25s ease,text-shadow .25s ease}
+.hx-login:hover,.hx-login:focus-visible{color:#bcd4ff;text-shadow:0 0 14px rgba(64,107,219,.55)}
+
+@media (max-width:1180px){ .hx-nav ul{gap:14px} .hx-nl{padding:9px 14px;font-size:11px} }
 @media (prefers-reduced-motion:reduce){
-  .hx-ch,.hx-nl::before,.hx-login a,.hx-login svg{transition-duration:.01s;transition-delay:0s}
+  .hx-nl,.hx-nl::after,.hx-nl-ring{transition-duration:.01s}
+  .hx-nl:hover::after,.hx-nl:hover .hx-nl-ring::before{animation:none}
+}
 }
 
 .hx-beat{position:absolute;z-index:2;left:var(--hx-pad);top:50%;max-width:min(600px,44vw);opacity:0;transform:translateY(calc(-50% + var(--y,24px)));pointer-events:none}
@@ -233,8 +236,8 @@ a{color:inherit;text-decoration:none}
 @media (max-width:860px){
   .hx{--hx-shift:0px}
   .hx-feather{display:none}
-  .hx-nav{height:52px;margin-top:16px!important}
-  .hx-glass{display:none}   /* phones: logo + Login, as before */
+  .hx-nav-row{height:52px}
+  .hx-nav li:not(:last-child){display:none}   /* phones: logo + Login, as before */
   .hx-intro-photo{object-position:56% 20%}
   .hx-intro-copy{bottom:144px}   /* stats sit above the button row */
   .hx-scroll{bottom:56px}         /* centred below the stats, clear of the Design notes switch */
@@ -713,16 +716,16 @@ a{color:inherit;text-decoration:none}
 <section class="hx" id="hero" aria-labelledby="hx-title">
   <div class="hx-stage">
     <nav class="hx-nav" aria-label="Primary">
-      <a class="hx-logo" href="#hero"><img src="assets/nxtwave-logo-white.svg" alt="NxtWave" width="96" height="46"></a>
-      <div class="hx-glass">
+      <div class="hx-nav-row">
+        <a class="hx-logo" href="#hero"><img src="assets/nxtwave-logo-white.svg" alt="NxtWave" width="96" height="46"></a>
         <ul>
-          <li><a class="hx-nl" href="#programmes">Programmes</a></li>
-          <li><a class="hx-nl" href="#career-transformations">Success Stories</a></li>
-          <li><a class="hx-nl" href="#" data-blank>For Companies</a></li>
-          <li><a class="hx-nl" href="#" data-blank>About NxtWave</a></li>
+          <li><a class="hx-nl" href="#programmes">Programmes<span class="hx-nl-ring" aria-hidden="true"></span></a></li>
+          <li><a class="hx-nl" href="#career-transformations">Success Stories<span class="hx-nl-ring" aria-hidden="true"></span></a></li>
+          <li><a class="hx-nl" href="#" data-blank>Hire With Us<span class="hx-nl-ring" aria-hidden="true"></span></a></li>
+          <li><a class="hx-nl" href="#" data-blank>About Us<span class="hx-nl-ring" aria-hidden="true"></span></a></li>
+          <li><a class="hx-login" href="#" data-blank>Login</a></li>
         </ul>
       </div>
-      <div class="hx-login"><a href="#" data-blank>Login <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9H15M10.5 13.5L15 9L10.5 4.5"/></svg></a></div>
     </nav>
 
     <video id="hx-vid" data-src="assets/hero-v2-720.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
@@ -2158,31 +2161,6 @@ a{color:inherit;text-decoration:none}
   })();
 
   /* links with no destination yet */
-  /* NAV LABEL ROLL — each link keeps two copies of its label; on hover the top one rolls out
-     and the copy underneath rolls in, one letter after the next (see .hx-ch in the CSS). */
-  document.querySelectorAll('.hx-nl').forEach(a => {
-    const label = a.textContent.trim();
-    a.setAttribute('aria-label', label);
-    const layer = cls => {
-      const w = document.createElement('span');
-      w.className = 'hx-nl-txt ' + cls;
-      [...label].forEach((ch, i) => {
-        const c = document.createElement('span');
-        c.className = ch === ' ' ? 'hx-ch hx-sp' : 'hx-ch';
-        c.style.setProperty('--i', i);
-        c.textContent = ch === ' ' ? '\u00a0' : ch;
-        w.appendChild(c);
-      });
-      return w;
-    };
-    const clip = document.createElement('span');
-    clip.className = 'hx-nl-clip';
-    clip.setAttribute('aria-hidden', 'true');
-    clip.append(layer('hx-nl-top'), layer('hx-nl-dup'));
-    a.textContent = '';
-    a.appendChild(clip);
-  });
-
   document.querySelectorAll('[data-blank]').forEach(el => el.addEventListener('click', e => e.preventDefault()));
 })();
 </script>
