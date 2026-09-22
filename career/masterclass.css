@@ -90,7 +90,7 @@
   .mc{--m:20px;--sec:56px}
   .mc__title{font-size:30px}
   .mc__aff{gap:18px;flex-wrap:wrap}
-  .mc__aff li:nth-child(n) img{width:auto;height:20px}
+  .mc__aff li:nth-child(n) img{width:auto;height:25px}
   .mc__body{padding-top:40px}
   .mc__grid{grid-template-columns:1fr}
   .mentor{aspect-ratio:auto}
