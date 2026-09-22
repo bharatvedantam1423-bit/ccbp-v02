@@ -496,6 +496,43 @@ a{color:inherit;text-decoration:none}
 .aw-wall::before{content:"";position:absolute;left:50%;bottom:-6%;width:78%;height:86%;translate:-50% 0;
   background:radial-gradient(ellipse at 50% 100%,rgba(90,140,255,.30),transparent 62%);pointer-events:none}
 
+/* ambient light drifting behind the awards. Only transform and opacity move, so it runs on the
+   compositor and costs nothing per frame. */
+.aw-aura{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.aw-aura i{position:absolute;border-radius:50%;filter:blur(46px);will-change:transform,opacity}
+.aw-aura i:nth-child(1){left:8%;top:12%;width:48%;height:120%;
+  background:radial-gradient(circle,rgba(74,134,255,.38),transparent 66%);
+  animation:awDrift1 19s ease-in-out infinite}
+.aw-aura i:nth-child(2){right:6%;top:-14%;width:44%;height:125%;
+  background:radial-gradient(circle,rgba(126,96,255,.30),transparent 66%);
+  animation:awDrift2 26s ease-in-out infinite}
+.aw-aura i:nth-child(3){left:34%;bottom:-32%;width:38%;height:86%;
+  background:radial-gradient(circle,rgba(110,175,255,.30),transparent 62%);
+  animation:awDrift3 22s ease-in-out infinite}
+@keyframes awDrift1{0%,100%{transform:translate3d(0,0,0) scale(1);opacity:.7}
+                    50%{transform:translate3d(9%,-7%,0) scale(1.16);opacity:1}}
+@keyframes awDrift2{0%,100%{transform:translate3d(0,0,0) scale(1.06);opacity:.55}
+                    50%{transform:translate3d(-11%,8%,0) scale(.9);opacity:.95}}
+@keyframes awDrift3{0%,100%{transform:translate3d(0,0,0) scale(.95);opacity:.5}
+                    50%{transform:translate3d(6%,-5%,0) scale(1.12);opacity:.85}}
+
+/* Entrance: the artwork rises into the panel as one piece, and a band of light sweeps across
+   it once, just behind the awards. (Staggering the awards individually is not an option here:
+   they share one image with the podiums, so animating the masked copies alone shows the mask
+   ellipses as halos with no podium under them.) */
+.aw-wall.aw-enter .aw-stage{animation:awRise .95s cubic-bezier(.22,1,.36,1) both}
+/* the stage is already centred by translate:-50% 0, which composes with transform --
+   so the keyframes must not repeat the -50% or it shifts a whole width left */
+@keyframes awRise{from{opacity:0;transform:translate3d(0,9%,0) scale(.94)}
+                  to{opacity:1;transform:none}}
+.aw-sweep{position:absolute;inset:0;pointer-events:none;opacity:0;overflow:hidden}
+.aw-sweep::before{content:"";position:absolute;top:-20%;bottom:-20%;left:-45%;width:38%;
+  background:linear-gradient(105deg,transparent,rgba(190,220,255,.32) 45%,rgba(255,255,255,.16) 58%,transparent);
+  filter:blur(8px)}
+.aw-wall.aw-enter .aw-sweep{opacity:1}
+.aw-wall.aw-enter .aw-sweep::before{animation:awSweep 1.25s cubic-bezier(.4,0,.2,1) .18s both}
+@keyframes awSweep{from{transform:translate3d(0,0,0)}to{transform:translate3d(400%,0,0)}}
+
 /* the podiums sit centred on the lower ~85% of the panel, as in the design. Width is what
    drives it; the aspect ratio then fixes the height, so the glow masks (which are % of this
    box) stay locked to the artwork at every size. */
@@ -549,7 +586,12 @@ a{color:inherit;text-decoration:none}
   .aw-stage{width:94%}
 }
 @media (max-width:560px){ .aw-wall{aspect-ratio:900/700} }
-@media (prefers-reduced-motion:reduce){ .aw-glow,.aw-podium{transition-duration:.01s} }
+@media (prefers-reduced-motion:reduce){
+  .aw-glow,.aw-podium{transition-duration:.01s}
+  .aw-aura i{animation:none}
+  .aw-wall.aw-enter .aw-stage,.aw-wall.aw-enter .aw-sweep::before{animation:none}
+  .aw-wall.aw-enter .aw-sweep{opacity:0}
+}
 /* the white tab cut into the top edge (Figma 802:5325: the recognition notch, flipped) */
 .aw-notch{position:absolute;left:50%;top:-1px;z-index:2;width:62.9%;height:clamp(16px,2.5vw,36px);translate:-50% 0;transform:scaleY(-1);display:block}
 .aw-cards{list-style:none;margin:20px 0 0;padding:0;width:min(100%,1200px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.7vw,32px)}
@@ -962,6 +1004,8 @@ a{color:inherit;text-decoration:none}
     <h2 class="record-title reveal-up" id="record-title">Awards &amp; Recognitions</h2>
     <!-- the film plays forward and back with the scroll -->
     <div class="aw-wall reveal-up">
+      <div class="aw-aura" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="aw-sweep" aria-hidden="true"></div>
       <div class="aw-stage">
         <img class="aw-podium" src="assets/awards-podium.png" loading="lazy"
           alt="NxtWave's awards on podiums: Times Business Awards 2022, the World Economic Forum, Prime Insights Trusted Brand Education, Marksmen Daily Most Preferred Brands 2021 and India's Greatest Brands &amp; Leaders 2021-22">
@@ -2118,6 +2162,18 @@ a{color:inherit;text-decoration:none}
   (() => {
     const stage = document.querySelector('.aw-stage');
     if (!stage) return;
+    /* play the staggered entrance once, the first time the panel comes into view, then take
+       the class off so the masked copies go back to serving the hover */
+    const wall = stage.closest('.aw-wall');
+    if (wall && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
+      new IntersectionObserver((es, o) => {
+        if (!es[0].isIntersecting) return;
+        o.disconnect();
+        wall.classList.add('aw-enter');
+        setTimeout(() => wall.classList.remove('aw-enter'), 1700);
+      }, { threshold: .25 }).observe(wall);
+    }
+
     const tip = stage.querySelector('.aw-tip');
     const tTitle = tip.querySelector('.aw-tip-t'), tBy = tip.querySelector('.aw-tip-b');
 
