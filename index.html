@@ -204,8 +204,13 @@ a{color:inherit;text-decoration:none}
 .hx-nl:hover .hx-nl-dup .hx-ch,.hx-nl:focus-visible .hx-nl-dup .hx-ch{transform:translateY(0)}
 
 /* Login stays a plain link (Figma 869:158): Geist Medium 14 */
-.hx-login{display:block;padding:0 8px;font:500 14px/normal Geist,var(--font);
+.hx-login{position:relative;display:block;padding:0 8px 3px;font:500 14px/normal Geist,var(--font);
   transition:color .25s ease,text-shadow .25s ease}
+/* a rule that draws in from the left on hover */
+.hx-login::after{content:"";position:absolute;left:8px;right:8px;bottom:0;height:1.5px;
+  background:currentColor;border-radius:2px;transform:scaleX(0);transform-origin:left center;
+  transition:transform .26s cubic-bezier(.22,.61,.36,1)}
+.hx-login:hover::after,.hx-login:focus-visible::after{transform:scaleX(1)}
 .hx-login:hover,.hx-login:focus-visible{color:#bcd4ff;text-shadow:0 0 14px rgba(64,107,219,.55)}
 
 @media (max-width:1180px){ .hx-nav ul{gap:12px} .hx-nl{padding:9px 12px;font-size:12px;letter-spacing:-.01em} }
@@ -496,10 +501,11 @@ a{color:inherit;text-decoration:none}
    box) stay locked to the artwork at every size. */
 .aw-stage{position:absolute;left:50%;bottom:0;translate:-50% 0;width:62%;aspect-ratio:1525/834}
 .aw-podium,.aw-glow{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
-/* one glow copy per award, brightened and masked to that award only */
+/* One copy per award, masked to that award and left at full strength. On hover the whole
+   artwork eases back and this copy is faded in over the hovered award, so that one stays as
+   it was and everything else sits behind it. Nothing is brightened. */
 .aw-glow{opacity:0;pointer-events:none;will-change:opacity;
   transition:opacity .28s cubic-bezier(.22,.61,.36,1);
-  filter:brightness(1.5) saturate(1.22) drop-shadow(0 0 22px rgba(255,206,110,.55));
   -webkit-mask-image:var(--m);mask-image:var(--m)}
 .aw-glow[data-a="1"]{--m:radial-gradient(ellipse 11% 34% at 15.5% 32%,#000 46%,transparent 74%)}
 .aw-glow[data-a="2"]{--m:radial-gradient(ellipse 14% 25% at 49% 21%,#000 46%,transparent 74%)}
@@ -517,9 +523,25 @@ a{color:inherit;text-decoration:none}
 .aw-stage[data-hot="1"] .aw-glow[data-a="1"],.aw-stage[data-hot="2"] .aw-glow[data-a="2"],
 .aw-stage[data-hot="3"] .aw-glow[data-a="3"],.aw-stage[data-hot="4"] .aw-glow[data-a="4"],
 .aw-stage[data-hot="5"] .aw-glow[data-a="5"]{opacity:1}
-/* the rest settle back a touch so the lit one carries the eye */
-.aw-stage[data-hot] .aw-podium{filter:brightness(.82) saturate(.9);transition:filter .28s cubic-bezier(.22,.61,.36,1)}
+/* the rest settle back a touch so the hovered one carries the eye -- gently, not dark */
+.aw-stage[data-hot] .aw-podium{filter:brightness(.72) saturate(.92)}
 .aw-podium{transition:filter .28s cubic-bezier(.22,.61,.36,1)}
+/* the card that rides the cursor while an award is hovered */
+.aw-tip{position:absolute;left:0;top:0;z-index:4;pointer-events:none;
+  max-width:280px;padding:12px 14px;border-radius:12px;
+  background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  box-shadow:0 14px 34px -14px rgba(2,6,23,.55);
+  opacity:0;transform:translate3d(0,6px,0);
+  transition:opacity .18s ease,transform .18s cubic-bezier(.22,.61,.36,1);
+  will-change:transform,opacity}
+.aw-stage[data-hot] .aw-tip{opacity:1}
+.aw-tip-k{margin:0;font-family:var(--font-sub);font-size:12px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:#64748b}
+.aw-tip-t{margin:4px 0 0;font-family:var(--font-head);font-size:15px;font-weight:600;
+  line-height:1.3;color:#0f172a}
+.aw-tip-b{margin:5px 0 0;font-family:var(--font-sub);font-size:13px;line-height:1.35;color:#475569}
+@media (hover:none){ .aw-tip{display:none} }
+
 /* narrow screens: the 1638/637 panel would leave the awards tiny, so the panel gets taller
    and the podiums take almost the full width */
 @media (max-width:900px){
@@ -948,11 +970,32 @@ a{color:inherit;text-decoration:none}
         <img class="aw-glow" data-a="3" src="assets/awards-podium.png" alt="" aria-hidden="true">
         <img class="aw-glow" data-a="4" src="assets/awards-podium.png" alt="" aria-hidden="true">
         <img class="aw-glow" data-a="5" src="assets/awards-podium.png" alt="" aria-hidden="true">
-        <button class="aw-hot" data-a="1" type="button" aria-label="Times Business Awards 2022"></button>
-        <button class="aw-hot" data-a="2" type="button" aria-label="World Economic Forum"></button>
-        <button class="aw-hot" data-a="3" type="button" aria-label="Prime Insights Trusted Brand, Education"></button>
-        <button class="aw-hot" data-a="4" type="button" aria-label="Marksmen Daily Most Preferred Brands 2021"></button>
-        <button class="aw-hot" data-a="5" type="button" aria-label="India's Greatest Brands and Leaders 2021-22"></button>
+        <!-- data-t is the award, data-b who gave it and when. Both show in the cursor card. -->
+        <button class="aw-hot" data-a="1" type="button"
+          data-t="Best Tech Skilling EdTech Company of the Year"
+          data-b="by Times Business Awards in 2022"
+          aria-label="Recognised as Best Tech Skilling EdTech Company of the Year by Times Business Awards in 2022"></button>
+        <button class="aw-hot" data-a="2" type="button"
+          data-t="A 2024 Technology Pioneer"
+          data-b="by the World Economic Forum in 2024"
+          aria-label="Recognised as a 2024 Technology Pioneer by the World Economic Forum"></button>
+        <button class="aw-hot" data-a="3" type="button"
+          data-t="A Trusted Brand in Education"
+          data-b="by Prime Insights in 2023"
+          aria-label="Recognised as a Trusted Brand in Education by Prime Insights in 2023"></button>
+        <button class="aw-hot" data-a="4" type="button"
+          data-t="One of the Most Preferred Brands"
+          data-b="by Marksmen Daily in 2021"
+          aria-label="Recognised as one of the Most Preferred Brands by Marksmen Daily in 2021"></button>
+        <button class="aw-hot" data-a="5" type="button"
+          data-t="One of India's Greatest Brands &amp; Leaders"
+          data-b="by Asia One in 2021-22"
+          aria-label="Recognised as one of India's Greatest Brands and Leaders by Asia One in 2021-22"></button>
+        <div class="aw-tip" aria-hidden="true">
+          <p class="aw-tip-k">Recognised as</p>
+          <p class="aw-tip-t"></p>
+          <p class="aw-tip-b"></p>
+        </div>
       </div>
       <img class="aw-notch" src="assets/record-notch.svg" alt="" aria-hidden="true">
     </div>
@@ -2075,12 +2118,32 @@ a{color:inherit;text-decoration:none}
   (() => {
     const stage = document.querySelector('.aw-stage');
     if (!stage) return;
+    const tip = stage.querySelector('.aw-tip');
+    const tTitle = tip.querySelector('.aw-tip-t'), tBy = tip.querySelector('.aw-tip-b');
+
     const clear = () => stage.removeAttribute('data-hot');
-    const set = e => stage.setAttribute('data-hot', e.currentTarget.dataset.a);
+    const fill = el => { tTitle.textContent = el.dataset.t || ''; tBy.textContent = el.dataset.b || '';
+                         stage.setAttribute('data-hot', el.dataset.a); };
+
+    /* the card rides the cursor, nudged clear of it and kept inside the stage */
+    const place = (x, y) => {
+      const s = stage.getBoundingClientRect(), t = tip.getBoundingClientRect();
+      let lx = x - s.left + 18, ly = y - s.top + 18;
+      if (lx + t.width > s.width - 8) lx = x - s.left - t.width - 18;
+      if (ly + t.height > s.height - 8) ly = y - s.top - t.height - 18;
+      tip.style.transform = `translate3d(${Math.max(8, lx)}px,${Math.max(8, ly)}px,0)`;
+    };
+
     stage.querySelectorAll('.aw-hot').forEach(b => {
-      b.addEventListener('pointerenter', set);
-      b.addEventListener('focus', set);
+      b.addEventListener('pointerenter', e => { fill(b); place(e.clientX, e.clientY); });
+      b.addEventListener('pointermove', e => place(e.clientX, e.clientY));
       b.addEventListener('pointerleave', clear);
+      /* keyboard: no cursor to follow, so park the card over the award itself */
+      b.addEventListener('focus', () => {
+        fill(b);
+        const s = stage.getBoundingClientRect(), r = b.getBoundingClientRect();
+        place(r.left + r.width / 2, r.bottom - s.height * .04);
+      });
       b.addEventListener('blur', clear);
     });
     stage.addEventListener('pointerleave', clear);
