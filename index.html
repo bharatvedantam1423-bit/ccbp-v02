@@ -145,10 +145,13 @@ a{color:inherit;text-decoration:none}
    (which would eat the stroke glow). */
 .hx-nl::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.20) 47%,rgba(190,215,255,.30) 52%,transparent 68%);
-  background-size:260% 100%;background-position:-60% 0;background-repeat:no-repeat;
-  opacity:0;transition:opacity .3s ease}
-.hx-nl:hover::after,.hx-nl:focus-visible::after{opacity:1;animation:hx-sweep 1.6s cubic-bezier(.45,0,.25,1) infinite}
-@keyframes hx-sweep{from{background-position:-60% 0}to{background-position:160% 0}}
+  background-size:260% 100%;background-position:88% 0;background-repeat:no-repeat;
+  opacity:0;transition:opacity .25s ease}
+/* no fade-in and no run-up: the band is already at the leading edge on frame one, so the glow
+   is there the moment the pointer lands. It still fades out gently on the way off. */
+.hx-nl:hover::after,.hx-nl:focus-visible::after{opacity:1;transition-duration:0s;
+  animation:hx-sweep 1.2s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes hx-sweep{from{background-position:88% 0}to{background-position:6% 0}}
 
 /* HOVER 2 — the moving stroke: a conic gradient turning clockwise behind a 1px ring mask, so
    two bright streaks run round the outline. Starts with the glow above, same hover. */
@@ -165,6 +168,17 @@ a{color:inherit;text-decoration:none}
 /* where the ring mask can't be composited, the stroke colour change and the glow still read */
 @supports not ((mask-composite:exclude) or (-webkit-mask-composite:xor)){ .hx-nl-ring{display:none} }
 
+/* HOVER 3 — the label roll: two copies of the text share one clipped cell; the top one rolls
+   out as the copy underneath rolls in, a letter at a time. Same hover as the other two. */
+.hx-nl-clip{display:grid;overflow:hidden;padding-block:1px}
+.hx-nl-txt{grid-area:1/1;display:flex}
+.hx-ch{display:inline-block;will-change:transform;
+  transition:transform .42s cubic-bezier(.22,.9,.24,1);transition-delay:calc(var(--i,0)*22ms)}
+.hx-sp{width:.32em}   /* the word gap, which a bare space would lose between the spans */
+.hx-nl-dup .hx-ch{transform:translateY(105%)}
+.hx-nl:hover .hx-nl-top .hx-ch,.hx-nl:focus-visible .hx-nl-top .hx-ch{transform:translateY(-105%)}
+.hx-nl:hover .hx-nl-dup .hx-ch,.hx-nl:focus-visible .hx-nl-dup .hx-ch{transform:translateY(0)}
+
 /* Login stays a plain link (Figma 869:158): Geist Medium 14 */
 .hx-login{display:block;padding:0 8px;font:500 14px/normal Geist,var(--font);
   transition:color .25s ease,text-shadow .25s ease}
@@ -172,7 +186,7 @@ a{color:inherit;text-decoration:none}
 
 @media (max-width:1180px){ .hx-nav ul{gap:14px} .hx-nl{padding:9px 14px;font-size:11px} }
 @media (prefers-reduced-motion:reduce){
-  .hx-nl,.hx-nl::after,.hx-nl-ring{transition-duration:.01s}
+  .hx-nl,.hx-nl::after,.hx-nl-ring,.hx-ch{transition-duration:.01s;transition-delay:0s}
   .hx-nl:hover::after,.hx-nl:hover .hx-nl-ring::before{animation:none}
 }
 
@@ -2265,6 +2279,32 @@ a{color:inherit;text-decoration:none}
   })();
 
   /* links with no destination yet */
+  /* NAV LABEL ROLL — give each button two copies of its label, split per character, without
+     disturbing the .hx-nl-ring span that carries the moving stroke. */
+  document.querySelectorAll('.hx-nl').forEach(a => {
+    const label = [...a.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join('').trim();
+    if (!label) return;
+    a.setAttribute('aria-label', label);
+    const layer = cls => {
+      const w = document.createElement('span');
+      w.className = 'hx-nl-txt ' + cls;
+      [...label].forEach((ch, i) => {
+        const c = document.createElement('span');
+        c.className = ch === ' ' ? 'hx-ch hx-sp' : 'hx-ch';
+        c.style.setProperty('--i', i);
+        c.textContent = ch === ' ' ? '\u00a0' : ch;
+        w.appendChild(c);
+      });
+      return w;
+    };
+    const clip = document.createElement('span');
+    clip.className = 'hx-nl-clip';
+    clip.setAttribute('aria-hidden', 'true');
+    clip.append(layer('hx-nl-top'), layer('hx-nl-dup'));
+    [...a.childNodes].forEach(n => { if (n.nodeType === 3) n.remove(); });
+    a.prepend(clip);
+  });
+
   document.querySelectorAll('[data-blank]').forEach(el => el.addEventListener('click', e => e.preventDefault()));
 })();
 </script>

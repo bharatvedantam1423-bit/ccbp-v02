@@ -21,9 +21,12 @@ A static single-page NxtWave homepage (`index.html`, no build step) built from F
    stats, Lottie scroll cue (`assets/scroll-down-anim.js` + `vendor/lottie_light.min.js`,
    icon only), nav band (Figma 869:112): full width, 19% black over a 16px backdrop blur, flush
    at the top; stroked 100px-radius buttons (default stroke #3e5787, hover #406bdb) and a plain
-   Login link. Hover fires both effects at once — a diagonal band of light sweeping the button
-   (`hx-sweep`) and two streaks running clockwise round the outline, a conic gradient behind a
-   1px ring mask (`hx-orbit`, `.hx-nl-ring`). Cursor-lit dot grid (stronger on the opening
+   Login link. Hover fires three effects at once, all with no run-up: a diagonal band of light
+   sweeping the button (`hx-sweep`, starting mid-crossing so it reads on frame one), two streaks
+   running clockwise round the outline (a conic gradient behind a 1px ring mask — `hx-orbit`,
+   `.hx-nl-ring`), and the label rolling over a letter at a time against a second copy
+   (`.hx-nl-clip`, split per character in the NAV LABEL ROLL script).
+   Cursor-lit dot grid (stronger on the opening
    screen). It dissolves into the scroll-scrubbed story film `assets/hero-v2-720.mp4` + six
    beats. The 3D logo was removed.
 2. **Programmes** `#programmes` — 3 cards (`CARD DATA` script): at rest image/title/tags/CTAs;
