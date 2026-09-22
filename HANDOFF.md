@@ -19,7 +19,11 @@ A static single-page NxtWave homepage (`index.html`, no build step) built from F
 1. **Hero** `#hero` — opening screen from Figma 761:311: looping video `assets/hero-intro.webm`
    (poster/still `hero-intro.jpg`), 7-layer progressive blur on the lower half, headline 68px,
    stats, Lottie scroll cue (`assets/scroll-down-anim.js` + `vendor/lottie_light.min.js`,
-   icon only), glass-pill nav (Figma 761:441), cursor-lit dot grid (stronger on the opening
+   icon only), nav band (Figma 869:112): full width, 19% black over a 16px backdrop blur, flush
+   at the top; stroked 100px-radius buttons (default stroke #3e5787, hover #406bdb) and a plain
+   Login link. Hover fires both effects at once — a diagonal band of light sweeping the button
+   (`hx-sweep`) and two streaks running clockwise round the outline, a conic gradient behind a
+   1px ring mask (`hx-orbit`, `.hx-nl-ring`). Cursor-lit dot grid (stronger on the opening
    screen). It dissolves into the scroll-scrubbed story film `assets/hero-v2-720.mp4` + six
    beats. The 3D logo was removed.
 2. **Programmes** `#programmes` — 3 cards (`CARD DATA` script): at rest image/title/tags/CTAs;
