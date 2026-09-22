@@ -26,7 +26,7 @@
 .ctf__play svg{width:28px;height:28px;fill:#fff;margin-left:4px}
 .ctf__poster:hover .ctf__play{background:#1d4ed8;transform:translate(-50%,-50%) scale(1.06)}
 
-/* the strip: five across, the rest a scroll away behind the arrows */
+/* the strip: five across, the rest a scroll away */
 .ctf__carousel{position:relative;margin-top:16px}
 .ctf__rail{list-style:none;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 64px) / 5);justify-content:safe center;   /* safe: centres a short strip, but never pushes an overflowing one out of reach */
   gap:16px;margin:0;padding:0;
@@ -43,21 +43,22 @@
 .ctf__item--on .ctf__thumb::after{box-shadow:inset 0 0 0 3px #1d4ed8}
 .ctf__item--on .ctf__thumb img{opacity:.92}
 
-/* arrows straddle the strip's outer edges — centred on the first and last still */
-.ctf__arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:48px;height:48px;border-radius:50%;
+/* View More — goes to the channel, in place of the paging arrows */
+.ctf__more{display:flex;align-items:center;gap:6px;width:fit-content;margin:20px auto 0;
+  padding:11px 22px;border-radius:10px;border:1px solid var(--line,#e2e8f0);background:#fff;
+  font-family:var(--font-sub);font-size:15px;font-weight:600;color:#1d4ed8;text-decoration:none;
+  transition:background .22s,border-color .22s,color .22s,transform .22s}
+.ctf__more svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;transition:translate .22s}
+.ctf__more:hover{background:#1d4ed8;border-color:#1d4ed8;color:#fff;transform:translateY(-1px)}
+.ctf__more:hover svg{translate:3px 0}
+.ctf__more:focus-visible{outline:2px solid #2563eb;outline-offset:3px}
+
   display:grid;place-items:center;background:#fff;border:1px solid var(--line,#e2e8f0);cursor:pointer;
   box-shadow:0 6px 18px -6px rgba(15,23,42,.5);transition:background .25s,border-color .25s,opacity .25s,transform .25s}
-.ctf__arrow[data-dir="-1"]{left:-24px}
-.ctf__arrow[data-dir="1"]{right:-24px}
-.ctf__arrow svg{width:18px;height:18px;fill:none;stroke:#1e293b;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.ctf__arrow:hover:not(:disabled){background:#1d4ed8;border-color:#1d4ed8;transform:translateY(-50%) scale(1.06)}
-.ctf__arrow:hover:not(:disabled) svg{stroke:#fff}
-.ctf__arrow:disabled{opacity:.35;cursor:default}
-.ctf__arrow[hidden]{display:none}
-.ctf__arrow:focus-visible{outline:2px solid #2563eb;outline-offset:3px}
 
 @media (prefers-reduced-motion:reduce){
-  .ctf__poster img,.ctf__play,.ctf__thumb,.ctf__arrow{transition:none}
+  .ctf__poster img,.ctf__play,.ctf__thumb,.ctf__more{transition:none}
   .ctf__poster:hover img{transform:none}
   .ctf__rail{scroll-behavior:auto}
 }
@@ -66,7 +67,6 @@
   .ctf__stage{width:auto;margin:0 var(--m)}
   .ctf__rail{grid-auto-columns:190px;gap:12px}
   .ctf__carousel{margin-top:12px}
-  .ctf__arrow{display:none}
 }
 @media (max-width:640px){
   .ctf__player{border-radius:12px}

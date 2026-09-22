@@ -1,5 +1,5 @@
 /* NxtWave Learner's Experiences — big player + a carousel of stills (Figma CCBP-v02 828:149).
-   Five stills fit the strip at a time; the arrows page through the rest. */
+   Five stills fit the strip at a time; the row scrolls, and View More goes to the channel. */
 (() => {
   /* Stills are the client's own cards (assets/learners), at the proportions the Figma frame uses.
      The ids are still stand-ins — NxtWave videos already used in this build — because
@@ -7,7 +7,7 @@
   const L = 'assets/learners/';
   /* V[0] is the card in the big slot; the rest fill the strip, so no still appears twice */
   const V = [
-    { id: 'fpPwEFB86d4', t: 'Why I joined NxtWave after 1st year', img: L + 'why-i-joined.webp' },
+    { id: '1HWfXzMm80I', t: 'Why I joined NxtWave after 1st year', img: L + 'why-i-joined-1hwf.jpg' },
     { id: 'K_mIDRkBEGw', t: 'From Mechanical Engineer to IT Pro with NxtWave \u2014 Praveen Chasta, Frontend Developer at Pleximus', img: L + 'praveen-chasta.png' },
     { id: 'hUfEOmF9TaQ', t: 'Associate Engineer \u2014 Lakshmi Agraharapu, BSc Mathematics graduate', img: L + 'lakshmi-agraharapu.png' },
     { id: 'f1k5caShuOY', t: 'Upskilling myself with NxtWave \u2014 Shri Nakshathi, student at NxtWave', img: L + 'shri-nakshathi.png' },
@@ -20,7 +20,6 @@
   const player = document.getElementById('ctf-player');
   const rail = document.getElementById('ctf-rail');
   if (!player || !rail || !V.length) return;
-  const arrows = [...(rail.closest('.ctf__carousel')?.querySelectorAll('.ctf__arrow') || [])];
 
   const PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg>';
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
@@ -45,8 +44,8 @@
     b.setAttribute('aria-current', on ? 'true' : 'false');
   });
 
-  /* the strip runs the five stills twice: five fill the row, the repeat gives the arrows
-     somewhere to go until there are more stories. A repeat plays the same video. */
+  /* the strip runs the five stills twice so the row can be scrolled past its first screen.
+     A repeat plays the same video. */
   const strip = V.slice(1);
   rail.innerHTML = strip.concat(strip).map((v, i) => `
     <li class="ctf__item">
@@ -67,19 +66,4 @@
     play();
   });
 
-  /* carousel: the arrows page the strip by one full row of stills */
-  const ends = () => {
-    const max = rail.scrollWidth - rail.clientWidth - 1;
-    arrows.forEach(a => a.disabled = +a.dataset.dir < 0 ? rail.scrollLeft <= 1 : rail.scrollLeft >= max);
-    arrows.forEach(a => a.hidden = max <= 1);
-  };
-  /* page by a whole row of stills — the row plus the gutter that follows it, so a page
-     always lands on a card edge and never leaves one sliced at either end */
-  const page = () => rail.clientWidth + 16;
-  arrows.forEach(a => a.addEventListener('click', () => {
-    rail.scrollBy({ left: +a.dataset.dir * page(), behavior: 'smooth' });
-  }));
-  rail.addEventListener('scroll', ends, { passive: true });
-  addEventListener('resize', ends);
-  ends();
 })();

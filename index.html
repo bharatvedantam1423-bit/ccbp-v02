@@ -591,7 +591,7 @@ a{color:inherit;text-decoration:none}
 .mw-alumni-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
   gap:clamp(14px,2.2vw,34px);list-style:none;margin:0;padding:0}
 .mw-alumni-row li{display:flex;align-items:center;gap:8px}
-.mw-alumni-row img{display:block;width:auto;height:clamp(19px,1.6vw,24px);object-fit:contain}
+.mw-alumni-row img{display:block;width:auto;height:clamp(26px,2.2vw,34px);object-fit:contain}
 .mw-alumni-row b{font-family:var(--font-head);font-size:clamp(14px,1.15vw,17px);
   font-weight:600;color:#0f172a;letter-spacing:-.01em;white-space:nowrap}
 .mw-alumni-more{margin:0;font-family:var(--font-sub);font-size:13px;color:#64748b}
@@ -993,12 +993,12 @@ a{color:inherit;text-decoration:none}
         <h2 class="mw-title" id="mw-title">Taught by people<br>who have done the job.</h2>
         <div class="mw-alumni">
           <ul class="mw-alumni-row">
-            <li><img src="assets/masterclass/logos/stanford-mono.png" alt="Stanford University" width="190" height="61" loading="lazy"></li>
-            <li><img src="assets/masterclass/logos/google-mono.png" alt="Google" width="174" height="60" loading="lazy"></li>
-            <li><img src="assets/masterclass/logos/iit-bombay.png" alt="" width="263" height="256" loading="lazy"><b>IIT Bombay</b></li>
-            <li><img src="assets/masterclass/logos/amazon-mono.png" alt="Amazon" width="179" height="55" loading="lazy"></li>
-            <li><img src="assets/masterclass/logos/iit-delhi.png" alt="" width="256" height="256" loading="lazy"><b>IIT Delhi</b></li>
-            <li><img src="assets/masterclass/logos/microsoft-mono.png" alt="Microsoft" width="229" height="46" loading="lazy"></li>
+            <li><img src="assets/masterclass/logos/stanford-color.png" alt="Stanford University" width="243" height="84" loading="lazy"></li>
+            <li><img src="assets/masterclass/logos/google-color.png" alt="Google" width="238" height="84" loading="lazy"></li>
+            <li><img src="assets/masterclass/logos/iit-bombay-color.png" alt="IIT Bombay" width="284" height="84" loading="lazy"></li>
+            <li><img src="assets/masterclass/logos/amazon-color.png" alt="Amazon" width="229" height="84" loading="lazy"></li>
+            <li><img src="assets/masterclass/logos/iit-delhi-color.png" alt="IIT Delhi" width="210" height="84" loading="lazy"></li>
+            <li><img src="assets/masterclass/logos/microsoft-color.png" alt="Microsoft" width="276" height="84" loading="lazy"></li>
           </ul>
           <p class="mw-alumni-more">and many more&hellip;</p>
         </div>
@@ -1046,10 +1046,10 @@ a{color:inherit;text-decoration:none}
   <header class="mc__head">
     <h2 class="mc__title" id="mc-title">Masterclasses from<br>Mentors in the Community</h2>
     <ul class="mc__aff" aria-label="Mentors from">
-      <li><img src="assets/masterclass/logos/stanford-mono.png" alt="Stanford University" width="190" height="61"></li>
-      <li><img src="assets/masterclass/logos/google-mono.png" alt="Google" width="174" height="60"></li>
-      <li><img src="assets/masterclass/logos/amazon-mono.png" alt="Amazon" width="179" height="55"></li>
-      <li><img src="assets/masterclass/logos/microsoft-mono.png" alt="Microsoft" width="229" height="46"></li>
+      <li><img src="assets/masterclass/logos/stanford-color.png" alt="Stanford University" width="243" height="84"></li>
+      <li><img src="assets/masterclass/logos/google-color.png" alt="Google" width="238" height="84"></li>
+      <li><img src="assets/masterclass/logos/amazon-color.png" alt="Amazon" width="229" height="84"></li>
+      <li><img src="assets/masterclass/logos/microsoft-color.png" alt="Microsoft" width="276" height="84"></li>
     </ul>
   </header>
   <div class="mc__body">
@@ -1071,10 +1071,10 @@ a{color:inherit;text-decoration:none}
   <div class="ctf__stage">
     <div class="ctf__player" id="ctf-player"></div>
     <div class="ctf__carousel">
-      <button class="ctf__arrow" type="button" data-dir="-1" aria-label="Previous stories"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <ul class="ctf__rail" id="ctf-rail" aria-label="Learner stories"></ul>
-      <button class="ctf__arrow" type="button" data-dir="1" aria-label="More stories"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
+    <a class="ctf__more" href="https://www.youtube.com/@NxtWaveTech/videos" target="_blank" rel="noopener">
+      View More<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
   </div>
 </section>
 
@@ -2581,8 +2581,7 @@ a{color:inherit;text-decoration:none}
           ['Authority Bias', `Senior people from companies everyone knows carry weight without explanation.`],
           ['Multimedia Effect', `People take in more from video and words together than from words alone.`] ] },
 
-      /* Section 11 — no such section on the page yet; kept so it appears when built. */
-      { id: 'student-testimonials', name: 'Student Video Testimonials',
+      { id: 'learner-experiences', name: 'Student Video Testimonials',
         desc: `Video, because text on a website is easy to doubt. A real person telling their own story on camera is not. Built for conviction, not information. By this point the visitor knows the facts. This is where they start to believe them. Each video is one full career transformation, told by the person who lived it.`,
         principles: [
           ['Identifiable Victim Effect', `One real person’s story moves people more than any statistic.`],
