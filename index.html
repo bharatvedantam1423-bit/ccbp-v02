@@ -208,7 +208,7 @@ a{color:inherit;text-decoration:none}
   transition:color .25s ease,text-shadow .25s ease}
 .hx-login:hover,.hx-login:focus-visible{color:#bcd4ff;text-shadow:0 0 14px rgba(64,107,219,.55)}
 
-@media (max-width:1180px){ .hx-nav ul{gap:14px} .hx-nl{padding:9px 14px;font-size:11px} }
+@media (max-width:1180px){ .hx-nav ul{gap:12px} .hx-nl{padding:9px 12px;font-size:12px;letter-spacing:-.01em} }
 @media (prefers-reduced-motion:reduce){
   .hx-nl,.hx-nl::after,.hx-nl-ring,.hx-ch{transition-duration:.01s;transition-delay:0s}
   .hx-nl:hover::after,.hx-nl:hover .hx-nl-ring::before{animation:none}
@@ -475,29 +475,65 @@ a{color:inherit;text-decoration:none}
 }
 
 /* =====================================================================
-   S3 — AWARDS & RECOGNITIONS (Figma CCBP-v02 802:5108)
-   A wall of awards on film that plays with the scroll, then three photo cards
-   with captions.
+   S3 — AWARDS & RECOGNITIONS (Figma CCBP-v02 877:787)
+   Five awards on podiums over a navy-to-blue gradient, then three photo cards.
+   The awards are one transparent PNG; hovering an award fades in a copy of that
+   same PNG, brightened and masked to just that award, so the glow follows the
+   trophy's own silhouette instead of lighting a box around it.
    ===================================================================== */
 /* opaque and above Programmes, whose upward shadow otherwise spills ~24px onto this heading as a grey band */
 .record{position:relative;z-index:3;background:#fff;padding:clamp(16px,2vw,32px) clamp(12px,2.3vw,33px) 0}
 .aw-inner{max-width:1375px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:20px}
 .record-title{line-height:1.2}
-.aw-wall{position:relative;width:min(100%,1337px);aspect-ratio:1337/520;border-radius:clamp(20px,2.65vw,38px);overflow:hidden;
-  background:linear-gradient(179.3deg,#000 7.1%,#0b1e40 71.2%,#2563eb 117.3%);isolation:isolate}
-.aw-wall > img:not(.aw-notch),.aw-wall video,.aw-wall canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-/* the film sits low in the panel so its headline clears the notch (the canvas uses the same anchor) */
-.aw-wall > img:not(.aw-notch),.aw-wall video{object-position:50% 15%}
-.aw-wall video{opacity:0;transition:opacity .3s}
-.aw-wall.has-video video{opacity:1}
-.aw-wall canvas{opacity:0;transition:opacity .3s}
-.aw-wall.frames canvas{opacity:1}
-.aw-wall.frames video{visibility:hidden}
+.aw-wall{position:relative;width:min(100%,1600px);aspect-ratio:1638/637;border-radius:clamp(20px,2.65vw,38px);overflow:hidden;
+  background:linear-gradient(180deg,#000 0%,#081630 26%,#0f2a5e 47%,#163c8c 69%,#1f54c6 100%);isolation:isolate}
+/* a soft lift behind the podiums, as in the design */
+.aw-wall::before{content:"";position:absolute;left:50%;bottom:-6%;width:78%;height:86%;translate:-50% 0;
+  background:radial-gradient(ellipse at 50% 100%,rgba(90,140,255,.30),transparent 62%);pointer-events:none}
+
+/* the podiums sit centred on the lower ~85% of the panel, as in the design. Width is what
+   drives it; the aspect ratio then fixes the height, so the glow masks (which are % of this
+   box) stay locked to the artwork at every size. */
+.aw-stage{position:absolute;left:50%;bottom:0;translate:-50% 0;width:62%;aspect-ratio:1525/834}
+.aw-podium,.aw-glow{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+/* one glow copy per award, brightened and masked to that award only */
+.aw-glow{opacity:0;pointer-events:none;will-change:opacity;
+  transition:opacity .28s cubic-bezier(.22,.61,.36,1);
+  filter:brightness(1.5) saturate(1.22) drop-shadow(0 0 22px rgba(255,206,110,.55));
+  -webkit-mask-image:var(--m);mask-image:var(--m)}
+.aw-glow[data-a="1"]{--m:radial-gradient(ellipse 11% 34% at 15.5% 32%,#000 46%,transparent 74%)}
+.aw-glow[data-a="2"]{--m:radial-gradient(ellipse 14% 25% at 49% 21%,#000 46%,transparent 74%)}
+.aw-glow[data-a="3"]{--m:radial-gradient(ellipse 11% 30% at 84.5% 41%,#000 46%,transparent 74%)}
+.aw-glow[data-a="4"]{--m:radial-gradient(ellipse 16% 21% at 36.5% 70%,#000 46%,transparent 74%)}
+.aw-glow[data-a="5"]{--m:radial-gradient(ellipse 16% 21% at 63.5% 70%,#000 46%,transparent 74%)}
+/* the hover targets: real buttons, so this works from the keyboard too */
+.aw-hot{position:absolute;border:0;padding:0;background:none;cursor:pointer;border-radius:12px}
+.aw-hot:focus-visible{outline:2px solid #9dc6ff;outline-offset:2px}
+.aw-hot[data-a="1"]{left:7%;  top:2%;  width:17%;height:62%}
+.aw-hot[data-a="2"]{left:37%; top:0;   width:24%;height:43%}
+.aw-hot[data-a="3"]{left:75%; top:14%; width:19%;height:56%}
+.aw-hot[data-a="4"]{left:23%; top:53%; width:27%;height:34%}
+.aw-hot[data-a="5"]{left:50%; top:52%; width:27%;height:35%}
+.aw-stage[data-hot="1"] .aw-glow[data-a="1"],.aw-stage[data-hot="2"] .aw-glow[data-a="2"],
+.aw-stage[data-hot="3"] .aw-glow[data-a="3"],.aw-stage[data-hot="4"] .aw-glow[data-a="4"],
+.aw-stage[data-hot="5"] .aw-glow[data-a="5"]{opacity:1}
+/* the rest settle back a touch so the lit one carries the eye */
+.aw-stage[data-hot] .aw-podium{filter:brightness(.82) saturate(.9);transition:filter .28s cubic-bezier(.22,.61,.36,1)}
+.aw-podium{transition:filter .28s cubic-bezier(.22,.61,.36,1)}
+/* narrow screens: the 1638/637 panel would leave the awards tiny, so the panel gets taller
+   and the podiums take almost the full width */
+@media (max-width:900px){
+  .aw-wall{aspect-ratio:1100/760}
+  .aw-stage{width:94%}
+}
+@media (max-width:560px){ .aw-wall{aspect-ratio:900/700} }
+@media (prefers-reduced-motion:reduce){ .aw-glow,.aw-podium{transition-duration:.01s} }
 /* the white tab cut into the top edge (Figma 802:5325: the recognition notch, flipped) */
 .aw-notch{position:absolute;left:50%;top:-1px;z-index:2;width:62.9%;height:clamp(16px,2.5vw,36px);translate:-50% 0;transform:scaleY(-1);display:block}
 .aw-cards{list-style:none;margin:20px 0 0;padding:0;width:min(100%,1200px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.7vw,32px)}
 .aw-cards li{display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
-.aw-cards img{width:100%;aspect-ratio:378/174.6;object-fit:cover;border-radius:16px;display:block;background:#eef2f9}
+.aw-cards img{width:100%;aspect-ratio:378/174.6;object-fit:cover;border-radius:16px;display:block;background:#eef2f9;
+  border:2px solid #e8b53a;box-shadow:0 6px 18px -12px rgba(15,23,42,.5)}
 .aw-cards p{margin:0;font:500 clamp(14px,1.11vw,16px)/1.5 "Inter Display","InterVariable","Inter",sans-serif;color:#818181;max-width:380px}
 .aw-cards b{font-weight:600;color:#0f0f0f}
 @media (max-width:760px){ .aw-cards{grid-template-columns:1fr;max-width:420px} }
@@ -903,11 +939,21 @@ a{color:inherit;text-decoration:none}
   <div class="aw-inner">
     <h2 class="record-title reveal-up" id="record-title">Awards &amp; Recognitions</h2>
     <!-- the film plays forward and back with the scroll -->
-    <div class="aw-wall reveal-up" role="img"
-      aria-label="NxtWave's award wall: World Economic Forum 2024 Technology Pioneer, Times Business Awards 2022, AsiaOne 2021–22, Prime Insights 2023 and Marksmen Daily 2021">
-      <img src="assets/awards-wall.jpg" alt="" loading="lazy">
-      <video data-src="assets/awards-wall.mp4" muted playsinline preload="none" aria-hidden="true"></video>
-      <canvas aria-hidden="true"></canvas>
+    <div class="aw-wall reveal-up">
+      <div class="aw-stage">
+        <img class="aw-podium" src="assets/awards-podium.png" loading="lazy"
+          alt="NxtWave's awards on podiums: Times Business Awards 2022, the World Economic Forum, Prime Insights Trusted Brand Education, Marksmen Daily Most Preferred Brands 2021 and India's Greatest Brands &amp; Leaders 2021-22">
+        <img class="aw-glow" data-a="1" src="assets/awards-podium.png" alt="" aria-hidden="true">
+        <img class="aw-glow" data-a="2" src="assets/awards-podium.png" alt="" aria-hidden="true">
+        <img class="aw-glow" data-a="3" src="assets/awards-podium.png" alt="" aria-hidden="true">
+        <img class="aw-glow" data-a="4" src="assets/awards-podium.png" alt="" aria-hidden="true">
+        <img class="aw-glow" data-a="5" src="assets/awards-podium.png" alt="" aria-hidden="true">
+        <button class="aw-hot" data-a="1" type="button" aria-label="Times Business Awards 2022"></button>
+        <button class="aw-hot" data-a="2" type="button" aria-label="World Economic Forum"></button>
+        <button class="aw-hot" data-a="3" type="button" aria-label="Prime Insights Trusted Brand, Education"></button>
+        <button class="aw-hot" data-a="4" type="button" aria-label="Marksmen Daily Most Preferred Brands 2021"></button>
+        <button class="aw-hot" data-a="5" type="button" aria-label="India's Greatest Brands and Leaders 2021-22"></button>
+      </div>
       <img class="aw-notch" src="assets/record-notch.svg" alt="" aria-hidden="true">
     </div>
     <ul class="aw-cards">
@@ -2022,169 +2068,22 @@ a{color:inherit;text-decoration:none}
   })();
 
   /* =================================================================
-     S3 — AWARDS: the wall film plays with the scroll, forward as the panel rises up the
-     screen and back as it goes down. Like the other scrubbed films, every frame is captured once so any frame can be
-     drawn instantly; until then the video element is seeked directly.
+     S3 — AWARDS: hovering an award lights that award alone. The glow is a copy of
+     the same transparent PNG, brightened and masked to one award, so it takes the
+     trophy's own shape. Pointer and keyboard both drive it.
      ================================================================= */
   (() => {
-    const wall = document.querySelector('.aw-wall');
-    if (!wall || RM) return;                          /* reduced motion: the still stays */
-    const vid = wall.querySelector('video'), cv = wall.querySelector('canvas'), ctx = cv.getContext('2d');
-    const FPS = 30;
-    let n = 150, frames = null, cur = n - 1, target = n - 1, drawn = -1, box = null, near = false, loaded = null;
-    const AW_Y = .15;          /* vertical crop anchor: 0 = top of the film, .5 = centred (matches CSS object-position 50% 15%) */
-    let fW = 1280, fH = 720;
-    let redraw = () => {};                  /* set once the drawing code below exists */
-
-    const sizeCanvas = () => {
-      const dpr = Math.min(2, devicePixelRatio || 1);
-      cv.width = Math.round(cv.clientWidth * dpr); cv.height = Math.round(cv.clientHeight * dpr);
-      const k = Math.max(cv.width / fW, cv.height / fH);                        /* cover */
-      /* crop mostly from the bottom (floor), keeping the wall's headline clear of the notch */
-      box = { w: fW * k, h: fH * k }; box.x = (cv.width - box.w) / 2; box.y = (cv.height - box.h) * AW_Y;
-      drawn = -1; redraw();                 /* resizing clears the canvas */
-    };
-    new ResizeObserver(sizeCanvas).observe(wall);
-
-    /* load + capture only once the section is near */
-    const start = () => {
-      if (loaded) return loaded;
-      loaded = fetch(vid.dataset.src).then(r => { if (!r.ok) throw 0; return r.blob(); })
-        .then(b => URL.createObjectURL(b)).catch(() => vid.dataset.src);
-      loaded.then(u => {
-        vid.src = u;
-        vid.addEventListener('loadeddata', () => {
-          n = Math.max(1, Math.round(vid.duration * FPS)); cur = target = Math.min(cur, n - 1);
-          wall.classList.add('has-video');
-        }, { once: true });
-        capture(u);
-      });
-      return loaded;
-    };
-    /* capture needs the page painting: a hidden tab never delivers the frames, so wait until it's
-       visible, abandon the pass if it's hidden midway, and try again once it's back */
-    let capturing = false;
-    const whenVisible = () => document.visibilityState === 'visible' ? Promise.resolve()
-      : new Promise(r => document.addEventListener('visibilitychange', function v(){ if (document.visibilityState === 'visible') { document.removeEventListener('visibilitychange', v); r(); } }));
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible' && !frames && loaded) loaded.then(u => capture(u));
+    const stage = document.querySelector('.aw-stage');
+    if (!stage) return;
+    const clear = () => stage.removeAttribute('data-hot');
+    const set = e => stage.setAttribute('data-hot', e.currentTarget.dataset.a);
+    stage.querySelectorAll('.aw-hot').forEach(b => {
+      b.addEventListener('pointerenter', set);
+      b.addEventListener('focus', set);
+      b.addEventListener('pointerleave', clear);
+      b.addEventListener('blur', clear);
     });
-    const capture = async url => {
-      if (frames || capturing || location.protocol === 'file:' || !('requestVideoFrameCallback' in HTMLVideoElement.prototype)) return;
-      capturing = true;
-      try { await capturePass(url); } finally { capturing = false; }
-    };
-    const capturePass = async url => {
-      await whenVisible();
-      const cap = document.createElement('video');
-      cap.muted = true; cap.playsInline = true; cap.src = url;
-      Object.assign(cap.style, { position: 'fixed', left: 0, top: 0, width: '2px', height: '2px', opacity: .01, pointerEvents: 'none' });
-      document.body.appendChild(cap);
-      await new Promise(r => cap.addEventListener('loadeddata', r, { once: true }));
-      const count = Math.round(cap.duration * FPS), got = new Array(count), jobs = [];
-      fW = Math.min(1280, cap.videoWidth); fH = Math.round(fW * cap.videoHeight / cap.videoWidth);
-      let hidden = false;
-      const onHide = () => { if (document.visibilityState !== 'visible') { hidden = true; cap.pause(); cap.dispatchEvent(new Event('ended')); } };
-      document.addEventListener('visibilitychange', onHide);
-      await new Promise(done => {
-        const cb = (_, m) => {
-          if (hidden) return;
-          const i = Math.min(count - 1, Math.round(m.mediaTime * FPS));
-          if (!got[i]) {
-            const c = document.createElement('canvas'); c.width = fW; c.height = fH;
-            c.getContext('2d').drawImage(cap, 0, 0, fW, fH); got[i] = true;
-            jobs.push(new Promise(r => c.toBlob(b => { got[i] = b; r(); }, 'image/webp', .85)));
-          }
-          if (!cap.ended) cap.requestVideoFrameCallback(cb);
-        };
-        cap.requestVideoFrameCallback(cb);
-        cap.addEventListener('ended', done, { once: true });
-        cap.play().catch(done);
-      });
-      document.removeEventListener('visibilitychange', onHide);
-      await Promise.all(jobs);
-      cap.remove();
-      if (hidden || got.filter(x => x instanceof Blob).length / count < .9) return;   /* interrupted or patchy: keep seeking, retry when visible */
-      let last = null;
-      for (let i = 0; i < count; i++) { if (got[i] instanceof Blob) last = got[i]; else got[i] = last; }
-      for (let i = count - 1; i >= 0; i--) { if (got[i] instanceof Blob) last = got[i]; else got[i] = last; }
-      frames = got; n = count; sizeCanvas();
-      wall.classList.add('frames');
-    };
-    /* start well before the panel arrives: the frame capture plays the 5s film once, and until it
-       finishes the film can only seek the video, which is the jerky path */
-    new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) start(); }, { rootMargin: '250% 0px' }).observe(wall);
-
-    /* draw: frames are decoded a few at a time and ahead of the scroll direction, kept in a cache of
-       ~60 around the current position, and the two nearest are blended so motion is continuous
-       rather than stepping frame to frame */
-    const CACHE = 60, IN_FLIGHT = 3;
-    const cache = new Map(), inFlight = new Set();
-    let dirty = true, lastPos = -1, dir = 1;
-    redraw = () => { dirty = true; lastPos = -1; };
-    const decode = i => {
-      if (!frames || i < 0 || i >= n || cache.has(i) || inFlight.has(i) || inFlight.size >= IN_FLIGHT) return;
-      inFlight.add(i);
-      createImageBitmap(frames[i]).then(bmp => {
-        inFlight.delete(i);
-        cache.set(i, bmp); dirty = true;
-        if (cache.size > CACHE) {                     /* drop the frame furthest from where we are */
-          let far = -1, fd = -1;
-          for (const k of cache.keys()) { const d = Math.abs(k - cur); if (d > fd) { fd = d; far = k; } }
-          cache.get(far).close(); cache.delete(far);
-        }
-      }).catch(() => inFlight.delete(i));
-    };
-    const nearestCached = i => { for (let d = 0; d < n; d++) { if (cache.has(i - d)) return i - d; if (cache.has(i + d)) return i + d; } return -1; };
-    const show = pos => {
-      if (!box) return;
-      const i0 = Math.floor(pos), f = pos - i0;
-      /* what we need now, then what we'll need next in the direction of travel */
-      decode(i0); decode(i0 + 1);
-      for (let s = 2; s <= 8; s++) decode(i0 + dir * s);
-      decode(i0 - dir);
-      if (!dirty && Math.abs(pos - lastPos) < .01) return;
-      /* if the exact frame isn't decoded yet, only stand in a neighbour a few frames away; a far one
-         would flash the wrong part of the camera move, so hold the current picture a moment instead */
-      const a = cache.has(i0) ? i0 : nearestCached(i0);
-      if (a < 0 || (Math.abs(a - i0) > 3 && drawn >= 0)) return;
-      ctx.globalAlpha = 1;
-      ctx.drawImage(cache.get(a), box.x, box.y, box.w, box.h);
-      if (a === i0 && f > .02 && cache.has(i0 + 1)) {          /* blend in the next frame by the fraction */
-        ctx.globalAlpha = f;
-        ctx.drawImage(cache.get(i0 + 1), box.x, box.y, box.w, box.h);
-        ctx.globalAlpha = 1;
-      }
-      lastPos = pos; dirty = false; drawn = a; wall.dataset.frame = a;   /* data-frame: handy for QA */
-    };
-    let seeking = false, pending = -1;
-    vid.addEventListener('seeked', () => { seeking = false; if (pending >= 0) { const t = pending; pending = -1; seek(t); } });
-    const seek = t => {
-      if (seeking) { pending = t; return; }
-      if (Math.abs(vid.currentTime - t) < .5 / FPS) return;
-      seeking = true; vid.currentTime = t;
-    };
-
-    /* input: the panel's journey through the viewport — the film plays forward as it scrolls up
-       the screen and back as it scrolls down (every device) */
-    let lastT = 0;
-    const tick = now => {
-      requestAnimationFrame(tick);
-      if (!near) { lastT = 0; return; }
-      const r = wall.getBoundingClientRect();
-      target = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height))) * (n - 1);
-      /* eased toward the scroll position at the same rate whatever the display's refresh rate */
-      if (!lastT) cur = target;             /* arriving at the panel: start where the scroll is, don't rewind into it */
-      const dt = lastT ? Math.min(.1, (now - lastT) / 1000) : 1 / 60; lastT = now;
-      const prev = cur;
-      cur += (target - cur) * (1 - Math.pow(1 - .12, dt * 60));
-      if (Math.abs(target - cur) < .002) cur = target;
-      if (cur !== prev) dir = cur > prev ? 1 : -1;
-      const pos = Math.max(0, Math.min(n - 1, cur));
-      if (frames) show(pos);
-      else if (vid.readyState >= 2) seek((Math.round(pos) + .5) / FPS);
-    };
-    requestAnimationFrame(tick);
+    stage.addEventListener('pointerleave', clear);
   })();
 
   /* =================================================================

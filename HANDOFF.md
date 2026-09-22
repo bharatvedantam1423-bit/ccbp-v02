@@ -33,10 +33,14 @@ A static single-page NxtWave homepage (`index.html`, no build step) built from F
    hover reveals description + batch/seats row; image never resizes. Canvas light-line fan
    with moving pulses behind the cards (no side blocks). **Recognised by** `#recognised-by`
    below the cards; its top margin is computed from how much a card grows when opened.
-3. **Awards & Recognitions** `#recognition` — Figma 802:5108: panel video
-   `assets/awards-wall.mp4` scrubbed by **scroll** (frames captured to blobs, decoded ahead,
-   adjacent frames blended), notch on top, 3 photo cards. Opaque + z-index 3 (covers the
-   programmes shadow).
+3. **Awards & Recognitions** `#recognition` — Figma 877:787: five awards on podiums over a
+   navy→blue gradient, notch on top, 3 photo cards. **No video** — the scroll-scrubbed film
+   and `awards-wall.mp4` were removed. The awards are one transparent PNG
+   (`assets/awards-podium.png`); hovering an award fades in a copy of that same PNG,
+   brightened and masked to just that award, so the glow takes the trophy's own shape.
+   Hover targets are `<button class="aw-hot">`, so it works from the keyboard too; the
+   mask and hotspot percentages are both relative to `.aw-stage`, which is why the stage
+   is sized by width with a fixed aspect ratio. Opaque + z-index 3.
 3b. **National Level Recognition** `#national-recognition` (`.nr`, `career/national-recognition.*`)
    — supplied build, added under Awards. Three.js light-ribbon shader on `.nr-bg` (reuses
    `vendor/three/three.module.min.js`; the CSS gradient on `.nr` is the no-WebGL fallback) with a
