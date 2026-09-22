@@ -92,9 +92,10 @@
 .ft__col a span,.ft__ai a span{isolation:isolate;position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;min-width:38px;height:19px;margin-left:6px;padding:0 8px;border-radius:40px;font-size:12px;color:#fff;letter-spacing:.16px}
 .ft__col a span::before,.ft__ai a span::before{content:"";position:absolute;z-index:-1;top:50%;left:50%;width:100px;height:100px;translate:-50% -50%;background:conic-gradient(from 113deg,#0d1b3e 0%,#2f6fa8 25%,#8dc5e7 50%,#f7b84d 75%,#f28b28 88%,#0d1b3e 100%);animation:ftSpin 12s linear infinite}
 @keyframes ftSpin{to{rotate:360deg}}
-.ft__pay{display:grid;grid-template-columns:repeat(3,50px);gap:8px 10px}
-.ft__pay li{height:28px;border-radius:4px;background:#f7f7f7;display:grid;place-items:center}
-.ft__pay img{max-width:36px;max-height:18px}
+.ft__pay{display:grid;grid-template-columns:repeat(3,68px);gap:12px}
+.ft__pay li{height:40px;border-radius:6px;background:#fff;display:grid;place-items:center;
+  box-shadow:0 2px 8px -4px rgba(0,0,0,.55)}
+.ft__pay img{max-width:50px;max-height:26px}
 
 .ft__tracks{display:flex;flex-direction:column;gap:8px;padding-bottom:60px}
 .ft__tracks-h{font-size:14px;line-height:20px;color:#f7f7f7;margin-bottom:4px}
@@ -142,7 +143,7 @@
   .open>.ft__h,.open>.ft__track-t{color:#fff}
   .ft__col ul,.ft__cities{display:none;padding-top:8px}
   .open>ul{display:block;}.open>.ft__cities{display:flex;}.open>ul,.open>.ft__cities{animation:ftIn .35s cubic-bezier(.215,.61,.355,1)}
-  .ft__pay{grid-template-columns:repeat(3,50px)}
+  .ft__pay{grid-template-columns:repeat(3,68px)}
   .open>.ft__pay{display:grid}
   .ft__col li a{font-size:12px;line-height:16px;margin-bottom:5px}
   .ft__tracks{gap:0;padding-bottom:24px}
