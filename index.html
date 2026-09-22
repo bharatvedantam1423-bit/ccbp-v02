@@ -121,9 +121,31 @@ a{color:inherit;text-decoration:none}
    Figma 869:112 — a full-width band, 19% black over a 16px backdrop blur, 10px of padding
    around a 60px row. Tokens below are read straight off that frame. */
 .hx-nav{--nav-stroke:#3e5787;--nav-stroke-hot:#406bdb;--nav-streak:#9dc6ff;
-  position:absolute;inset:0 0 auto 0;z-index:10;margin-top:0!important;padding:10px 0!important;
-  background:rgba(0,0,0,.19);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
-.hx-nav-row{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  position:absolute;inset:0 0 auto 0;z-index:10;margin-top:0!important;padding:10px 0!important}
+
+/* The bar's glass, built the same way as the hero's progressive blur: stacked layers, each
+   blurring less than the one above and faded in over its own overlapping band, so the frost
+   ramps from heavy at the top edge to nothing at the bottom instead of ending on a hard line.
+   It is invisible until the pointer is over the bar. Each layer fades itself -- the wrapper
+   must stay free of opacity, filter and mask, or the layers lose the photo they are blurring. */
+.hx-nav-frost{position:absolute;inset:0;pointer-events:none}
+.hx-nav-frost i,.hx-nav-tint{position:absolute;inset:0;opacity:0;
+  transition:opacity .32s cubic-bezier(.22,.61,.36,1)}
+.hx-nav-frost i{-webkit-backdrop-filter:blur(var(--b));backdrop-filter:blur(var(--b));
+  -webkit-mask-image:var(--m);mask-image:var(--m);will-change:opacity}
+.hx-nav-frost i:nth-child(1){--b:24px;--m:linear-gradient(180deg,#000 0%,#000 16%,transparent 32%)}
+.hx-nav-frost i:nth-child(2){--b:14px;--m:linear-gradient(180deg,transparent 6%,#000 20%,#000 36%,transparent 50%)}
+.hx-nav-frost i:nth-child(3){--b:8px; --m:linear-gradient(180deg,transparent 24%,#000 38%,#000 54%,transparent 66%)}
+.hx-nav-frost i:nth-child(4){--b:4px; --m:linear-gradient(180deg,transparent 40%,#000 54%,#000 68%,transparent 80%)}
+.hx-nav-frost i:nth-child(5){--b:2px; --m:linear-gradient(180deg,transparent 56%,#000 70%,#000 82%,transparent 92%)}
+.hx-nav-frost i:nth-child(6){--b:1px; --m:linear-gradient(180deg,transparent 72%,#000 88%,transparent 100%)}
+/* the tint rides the same ramp, so the darkening fades out with the blur */
+.hx-nav-tint{background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.16) 45%,rgba(0,0,0,0) 100%)}
+.hx-nav:hover .hx-nav-frost i,.hx-nav:hover .hx-nav-tint,
+.hx-nav:focus-within .hx-nav-frost i,.hx-nav:focus-within .hx-nav-tint{opacity:1}
+
+.hx-nav-row{position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
   height:60px;padding:0 var(--hx-pad)}
 .hx-logo{display:block;line-height:0}
 .hx-logo img{display:block;width:clamp(72px,6.67vw,96px);height:auto}
@@ -135,7 +157,8 @@ a{color:inherit;text-decoration:none}
 .hx-nl{position:relative;display:block;padding:10px 18px;border-radius:100px;
   border:1px solid var(--nav-stroke);background:rgba(255,255,255,.02);
   font:600 12px/normal Geist,var(--font);text-transform:uppercase;white-space:nowrap;
-  transition:border-color .35s ease,background .35s ease,box-shadow .45s ease}
+  transition:border-color .18s cubic-bezier(.22,.61,.36,1),background .18s cubic-bezier(.22,.61,.36,1),
+             box-shadow .24s cubic-bezier(.22,.61,.36,1)}
 .hx-nl:hover,.hx-nl:focus-visible{border-color:var(--nav-stroke-hot);background:rgba(64,107,219,.10);
   box-shadow:0 0 22px rgba(64,107,219,.30),inset 0 0 18px rgba(64,107,219,.14)}
 .hx-nl:focus-visible{outline:none}
@@ -146,24 +169,25 @@ a{color:inherit;text-decoration:none}
 .hx-nl::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
   background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.20) 47%,rgba(190,215,255,.30) 52%,transparent 68%);
   background-size:260% 100%;background-position:88% 0;background-repeat:no-repeat;
-  opacity:0;transition:opacity .25s ease}
+  opacity:0;transition:opacity .15s ease;will-change:background-position}
 /* no fade-in and no run-up: the band is already at the leading edge on frame one, so the glow
    is there the moment the pointer lands. It still fades out gently on the way off. */
 .hx-nl:hover::after,.hx-nl:focus-visible::after{opacity:1;transition-duration:0s;
-  animation:hx-sweep 1.2s cubic-bezier(.45,0,.25,1) infinite}
+  animation:hx-sweep .85s cubic-bezier(.4,0,.2,1) infinite}
 @keyframes hx-sweep{from{background-position:88% 0}to{background-position:6% 0}}
 
 /* HOVER 2 — the moving stroke: a conic gradient turning clockwise behind a 1px ring mask, so
    two bright streaks run round the outline. Starts with the glow above, same hover. */
 .hx-nl-ring{position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;
-  padding:1px;opacity:0;transition:opacity .3s ease;
+  padding:1px;opacity:0;transition:opacity .18s ease;
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
   mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
 .hx-nl-ring::before{content:"";position:absolute;top:50%;left:50%;width:150%;aspect-ratio:1;translate:-50% -50%;
   background:conic-gradient(from 0deg,transparent 0 6%,var(--nav-streak) 12%,var(--nav-stroke-hot) 17%,
-    transparent 25%,transparent 56%,var(--nav-streak) 62%,var(--nav-stroke-hot) 67%,transparent 75%)}
+    transparent 25%,transparent 56%,var(--nav-streak) 62%,var(--nav-stroke-hot) 67%,transparent 75%);
+  will-change:rotate}   /* its own layer, so the spin composites instead of repainting the pill */
 .hx-nl:hover .hx-nl-ring,.hx-nl:focus-visible .hx-nl-ring{opacity:1}
-.hx-nl:hover .hx-nl-ring::before,.hx-nl:focus-visible .hx-nl-ring::before{animation:hx-orbit 2.6s linear infinite}
+.hx-nl:hover .hx-nl-ring::before,.hx-nl:focus-visible .hx-nl-ring::before{animation:hx-orbit 1.7s linear infinite}
 @keyframes hx-orbit{to{rotate:360deg}}
 /* where the ring mask can't be composited, the stroke colour change and the glow still read */
 @supports not ((mask-composite:exclude) or (-webkit-mask-composite:xor)){ .hx-nl-ring{display:none} }
@@ -173,7 +197,7 @@ a{color:inherit;text-decoration:none}
 .hx-nl-clip{display:grid;overflow:hidden;padding-block:1px}
 .hx-nl-txt{grid-area:1/1;display:flex}
 .hx-ch{display:inline-block;will-change:transform;
-  transition:transform .42s cubic-bezier(.22,.9,.24,1);transition-delay:calc(var(--i,0)*22ms)}
+  transition:transform .26s cubic-bezier(.22,.9,.24,1);transition-delay:calc(var(--i,0)*10ms)}
 .hx-sp{width:.32em}   /* the word gap, which a bare space would lose between the spans */
 .hx-nl-dup .hx-ch{transform:translateY(105%)}
 .hx-nl:hover .hx-nl-top .hx-ch,.hx-nl:focus-visible .hx-nl-top .hx-ch{transform:translateY(-105%)}
@@ -768,6 +792,7 @@ a{color:inherit;text-decoration:none}
 <section class="hx" id="hero" aria-labelledby="hx-title">
   <div class="hx-stage">
     <nav class="hx-nav" aria-label="Primary">
+      <div class="hx-nav-frost" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><span class="hx-nav-tint"></span></div>
       <div class="hx-nav-row">
         <a class="hx-logo" href="#hero"><img src="assets/nxtwave-logo-white.svg" alt="NxtWave" width="96" height="46"></a>
         <ul>
